@@ -5,6 +5,7 @@ data class CurrencyPair(
     val baseCurrency: Currency
 ) {
     companion object {
+        @JvmStatic
         fun parse(targetCurrency: String, baseCurrency: String): CurrencyPair {
             return CurrencyPair(
                 Currency.valueOf(targetCurrency.toUpperCase()),
