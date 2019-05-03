@@ -13,12 +13,12 @@ import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class HuobiWebsocketClientJavaTest {
+public class HuobiKoreaWebsocketClientJavaTest {
     @Test
     public void huobi_tick_data_subscribe() {
         // given
         CurrencyPair targetCurrencyPair = CurrencyPair.parse("BTC", "KRW");
-        Flux<TickData> tickDataFlux = new HuobiWebsocketClient()
+        Flux<TickData> tickDataFlux = new HuobiKoreaWebsocketClient()
                 .createTradeWebsocket(Collections.singletonList(targetCurrencyPair));
 
         // when
@@ -40,7 +40,7 @@ public class HuobiWebsocketClientJavaTest {
     public void huobi_orderBook_subscribe() {
         // given
         CurrencyPair targetCurrencyPair = CurrencyPair.parse("BTC", "KRW");
-        Flux<OrderBook> orderBookFlux = new HuobiWebsocketClient()
+        Flux<OrderBook> orderBookFlux = new HuobiKoreaWebsocketClient()
                 .createDepthSnapshot(Collections.singletonList(targetCurrencyPair));
 
         // when

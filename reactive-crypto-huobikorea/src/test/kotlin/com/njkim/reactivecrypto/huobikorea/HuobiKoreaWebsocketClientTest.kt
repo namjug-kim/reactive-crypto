@@ -8,14 +8,14 @@ import org.junit.Test
 import java.math.BigDecimal
 import java.time.Duration
 
-class HuobiWebsocketClientTest {
+class HuobiKoreaWebsocketClientTest {
     private val log = KotlinLogging.logger {}
 
     @Test
     fun `huobi tick data subscribe`() {
         // given
         val targetCurrencyPair = CurrencyPair.parse("BTC", "USDT")
-        val huobiWebsocketClient = HuobiWebsocketClient()
+        val huobiWebsocketClient = HuobiKoreaWebsocketClient()
             .createTradeWebsocket(listOf(targetCurrencyPair))
 
         // when
@@ -38,7 +38,7 @@ class HuobiWebsocketClientTest {
     fun `huobi orderBook subscribe`() {
         // given
         val targetCurrencyPair = CurrencyPair.parse("BTC", "USDT")
-        val huobiWebsocketClient = HuobiWebsocketClient()
+        val huobiWebsocketClient = HuobiKoreaWebsocketClient()
             .createDepthSnapshot(listOf(targetCurrencyPair))
 
         // when

@@ -24,7 +24,7 @@ import java.time.ZonedDateTime
 import java.util.zip.GZIPInputStream
 import kotlin.streams.toList
 
-class HuobiWebsocketClient : ExchangeWebsocketClient {
+class HuobiKoreaWebsocketClient : ExchangeWebsocketClient {
 
     private val log = KotlinLogging.logger {}
 
