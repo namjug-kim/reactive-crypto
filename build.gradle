@@ -1,0 +1,62 @@
+apply plugin: 'java'
+
+group 'com.njkimg.reactive-crypto'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    jcenter()
+    maven { url "https://jitpack.io" }
+}
+
+dependencies {
+    compile 'com.github.jitpack:gradle-simple:1.0'
+}
+
+subprojects {
+    group 'com.njkimg.reactive-crypto'
+
+    ext {
+        reactorVersion = '3.2.8.RELEASE'
+        kotlinJvmVersion = '1.3.21'
+        log4j2Version = '2.11.2'
+        slf4jVersion = '1.7.26'
+    }
+
+    buildscript {
+        repositories {
+            mavenCentral()
+        }
+        dependencies {
+            // kotlin plugin
+            classpath group: 'org.jetbrains.kotlin', name: 'kotlin-gradle-plugin', version: '1.3.31'
+        }
+    }
+
+    apply plugin: 'java'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        // common
+        compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
+
+        // reactor
+        compile group: 'io.projectreactor', name: 'reactor-core', version: reactorVersion
+        compile 'org.jetbrains.kotlin:kotlin-stdlib:1.3.31'
+
+        // logging
+        compile group: 'io.github.microutils', name: 'kotlin-logging', version: '1.6.24'
+        compile("org.slf4j:slf4j-api:${slf4jVersion}")
+        compile("org.apache.logging.log4j:log4j-api:${log4j2Version}")
+        compile("org.apache.logging.log4j:log4j-core:${log4j2Version}")
+        compile("org.apache.logging.log4j:log4j-slf4j-impl:${log4j2Version}")
+
+        // unit test
+        testCompile group: 'junit', name: 'junit', version: '4.11'
+        testCompile group: 'org.assertj', name: 'assertj-core', version: '3.11.1'
+
+    }
+}

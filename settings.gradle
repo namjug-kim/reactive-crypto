@@ -1,0 +1,6 @@
+rootProject.name = 'reactive-crypto'
+
+include 'reactive-crypto-core'
+include 'reactive-crypto-binance'
+include 'reactive-crypto-huobikorea'
+include 'reactive-crypto-upbit'
