@@ -1,5 +1,5 @@
 # Reactive CryptoCurrency
-[![Kotlin](https://img.shields.io/badge/kotlin-1.3.x-blue.svg)](http://kotlinlang.org) [![](https://jitpack.io/v/namjug-kim/reactive-crypto.svg)](https://jitpack.io/#namjug-kim/reactive-crypto) [![CircleCI](https://circleci.com/gh/namjug-kim/reactive-crypto.svg?style=shield&circle-token=aa6aa4ebd3956dd3e1a767d938c7e73869ffd6ab)](https://circleci.com/gh/namjug-kim/reactive-crypto)
+[![Kotlin](https://img.shields.io/badge/kotlin-1.3.x-blue.svg)](http://kotlinlang.org) [![CircleCI](https://circleci.com/gh/namjug-kim/reactive-crypto.svg?style=shield&circle-token=aa6aa4ebd3956dd3e1a767d938c7e73869ffd6ab)](https://circleci.com/gh/namjug-kim/reactive-crypto) [![codecov](https://codecov.io/gh/namjug-kim/reactive-crypto/branch/master/graph/badge.svg)](https://codecov.io/gh/namjug-kim/reactive-crypto) [![](https://jitpack.io/v/namjug-kim/reactive-crypto.svg)](https://jitpack.io/#namjug-kim/reactive-crypto)
 
 A Kotlin library for cryptocurrency trading.
 
