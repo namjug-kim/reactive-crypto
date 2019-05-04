@@ -1,5 +1,5 @@
 # Reactive CryptoCurrency
-[![Kotlin](https://img.shields.io/badge/kotlin-1.3.x-blue.svg)](http://kotlinlang.org) [![CircleCI](https://circleci.com/gh/namjug-kim/reactive-crypto.svg?style=shield&circle-token=aa6aa4ebd3956dd3e1a767d938c7e73869ffd6ab)](https://circleci.com/gh/namjug-kim/reactive-crypto)
+[![Kotlin](https://img.shields.io/badge/kotlin-1.3.x-blue.svg)](http://kotlinlang.org) [![](https://jitpack.io/v/namjug-kim/reactive-crypto.svg)](https://jitpack.io/#namjug-kim/reactive-crypto) [![CircleCI](https://circleci.com/gh/namjug-kim/reactive-crypto.svg?style=shield&circle-token=aa6aa4ebd3956dd3e1a767d938c7e73869ffd6ab)](https://circleci.com/gh/namjug-kim/reactive-crypto)
 
 A Kotlin library for cryptocurrency trading.
 
@@ -27,10 +27,68 @@ Support public market feature (tickData, orderBook)
 
 ### Maven
 
+```xml
+<repositories>
+    <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+    </repository>
+</repositories>
+```
+Step 1. Add jitpack repository
+
+```xml
+<dependency>
+    <groupId>com.github.namjug-kim.reactive-crypto</groupId>
+    <artifactId>reactive-crypto-{exchange-name}</artifactId>
+    <version>v0.1.0.RELEASE</version>
+</dependency>
+```
+Step 2. Add the dependency
+
 ### Gradle
+
+```
+repositories {
+	...
+	maven { url 'https://jitpack.io' }
+}
+```
+Step 1. Add jitpack repository
+
+```
+dependencies {
+    implementation 'com.github.namjug-kim.reactive-crypto:reactive-crypto-{exchange-name}:v0.1.0.RELEASE'
+}
+```
+Step 2. Add the dependency
 
 ## Usage
 
 ### Kotlin
 
+```kotlin
+fun binanceTickDataExample() {
+    // create websocketClient for each crypto currency exchange
+    val websocketClient = ExchangeClientFactory.getInstance(ExchangeVendor.BINANCE)
+    
+    websocketClient.createTradeWebsocket(listOf(CurrencyPair(BTC, USDT)))
+                   .doOnNext { log.info { "new tick data $it" } }
+                   .subscribe()
+}
+
+```
+
 ### Java
+
+```java
+public void binanceTickDataExample() {
+    // create websocketClient for each crypto currency exchange
+    ExchangeWebsocketClient exchangeWebsocketClient = ExchangeClientFactory.Companion.getInstance(ExchangeVendor.BINANCE);
+     
+    List<CurrencyPair> targetPairs = Collections.singletonList(CurrencyPair.parse("BTC", "USDT"));
+    exchangeWebsocketClient.createTradeWebsocket(targetPairs)
+                           .doOnNext(tickData -> log.info("new tick data {}", tickData))
+                           .subscribe();
+}
+```
