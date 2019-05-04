@@ -13,6 +13,10 @@ dependencies {
     compile 'com.github.jitpack:gradle-simple:1.0'
 }
 
+allprojects {
+    apply plugin: 'jacoco'
+}
+
 subprojects {
     group 'com.njkimg.reactive-crypto'
 
@@ -59,4 +63,23 @@ subprojects {
         testCompile group: 'org.assertj', name: 'assertj-core', version: '3.11.1'
         testCompile group: 'io.projectreactor', name: 'reactor-test', version: reactorVersion
     }
+}
+
+task codeCoverageReport(type: JacocoReport) {
+    executionData fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec")
+
+    subprojects.each {
+        sourceSets it.sourceSets.main
+    }
+
+    reports {
+        xml.destination file("${buildDir}/reports/jacoco/report.xml")
+        xml.enabled true
+        html.enabled true
+        csv.enabled false
+    }
+}
+
+codeCoverageReport.dependsOn {
+    subprojects*.test
 }
