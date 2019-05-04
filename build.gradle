@@ -54,9 +54,9 @@ subprojects {
         compile("org.apache.logging.log4j:log4j-core:${log4j2Version}")
         compile("org.apache.logging.log4j:log4j-slf4j-impl:${log4j2Version}")
 
-        // unit test
+        // test
         testCompile group: 'junit', name: 'junit', version: '4.11'
         testCompile group: 'org.assertj', name: 'assertj-core', version: '3.11.1'
-
+        testCompile group: 'io.projectreactor', name: 'reactor-test', version: reactorVersion
     }
 }

@@ -79,7 +79,8 @@ class UpbitWebsocketClient : ExchangeWebsocketClient {
                             OrderBookUnit(
                                 orderBookUnit.bidPrice,
                                 orderBookUnit.bidSize,
-                                OrderSideType.ASK
+                                OrderSideType.ASK,
+                                null
                             )
                         }
                         .toList(),
@@ -88,7 +89,8 @@ class UpbitWebsocketClient : ExchangeWebsocketClient {
                             OrderBookUnit(
                                 orderBookUnit.askPrice,
                                 orderBookUnit.askSize,
-                                OrderSideType.ASK
+                                OrderSideType.ASK,
+                                null
                             )
                         }
                         .toList()

@@ -6,12 +6,28 @@ A Kotlin library for cryptocurrency trading.
 ## Supported Exchanges
 
 ### Websocket
-| Exchange       | orderBook | tickData |
-|----------------|------|------|
-| Binance        | Done | Done |
-| Upbit          | Done | Done |
-| HuobiKorea     | Done | Done |
+Support public market feature (tickData, orderBook)
+
+| Exchange       | ver | doc |
+|----------------|---|---|
+| Binance        | * | [ws](https://github.com/binance-exchange/binance-official-api-docs/blob/master/web-socket-streams.md)| Done |
+| Upbit          | v1.0.3 | [ws](https://docs.upbit.com/docs/upbit-quotation-websocket) | Done |
+| HuobiKorea     | * | [ws](https://github.com/alphaex-api/BAPI_Docs_ko/wiki) | Done |
+| Okex           | v3 | [ws](https://www.okex.com/docs/en/#spot_ws-all) | Done |
+
+### Api
+| Exchange       | ver | doc |
+|----------------|---|---|
+| | |
 
 ## Install
 
+### Maven
+
+### Gradle
+
 ## Usage
+
+### Kotlin
+
+### Java
