@@ -16,7 +16,8 @@ data class BinanceOrderBook(
                 OrderBookUnit(
                     BigDecimal(objects[0]),
                     BigDecimal(objects[1]),
-                    OrderSideType.BID
+                    OrderSideType.BID,
+                    null
                 )
             }
             .toList()
@@ -28,7 +29,8 @@ data class BinanceOrderBook(
                 OrderBookUnit(
                     BigDecimal(objects[0]),
                     BigDecimal(objects[1]),
-                    OrderSideType.ASK
+                    OrderSideType.ASK,
+                    null
                 )
             }
             .toList()
