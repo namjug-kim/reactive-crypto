@@ -38,3 +38,4 @@ jobs:
       - run: gradle test codeCoverageReport
       - codecov/upload:
           file: build/reports/jacoco/report.xml
+          token: dc59b779-b8a0-4f1c-ba53-35f1550ac5cc
