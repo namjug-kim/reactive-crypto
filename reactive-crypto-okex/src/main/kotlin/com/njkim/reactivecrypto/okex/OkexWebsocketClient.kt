@@ -7,6 +7,7 @@ import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import com.njkim.reactivecrypto.core.common.model.order.OrderBook
 import com.njkim.reactivecrypto.core.common.model.order.OrderBookUnit
 import com.njkim.reactivecrypto.core.common.model.order.TickData
+import com.njkim.reactivecrypto.core.common.util.toEpochMilli
 import com.njkim.reactivecrypto.okex.model.OkexOrderBookWrapper
 import com.njkim.reactivecrypto.okex.model.OkexTickDataWrapper
 import io.netty.buffer.ByteBuf
@@ -55,7 +56,7 @@ class OkexWebsocketClient : ExchangeWebsocketClient {
             .flatMapIterable {
                 it.map { okexTickData ->
                     OrderBook(
-                        "${okexTickData.instrumentId}${okexTickData.timestamp.toInstant().toEpochMilli()}",
+                        "${okexTickData.instrumentId}${okexTickData.timestamp.toEpochMilli()}",
                         okexTickData.instrumentId,
                         okexTickData.timestamp,
                         ExchangeVendor.OKEX,

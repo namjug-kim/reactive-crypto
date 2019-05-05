@@ -7,6 +7,7 @@ import com.njkim.reactivecrypto.core.common.model.order.OrderBook
 import com.njkim.reactivecrypto.core.common.model.order.OrderBookUnit
 import com.njkim.reactivecrypto.core.common.model.order.OrderSideType
 import com.njkim.reactivecrypto.core.common.model.order.TickData
+import com.njkim.reactivecrypto.core.common.util.toEpochMilli
 import com.njkim.reactivecrypto.upbit.model.UpbitOrderBook
 import com.njkim.reactivecrypto.upbit.model.UpbitTickData
 import io.netty.handler.codec.json.JsonObjectDecoder
@@ -70,7 +71,7 @@ class UpbitWebsocketClient : ExchangeWebsocketClient {
             .map { UpbitJsonObjectMapper.instance.readValue(it, UpbitOrderBook::class.java) }
             .map {
                 OrderBook(
-                    createOrderBookUniqueId(it.timestamp.toInstant().toEpochMilli()),
+                    createOrderBookUniqueId(it.timestamp.toEpochMilli()),
                     it.code,
                     ZonedDateTime.now(),
                     ExchangeVendor.UPBIT,

@@ -12,6 +12,7 @@ import com.njkim.reactivecrypto.core.common.model.order.OrderBook
 import com.njkim.reactivecrypto.core.common.model.order.OrderBookUnit
 import com.njkim.reactivecrypto.core.common.model.order.OrderSideType
 import com.njkim.reactivecrypto.core.common.model.order.TickData
+import com.njkim.reactivecrypto.core.common.util.toEpochMilli
 import mu.KotlinLogging
 import reactor.core.publisher.Flux
 import reactor.core.publisher.toFlux
@@ -85,7 +86,7 @@ class BithumbWebsocketClient : ExchangeWebsocketClient {
             .map { BithumbJsonObjectMapper.instance.readValue<BithumbResponseWrapper<BithumbOrderBook>>(it) }
             .map {
                 OrderBook(
-                    "${it.header.currency}${ZonedDateTime.now().toInstant().toEpochMilli()}",
+                    "${it.header.currency}${ZonedDateTime.now().toEpochMilli()}",
                     CurrencyPair(it.header.currency, Currency.KRW), // Bithumb only have KRW market
                     ZonedDateTime.now(),
                     ExchangeVendor.BITHUMB,
