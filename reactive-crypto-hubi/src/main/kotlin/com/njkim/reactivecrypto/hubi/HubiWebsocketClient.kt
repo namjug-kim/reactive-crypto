@@ -16,8 +16,10 @@
 
 package com.njkim.reactivecrypto.hubi
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import com.njkim.reactivecrypto.core.ExchangeWebsocketClient
+import com.njkim.reactivecrypto.core.AbstractExchangeWebsocketClient
+import com.njkim.reactivecrypto.core.ExchangeJsonObjectMapper
 import com.njkim.reactivecrypto.core.common.model.ExchangeVendor
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import com.njkim.reactivecrypto.core.common.model.order.OrderBook
@@ -36,11 +38,16 @@ import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicLong
 
 
-class HubiWebsocketClient : ExchangeWebsocketClient {
-
+class HubiWebsocketClient : AbstractExchangeWebsocketClient() {
     private val log = KotlinLogging.logger {}
 
     private val baseUri = "wss://www.hubi.com/was"
+
+    private val objectMapper: ObjectMapper = createJsonObjectMapper().objectMapper()
+
+    override fun createJsonObjectMapper(): ExchangeJsonObjectMapper {
+        return HubiJsonObjectMapper()
+    }
 
     override fun createDepthSnapshot(subscribeTargets: List<CurrencyPair>): Flux<OrderBook> {
         val subscribeSymbols = subscribeTargets.joinToString(",") {
@@ -63,7 +70,7 @@ class HubiWebsocketClient : ExchangeWebsocketClient {
                     .thenMany(inbound.aggregateFrames(65536).receive().asString())
             }
             .filter { it.contains("\"dataType\":\"depth_all\"") }
-            .map { HubiJsonObjectMapper.instance.readValue<HubiMessageFrame<HubiOrderBook>>(it) }
+            .map { objectMapper.readValue<HubiMessageFrame<HubiOrderBook>>(it) }
             .map { messageFrame ->
                 val eventTime = ZonedDateTime.now()
                 OrderBook(
@@ -100,7 +107,7 @@ class HubiWebsocketClient : ExchangeWebsocketClient {
                     .thenMany(inbound.aggregateFrames(65536).receive().asString())
             }
             .filter { it.contains("\"dataType\":\"trade_history\"") }
-            .map { HubiJsonObjectMapper.instance.readValue<HubiMessageFrame<HubiTickDataWrapper>>(it) }
+            .map { objectMapper.readValue<HubiMessageFrame<HubiTickDataWrapper>>(it) }
             .map { it.data }
             .flatMapIterable {
                 it.trades

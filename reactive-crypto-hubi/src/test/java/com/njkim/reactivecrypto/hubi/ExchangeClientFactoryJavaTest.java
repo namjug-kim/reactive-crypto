@@ -9,7 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class ExchangeClientFactoryJavaTest {
     @Test
-    public void create_binance_websocket_client() {
+    public void create_hubi_websocket_client() {
         ExchangeWebsocketClient exchangeWebsocketClient = ExchangeClientFactory.getInstance(ExchangeVendor.HUBI);
 
         assertThat(exchangeWebsocketClient).isNotNull();

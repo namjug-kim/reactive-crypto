@@ -98,14 +98,14 @@ class UpbitRestClient {
                 clientCodecConfigurer.defaultCodecs()
                     .jackson2JsonEncoder(
                         Jackson2JsonEncoder(
-                            UpbitJsonObjectMapper.instance,
+                            UpbitJsonObjectMapper().objectMapper(),
                             MimeTypeUtils.APPLICATION_JSON
                         )
                     )
                 clientCodecConfigurer.defaultCodecs()
                     .jackson2JsonDecoder(
                         Jackson2JsonDecoder(
-                            UpbitJsonObjectMapper.instance,
+                            UpbitJsonObjectMapper().objectMapper(),
                             MimeTypeUtils.APPLICATION_JSON
                         )
                     )

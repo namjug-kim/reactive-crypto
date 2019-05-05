@@ -19,8 +19,8 @@ class HubiWebsocketClientTest {
             .createTradeWebsocket(listOf(targetCurrencyPair))
 
         // when
-        StepVerifier.create(hubiTickDataFlux.limitRequest(5))
-            .expectNextCount(3)
+        StepVerifier.create(hubiTickDataFlux.limitRequest(3))
+            .expectNextCount(1)
             // then
             .assertNext {
                 Assertions.assertThat(it).isNotNull
@@ -55,8 +55,8 @@ class HubiWebsocketClientTest {
             .createDepthSnapshot(listOf(targetCurrencyPair))
 
         // when
-        StepVerifier.create(hubiOrderBookFlux.limitRequest(5))
-            .expectNextCount(3)
+        StepVerifier.create(hubiOrderBookFlux.limitRequest(3))
+            .expectNextCount(1)
             // then
             .assertNext {
                 Assertions.assertThat(it).isNotNull

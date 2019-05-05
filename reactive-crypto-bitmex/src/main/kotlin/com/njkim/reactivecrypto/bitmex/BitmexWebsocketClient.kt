@@ -16,11 +16,13 @@
 
 package com.njkim.reactivecrypto.bitmex
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.njkim.reactivecrypto.bitmex.model.BitmexMessageFrame
 import com.njkim.reactivecrypto.bitmex.model.BitmexOrderBook
 import com.njkim.reactivecrypto.bitmex.model.BitmexTickData
-import com.njkim.reactivecrypto.core.ExchangeWebsocketClient
+import com.njkim.reactivecrypto.core.AbstractExchangeWebsocketClient
+import com.njkim.reactivecrypto.core.ExchangeJsonObjectMapper
 import com.njkim.reactivecrypto.core.common.model.ExchangeVendor
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import com.njkim.reactivecrypto.core.common.model.order.OrderBook
@@ -31,11 +33,16 @@ import reactor.core.publisher.Flux
 import reactor.netty.http.client.HttpClient
 
 
-class BitmexWebsocketClient : ExchangeWebsocketClient {
-
+class BitmexWebsocketClient : AbstractExchangeWebsocketClient() {
     private val log = KotlinLogging.logger {}
 
     private val baseUri = "wss://www.bitmex.com/realtime"
+
+    private val objectMapper: ObjectMapper = createJsonObjectMapper().objectMapper()
+
+    override fun createJsonObjectMapper(): ExchangeJsonObjectMapper {
+        return BitmexJsonObjectMapper()
+    }
 
     override fun createDepthSnapshot(subscribeTargets: List<CurrencyPair>): Flux<OrderBook> {
         val args = subscribeTargets.map { "\"orderBook10:${it.targetCurrency}${it.baseCurrency}\"" }
@@ -53,7 +60,7 @@ class BitmexWebsocketClient : ExchangeWebsocketClient {
                     .thenMany(inbound.receive().asString())
             }
             .filter { it.contains("\"table\":\"orderBook10\"") }
-            .map { BitmexJsonObjectMapper.instance.readValue<BitmexMessageFrame<List<BitmexOrderBook>>>(it) }
+            .map { objectMapper.readValue<BitmexMessageFrame<List<BitmexOrderBook>>>(it) }
             .flatMapIterable { messageFrame ->
                 messageFrame.data.map { bitmexOrderBook ->
                     OrderBook(
@@ -85,7 +92,7 @@ class BitmexWebsocketClient : ExchangeWebsocketClient {
                     .thenMany(inbound.receive().asString())
             }
             .filter { it.contains("\"table\":\"trade\"") }
-            .map { BitmexJsonObjectMapper.instance.readValue<BitmexMessageFrame<List<BitmexTickData>>>(it) }
+            .map { objectMapper.readValue<BitmexMessageFrame<List<BitmexTickData>>>(it) }
             .flatMapIterable {
                 it.data
                     .map { hubiTickData ->
