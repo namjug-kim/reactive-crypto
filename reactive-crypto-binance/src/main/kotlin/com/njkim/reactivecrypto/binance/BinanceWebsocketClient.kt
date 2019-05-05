@@ -10,6 +10,7 @@ import com.njkim.reactivecrypto.core.common.model.ExchangeVendor
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import com.njkim.reactivecrypto.core.common.model.order.OrderBook
 import com.njkim.reactivecrypto.core.common.model.order.TickData
+import com.njkim.reactivecrypto.core.common.util.toEpochMilli
 import mu.KotlinLogging
 import reactor.core.publisher.Flux
 import reactor.netty.http.client.HttpClient
@@ -37,7 +38,7 @@ class BinanceWebsocketClient : ExchangeWebsocketClient {
             .map { it.data }
             .map { binanceTradeRawData ->
                 TickData(
-                    binanceTradeRawData.tradeId.toString() + binanceTradeRawData.currencyPair + binanceTradeRawData.eventTime.toInstant().toEpochMilli(),
+                    binanceTradeRawData.tradeId.toString() + binanceTradeRawData.currencyPair + binanceTradeRawData.eventTime.toEpochMilli(),
                     binanceTradeRawData.eventTime,
                     binanceTradeRawData.price,
                     binanceTradeRawData.quantity,

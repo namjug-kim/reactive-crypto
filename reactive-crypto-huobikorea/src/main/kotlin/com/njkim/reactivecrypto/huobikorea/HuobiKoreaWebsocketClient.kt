@@ -6,6 +6,7 @@ import com.njkim.reactivecrypto.core.common.model.ExchangeVendor
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import com.njkim.reactivecrypto.core.common.model.order.OrderBook
 import com.njkim.reactivecrypto.core.common.model.order.TickData
+import com.njkim.reactivecrypto.core.common.util.toEpochMilli
 import com.njkim.reactivecrypto.huobikorea.model.HuobiKoreaTickDataWrapper
 import com.njkim.reactivecrypto.huobikorea.model.HuobiOrderBook
 import com.njkim.reactivecrypto.huobikorea.model.HuobiSubscribeResponse
@@ -52,7 +53,7 @@ class HuobiKoreaWebsocketClient : ExchangeWebsocketClient {
             .map { HuobiJsonObjectMapper.instance.readValue<HuobiSubscribeResponse<HuobiOrderBook>>(it) }
             .map {
                 OrderBook(
-                    "${it.currencyPair}${it.ts.toInstant().toEpochMilli()}",
+                    "${it.currencyPair}${it.ts.toEpochMilli()}",
                     it.currencyPair,
                     ZonedDateTime.now(),
                     ExchangeVendor.HUOBI_KOREA,

@@ -9,12 +9,13 @@ A Kotlin library for cryptocurrency trading.
 Support public market feature (tickData, orderBook)
 
 | Exchange       | ver | doc |
-|----------------|---|---|
-| Binance        | * | [ws](https://github.com/binance-exchange/binance-official-api-docs/blob/master/web-socket-streams.md)| 
+|----------------|--------|---|
+| Binance        | *      | [ws](https://github.com/binance-exchange/binance-official-api-docs/blob/master/web-socket-streams.md) | 
 | Upbit          | v1.0.3 | [ws](https://docs.upbit.com/docs/upbit-quotation-websocket) | 
-| HuobiKorea     | * | [ws](https://github.com/alphaex-api/BAPI_Docs_ko/wiki) | 
-| Okex           | v3 | [ws](https://www.okex.com/docs/en/#spot_ws-all) | 
-| Bithumb⚠️      | - | - |
+| HuobiKorea     | *      | [ws](https://github.com/alphaex-api/BAPI_Docs_ko/wiki) | 
+| Okex           | v3     | [ws](https://www.okex.com/docs/en/#spot_ws-all) | 
+| Bithumb⚠️      | -      | - |
+| Hubi           | *      | [ws](https://www.hubi.com/docs/index-en.pdf) |
 
 ⚠️ : Uses endpoints that are used by the official web. This is not an official api and should be used with care.
 
@@ -48,7 +49,7 @@ Step 2. Add the dependency
 
 ### Gradle
 
-```
+``` groovy
 repositories {
 	...
 	maven { url 'https://jitpack.io' }
@@ -56,7 +57,7 @@ repositories {
 ```
 Step 1. Add jitpack repository
 
-```
+``` groovy
 dependencies {
     implementation 'com.github.namjug-kim.reactive-crypto:reactive-crypto-{exchange-name}:v0.1.0.RELEASE'
 }
@@ -82,13 +83,15 @@ fun binanceTickDataExample() {
 ### Java
 
 ```java
-public void binanceTickDataExample() {
-    // create websocketClient for each crypto currency exchange
-    ExchangeWebsocketClient exchangeWebsocketClient = ExchangeClientFactory.Companion.getInstance(ExchangeVendor.BINANCE);
-     
-    List<CurrencyPair> targetPairs = Collections.singletonList(CurrencyPair.parse("BTC", "USDT"));
-    exchangeWebsocketClient.createTradeWebsocket(targetPairs)
-                           .doOnNext(tickData -> log.info("new tick data {}", tickData))
-                           .subscribe();
+class SampleClass {
+    public void binanceTickDataExample() {
+        // create websocketClient for each crypto currency exchange
+        ExchangeWebsocketClient exchangeWebsocketClient = ExchangeClientFactory.getInstance(ExchangeVendor.BINANCE);
+         
+        List<CurrencyPair> targetPairs = Collections.singletonList(CurrencyPair.parse("BTC", "USDT"));
+        exchangeWebsocketClient.createTradeWebsocket(targetPairs)
+                               .doOnNext(tickData -> log.info("new tick data {}", tickData))
+                               .subscribe();
+    }
 }
 ```
