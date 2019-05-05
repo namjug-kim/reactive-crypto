@@ -8,14 +8,15 @@ A Kotlin library for cryptocurrency trading.
 ### Websocket
 Support public market feature (tickData, orderBook)
 
-| Exchange       | ver | doc |
-|----------------|--------|---|
-| Binance        | *      | [ws](https://github.com/binance-exchange/binance-official-api-docs/blob/master/web-socket-streams.md) | 
-| Upbit          | v1.0.3 | [ws](https://docs.upbit.com/docs/upbit-quotation-websocket) | 
-| HuobiKorea     | *      | [ws](https://github.com/alphaex-api/BAPI_Docs_ko/wiki) | 
-| Okex           | v3     | [ws](https://www.okex.com/docs/en/#spot_ws-all) | 
-| Bithumb⚠️      | -      | - |
-| Hubi           | *      | [ws](https://www.hubi.com/docs/index-en.pdf) |
+| logo                                                                                                                  | name        | ExchangeVendor | ver | doc |
+| --------------------------------------------------------------------------------------------------------------------- | ----------- | ---------------- |--------|---|
+| ![binance](https://user-images.githubusercontent.com/16334718/57194951-e5e88600-6f87-11e9-918e-74de5c58e883.jpg)      | Binance     | BINANCE        | *      | [ws](https://github.com/binance-exchange/binance-official-api-docs/blob/master/web-socket-streams.md) | 
+| ![upbit](https://user-images.githubusercontent.com/16334718/57194949-e54fef80-6f87-11e9-85b3-67b8f82db564.jpg)        | Upbit       | UPBIT          | v1.0.3 | [ws](https://docs.upbit.com/docs/upbit-quotation-websocket) | 
+| ![huobi korea](https://user-images.githubusercontent.com/16334718/57194946-e4b75900-6f87-11e9-940a-08ceb98193e4.jpg)  | HuobiKorea  | HUOBI_KOREA    | *      | [ws](https://github.com/alphaex-api/BAPI_Docs_ko/wiki) | 
+| ![okex](https://user-images.githubusercontent.com/16334718/57195022-90f93f80-6f88-11e9-8aaa-f6a515d300ae.jpg)         | Okex        | OKEX           | v3     | [ws](https://www.okex.com/docs/en/#spot_ws-all) | 
+| ![bithumb](https://user-images.githubusercontent.com/16334718/57194948-e54fef80-6f87-11e9-90d8-41f108789c77.jpg)      | Bithumb     | BITHUMB        | ⚠️     | ⚠️ |
+| ![hubi](https://user-images.githubusercontent.com/16334718/57194945-e4b75900-6f87-11e9-8fea-889fc93a7ba4.jpg)         | Hubi        | HUBI           | *      | [ws](https://www.hubi.com/docs/index-en.pdf) |
+| ![bitmex](https://user-images.githubusercontent.com/16334718/57194950-e54fef80-6f87-11e9-8b54-3f2192012306.jpg)       | Bitmex      | BITMEX         | *      | [ws](https://www.bitmex.com/app/wsAPI) |
 
 ⚠️ : Uses endpoints that are used by the official web. This is not an official api and should be used with care.
 

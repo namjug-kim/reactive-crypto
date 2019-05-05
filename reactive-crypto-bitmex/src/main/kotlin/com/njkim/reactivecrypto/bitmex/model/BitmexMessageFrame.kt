@@ -14,14 +14,17 @@
  * under the License.
  */
 
-package com.njkim.reactivecrypto.core.common.model
+package com.njkim.reactivecrypto.bitmex.model
 
-enum class ExchangeVendor(val implementedClassName: String) {
-    UPBIT("com.njkim.reactivecrypto.upbit.UpbitWebsocketClient"),
-    BINANCE("com.njkim.reactivecrypto.binance.BinanceWebsocketClient"),
-    HUOBI_KOREA("com.njkim.reactivecrypto.huobikorea.HuobiKoreaWebsocketClient"),
-    OKEX("com.njkim.reactivecrypto.okex.OkexWebsocketClient"),
-    BITHUMB("com.njkim.reactivecrypto.bithumb.BithumbWebsocketClient"),
-    HUBI("com.njkim.reactivecrypto.hubi.HubiWebsocketClient"),
-    BITMEX("com.njkim.reactivecrypto.bitmex.BitmexWebsocketClient")
-}
+import com.fasterxml.jackson.annotation.JsonProperty
+
+data class BitmexMessageFrame<T>(
+    @get:JsonProperty("table")
+    val table: String,
+
+    @get:JsonProperty("action")
+    val action: String,
+
+    @get:JsonProperty("data")
+    val data: T
+)
