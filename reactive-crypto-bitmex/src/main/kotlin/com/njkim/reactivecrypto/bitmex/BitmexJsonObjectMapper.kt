@@ -14,25 +14,26 @@
  * under the License.
  */
 
-package com.njkim.reactivecrypto.huobikorea
+package com.njkim.reactivecrypto.bitmex
 
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.DeserializationContext
 import com.fasterxml.jackson.databind.JsonDeserializer
 import com.njkim.reactivecrypto.core.ExchangeJsonObjectMapper
+import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
+import com.njkim.reactivecrypto.core.common.model.order.TradeSideType
+import com.njkim.reactivecrypto.core.common.util.CurrencyPairUtil
 import java.io.IOException
 import java.math.BigDecimal
-import java.time.Instant
-import java.time.ZoneId
 import java.time.ZonedDateTime
 
-class HuobiJsonObjectMapper : ExchangeJsonObjectMapper {
+class BitmexJsonObjectMapper : ExchangeJsonObjectMapper {
     override fun zonedDateTimeDeserializer(): JsonDeserializer<ZonedDateTime>? {
         return object : JsonDeserializer<ZonedDateTime>() {
             @Throws(IOException::class, JsonProcessingException::class)
             override fun deserialize(p: JsonParser, ctxt: DeserializationContext): ZonedDateTime {
-                return Instant.ofEpochMilli(p.longValue).atZone(ZoneId.systemDefault())
+                return ZonedDateTime.parse(p.valueAsString)
             }
         }
     }
@@ -41,7 +42,27 @@ class HuobiJsonObjectMapper : ExchangeJsonObjectMapper {
         return object : JsonDeserializer<BigDecimal>() {
             @Throws(IOException::class, JsonProcessingException::class)
             override fun deserialize(p: JsonParser, ctxt: DeserializationContext): BigDecimal {
-                return BigDecimal.valueOf(p.doubleValue)
+                return BigDecimal.valueOf(p.valueAsDouble)
+            }
+        }
+    }
+
+    override fun currencyPairDeserializer(): JsonDeserializer<CurrencyPair>? {
+        return object : JsonDeserializer<CurrencyPair>() {
+            @Throws(IOException::class, JsonProcessingException::class)
+            override fun deserialize(p: JsonParser, ctxt: DeserializationContext): CurrencyPair {
+                val parse = CurrencyPairUtil.parse(p.valueAsString)
+                return checkNotNull(parse)
+            }
+        }
+    }
+
+    override fun tradeSideTypeDeserializer(): JsonDeserializer<TradeSideType>? {
+        return object : JsonDeserializer<TradeSideType>() {
+            @Throws(IOException::class, JsonProcessingException::class)
+            override fun deserialize(p: JsonParser, ctxt: DeserializationContext): TradeSideType {
+                val valueAsString = p.valueAsString
+                return TradeSideType.valueOf(valueAsString.toUpperCase())
             }
         }
     }

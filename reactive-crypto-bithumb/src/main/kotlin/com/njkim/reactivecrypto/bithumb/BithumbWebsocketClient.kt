@@ -16,11 +16,13 @@
 
 package com.njkim.reactivecrypto.bithumb
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.njkim.reactivecrypto.bithumb.model.BithumbOrderBook
 import com.njkim.reactivecrypto.bithumb.model.BithumbResponseWrapper
 import com.njkim.reactivecrypto.bithumb.model.BithumbTickData
-import com.njkim.reactivecrypto.core.ExchangeWebsocketClient
+import com.njkim.reactivecrypto.core.AbstractExchangeWebsocketClient
+import com.njkim.reactivecrypto.core.ExchangeJsonObjectMapper
 import com.njkim.reactivecrypto.core.common.model.ExchangeVendor
 import com.njkim.reactivecrypto.core.common.model.currency.Currency
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
@@ -35,10 +37,16 @@ import reactor.core.publisher.toFlux
 import reactor.netty.http.client.HttpClient
 import java.time.ZonedDateTime
 
-class BithumbWebsocketClient : ExchangeWebsocketClient {
+class BithumbWebsocketClient : AbstractExchangeWebsocketClient() {
     private val log = KotlinLogging.logger {}
 
     private val baseUri = "wss://wss.bithumb.com/public"
+
+    private val objectMapper: ObjectMapper = createJsonObjectMapper().objectMapper()
+
+    override fun createJsonObjectMapper(): ExchangeJsonObjectMapper {
+        return BithumbJsonObjectMapper()
+    }
 
     override fun createTradeWebsocket(subscribeTargets: List<CurrencyPair>): Flux<TickData> {
         val subscribeRequests = subscribeTargets.stream()
@@ -62,7 +70,7 @@ class BithumbWebsocketClient : ExchangeWebsocketClient {
                     .then()
                     .thenMany(inbound.receive().asString())
             }
-            .map { BithumbJsonObjectMapper.instance.readValue<BithumbResponseWrapper<List<BithumbTickData>>>(it) }
+            .map { objectMapper.readValue<BithumbResponseWrapper<List<BithumbTickData>>>(it) }
             .flatMapIterable {
                 it.data.map { bithumbTickData ->
                     TickData(
@@ -99,7 +107,7 @@ class BithumbWebsocketClient : ExchangeWebsocketClient {
                     .then()
                     .thenMany(inbound.receive().asString())
             }
-            .map { BithumbJsonObjectMapper.instance.readValue<BithumbResponseWrapper<BithumbOrderBook>>(it) }
+            .map { objectMapper.readValue<BithumbResponseWrapper<BithumbOrderBook>>(it) }
             .map {
                 OrderBook(
                     "${it.header.currency}${ZonedDateTime.now().toEpochMilli()}",

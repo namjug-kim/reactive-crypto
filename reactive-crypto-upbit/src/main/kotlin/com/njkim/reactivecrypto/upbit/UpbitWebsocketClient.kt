@@ -16,7 +16,10 @@
 
 package com.njkim.reactivecrypto.upbit
 
-import com.njkim.reactivecrypto.core.ExchangeWebsocketClient
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
+import com.njkim.reactivecrypto.core.AbstractExchangeWebsocketClient
+import com.njkim.reactivecrypto.core.ExchangeJsonObjectMapper
 import com.njkim.reactivecrypto.core.common.model.ExchangeVendor
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import com.njkim.reactivecrypto.core.common.model.order.OrderBook
@@ -33,13 +36,19 @@ import java.time.ZonedDateTime
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicLong
 import java.util.stream.Collectors
-import kotlin.streams.toList
 
-class UpbitWebsocketClient : ExchangeWebsocketClient {
+class UpbitWebsocketClient : AbstractExchangeWebsocketClient() {
     private val baseUri: String = "wss://api.upbit.com/websocket/v1"
 
+    private val objectMapper: ObjectMapper = createJsonObjectMapper().objectMapper()
+
     private val lastOrderBookTimestamp = AtomicLong()
+
     private val orderBookTimestampDuplicateCount = AtomicInteger()
+
+    override fun createJsonObjectMapper(): ExchangeJsonObjectMapper {
+        return UpbitJsonObjectMapper()
+    }
 
     override fun createTradeWebsocket(subscribeTargets: List<CurrencyPair>): Flux<TickData> {
         // CoinSymbol: {rightCurrency}-{leftCurrency}
@@ -56,7 +65,7 @@ class UpbitWebsocketClient : ExchangeWebsocketClient {
                     .then()
                     .thenMany(inbound.receive().asString())
             }
-            .map { UpbitJsonObjectMapper.instance.readValue(it, UpbitTickData::class.java) }
+            .map { objectMapper.readValue<UpbitTickData>(it) }
             .map {
                 TickData(
                     it.sequentialId.toString() + it.code,
@@ -84,14 +93,14 @@ class UpbitWebsocketClient : ExchangeWebsocketClient {
                     .then()
                     .thenMany(inbound.receive().asString())
             }
-            .map { UpbitJsonObjectMapper.instance.readValue(it, UpbitOrderBook::class.java) }
+            .map { objectMapper.readValue<UpbitOrderBook>(it) }
             .map {
                 OrderBook(
                     createOrderBookUniqueId(it.timestamp.toEpochMilli()),
                     it.code,
                     ZonedDateTime.now(),
                     ExchangeVendor.UPBIT,
-                    it.orderBookUnits.stream()
+                    it.orderBookUnits
                         .map { orderBookUnit ->
                             OrderBookUnit(
                                 orderBookUnit.bidPrice,
@@ -99,9 +108,8 @@ class UpbitWebsocketClient : ExchangeWebsocketClient {
                                 OrderSideType.ASK,
                                 null
                             )
-                        }
-                        .toList(),
-                    it.orderBookUnits.stream()
+                        },
+                    it.orderBookUnits
                         .map { orderBookUnit ->
                             OrderBookUnit(
                                 orderBookUnit.askPrice,
@@ -110,7 +118,6 @@ class UpbitWebsocketClient : ExchangeWebsocketClient {
                                 null
                             )
                         }
-                        .toList()
                 )
             }
     }

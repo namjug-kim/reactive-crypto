@@ -21,7 +21,8 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import com.njkim.reactivecrypto.binance.model.BinanceOrderBook
 import com.njkim.reactivecrypto.binance.model.BinanceResponseWrapper
 import com.njkim.reactivecrypto.binance.model.BinanceTickData
-import com.njkim.reactivecrypto.core.ExchangeWebsocketClient
+import com.njkim.reactivecrypto.core.AbstractExchangeWebsocketClient
+import com.njkim.reactivecrypto.core.ExchangeJsonObjectMapper
 import com.njkim.reactivecrypto.core.common.model.ExchangeVendor
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import com.njkim.reactivecrypto.core.common.model.order.OrderBook
@@ -33,11 +34,16 @@ import reactor.netty.http.client.HttpClient
 import java.time.ZonedDateTime
 import java.util.stream.Collectors
 
-class BinanceWebsocketClient : ExchangeWebsocketClient {
+class BinanceWebsocketClient : AbstractExchangeWebsocketClient() {
     private val log = KotlinLogging.logger {}
 
     private val baseUri = "wss://stream.binance.com:9443"
-    private val objectMapper: ObjectMapper = BinanceJsonObjectMapper.instance
+
+    private val objectMapper: ObjectMapper = createJsonObjectMapper().objectMapper()
+
+    override fun createJsonObjectMapper(): ExchangeJsonObjectMapper {
+        return BinanceJsonObjectMapper()
+    }
 
     override fun createTradeWebsocket(subscribeTargets: List<CurrencyPair>): Flux<TickData> {
         val streams = subscribeTargets.stream()

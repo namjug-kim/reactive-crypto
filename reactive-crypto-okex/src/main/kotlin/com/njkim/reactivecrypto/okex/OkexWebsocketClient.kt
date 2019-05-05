@@ -16,8 +16,10 @@
 
 package com.njkim.reactivecrypto.okex
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import com.njkim.reactivecrypto.core.ExchangeWebsocketClient
+import com.njkim.reactivecrypto.core.AbstractExchangeWebsocketClient
+import com.njkim.reactivecrypto.core.ExchangeJsonObjectMapper
 import com.njkim.reactivecrypto.core.common.model.ExchangeVendor
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import com.njkim.reactivecrypto.core.common.model.order.OrderBook
@@ -41,11 +43,16 @@ import java.util.concurrent.ConcurrentHashMap
 import kotlin.streams.toList
 
 
-class OkexWebsocketClient : ExchangeWebsocketClient {
-
+class OkexWebsocketClient : AbstractExchangeWebsocketClient() {
     private val log = KotlinLogging.logger {}
 
     private val baseUri = "wss://real.okex.com:10442/ws/v3"
+
+    private val objectMapper: ObjectMapper = createJsonObjectMapper().objectMapper()
+
+    override fun createJsonObjectMapper(): ExchangeJsonObjectMapper {
+        return OkexJsonObjectMapper()
+    }
 
     override fun createDepthSnapshot(subscribeTargets: List<CurrencyPair>): Flux<OrderBook> {
         val subscribeMessages = subscribeTargets.stream()
@@ -67,7 +74,7 @@ class OkexWebsocketClient : ExchangeWebsocketClient {
             }
             .doOnNext { log.debug { it } }
             .filter { it.contains("\"spot/depth\"") }
-            .map { OkexJsonObjectMapper.instance.readValue<OkexOrderBookWrapper>(it) }
+            .map { objectMapper.readValue<OkexOrderBookWrapper>(it) }
             .map { it.data }
             .flatMapIterable {
                 it.map { okexTickData ->
@@ -156,7 +163,7 @@ class OkexWebsocketClient : ExchangeWebsocketClient {
                     .thenMany(inbound.receive().asString())
             }
             .filter { t -> t.contains("\"spot/trade\"") }
-            .map { OkexJsonObjectMapper.instance.readValue<OkexTickDataWrapper>(it) }
+            .map { objectMapper.readValue<OkexTickDataWrapper>(it) }
             .map { it.data }
             .flatMapIterable {
                 it.map { okexTickData ->
