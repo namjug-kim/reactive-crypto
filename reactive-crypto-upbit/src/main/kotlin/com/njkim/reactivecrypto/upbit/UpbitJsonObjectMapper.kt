@@ -18,11 +18,8 @@ package com.njkim.reactivecrypto.upbit
 
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.DeserializationContext
-import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.JsonDeserializer
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.module.SimpleModule
-import com.fasterxml.jackson.module.kotlin.registerKotlinModule
+import com.njkim.reactivecrypto.core.ExchangeJsonObjectMapper
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import org.apache.commons.lang3.StringUtils
 import java.io.IOException
@@ -31,20 +28,30 @@ import java.time.Instant
 import java.time.ZoneId
 import java.time.ZonedDateTime
 
-class UpbitJsonObjectMapper {
-    companion object {
-        val instance = UpbitJsonObjectMapper().objectMapper()
-    }
+class UpbitJsonObjectMapper : ExchangeJsonObjectMapper {
 
-    private fun objectMapper(): ObjectMapper {
-        val simpleModule = SimpleModule()
-        simpleModule.addDeserializer(ZonedDateTime::class.java, object : JsonDeserializer<ZonedDateTime>() {
+    override fun zonedDateTimeDeserializer(): JsonDeserializer<ZonedDateTime>? {
+        return object : JsonDeserializer<ZonedDateTime>() {
             @Throws(IOException::class)
             override fun deserialize(p: JsonParser, ctxt: DeserializationContext): ZonedDateTime {
                 return ZonedDateTime.ofInstant(Instant.ofEpochMilli(p.longValue), ZoneId.systemDefault())
             }
-        })
-        simpleModule.addDeserializer(BigDecimal::class.java, object : JsonDeserializer<BigDecimal>() {
+        }
+    }
+
+    override fun currencyPairDeserializer(): JsonDeserializer<CurrencyPair>? {
+        return object : JsonDeserializer<CurrencyPair>() {
+            @Throws(IOException::class)
+            override fun deserialize(p: JsonParser, ctxt: DeserializationContext): CurrencyPair {
+                val rawValue = p.valueAsString
+                val split = StringUtils.split(rawValue, "-")
+                return CurrencyPair.parse(split[1], split[0])
+            }
+        }
+    }
+
+    override fun bigDecimalDeserializer(): JsonDeserializer<BigDecimal>? {
+        return object : JsonDeserializer<BigDecimal>() {
             @Throws(IOException::class)
             override fun deserialize(p: JsonParser, ctxt: DeserializationContext): BigDecimal? {
                 val valueAsString = p.valueAsString
@@ -53,19 +60,6 @@ class UpbitJsonObjectMapper {
                 } else BigDecimal(valueAsString)
 
             }
-        })
-        simpleModule.addDeserializer(CurrencyPair::class.java, object : JsonDeserializer<CurrencyPair>() {
-            @Throws(IOException::class)
-            override fun deserialize(p: JsonParser, ctxt: DeserializationContext): CurrencyPair {
-                val rawValue = p.valueAsString
-                val split = StringUtils.split(rawValue, "-")
-                return CurrencyPair.parse(split[1], split[0])
-            }
-        })
-
-        val objectMapper = ObjectMapper().registerKotlinModule()
-        objectMapper.registerModule(simpleModule)
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-        return objectMapper
+        }
     }
 }

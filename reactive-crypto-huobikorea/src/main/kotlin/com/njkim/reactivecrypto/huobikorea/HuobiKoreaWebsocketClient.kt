@@ -16,8 +16,10 @@
 
 package com.njkim.reactivecrypto.huobikorea
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import com.njkim.reactivecrypto.core.ExchangeWebsocketClient
+import com.njkim.reactivecrypto.core.AbstractExchangeWebsocketClient
+import com.njkim.reactivecrypto.core.ExchangeJsonObjectMapper
 import com.njkim.reactivecrypto.core.common.model.ExchangeVendor
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import com.njkim.reactivecrypto.core.common.model.order.OrderBook
@@ -41,11 +43,16 @@ import java.time.ZonedDateTime
 import java.util.zip.GZIPInputStream
 import kotlin.streams.toList
 
-class HuobiKoreaWebsocketClient : ExchangeWebsocketClient {
-
+class HuobiKoreaWebsocketClient : AbstractExchangeWebsocketClient() {
     private val log = KotlinLogging.logger {}
 
     private val baseUri = "wss://api-cloud.huobi.co.kr/ws"
+
+    private val objectMapper: ObjectMapper = createJsonObjectMapper().objectMapper()
+
+    override fun createJsonObjectMapper(): ExchangeJsonObjectMapper {
+        return HuobiJsonObjectMapper()
+    }
 
     override fun createDepthSnapshot(subscribeTargets: List<CurrencyPair>): Flux<OrderBook> {
         val subscribeMessages = subscribeTargets.stream()
@@ -66,7 +73,7 @@ class HuobiKoreaWebsocketClient : ExchangeWebsocketClient {
             }
             .doOnNext { log.debug { it } }
             .filter { it.contains("\"ch\"") }
-            .map { HuobiJsonObjectMapper.instance.readValue<HuobiSubscribeResponse<HuobiOrderBook>>(it) }
+            .map { objectMapper.readValue<HuobiSubscribeResponse<HuobiOrderBook>>(it) }
             .map {
                 OrderBook(
                     "${it.currencyPair}${it.ts.toEpochMilli()}",
@@ -97,7 +104,7 @@ class HuobiKoreaWebsocketClient : ExchangeWebsocketClient {
                     .thenMany(inbound.receive().asString())
             }
             .filter { it.contains("\"ch\"") }
-            .map { HuobiJsonObjectMapper.instance.readValue<HuobiSubscribeResponse<HuobiKoreaTickDataWrapper>>(it) }
+            .map { objectMapper.readValue<HuobiSubscribeResponse<HuobiKoreaTickDataWrapper>>(it) }
             .flatMapIterable {
                 it.tick.data
                     .map { huobiKoreaTickData ->

@@ -1,4 +1,20 @@
-package com.njkim.reactivecrypto.hubi
+/*
+ * Copyright 2019 namjug-kim
+ *
+ * LINE Corporation licenses this file to you under the Apache License,
+ * version 2.0 (the "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at:
+ *
+ *   https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ */
+
+package com.njkim.reactivecrypto.kraken
 
 import com.njkim.reactivecrypto.core.common.model.ExchangeVendor
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
@@ -8,14 +24,14 @@ import org.junit.Test
 import reactor.test.StepVerifier
 import java.math.BigDecimal
 
-class HubiWebsocketClientTest {
+class KrakenWebsocketClientTest {
     private val log = KotlinLogging.logger {}
 
     @Test
-    fun `hubi tick data subscribe`() {
+    fun `kraken tick data subscribe`() {
         // given
-        val targetCurrencyPair = CurrencyPair.parse("BTC", "USDT")
-        val hubiTickDataFlux = HubiWebsocketClient()
+        val targetCurrencyPair = CurrencyPair.parse("XBT", "USD")
+        val hubiTickDataFlux = KrakenWebsocketClient()
             .createTradeWebsocket(listOf(targetCurrencyPair))
 
         // when
@@ -27,7 +43,7 @@ class HubiWebsocketClientTest {
                 Assertions.assertThat(it.currencyPair)
                     .isEqualTo(targetCurrencyPair)
                 Assertions.assertThat(it.exchangeVendor)
-                    .isEqualByComparingTo(ExchangeVendor.HUBI)
+                    .isEqualByComparingTo(ExchangeVendor.KRAKEN)
                 Assertions.assertThat(it.price)
                     .isGreaterThan(BigDecimal.ZERO)
                 Assertions.assertThat(it.quantity)
@@ -38,7 +54,7 @@ class HubiWebsocketClientTest {
                 Assertions.assertThat(it.currencyPair)
                     .isEqualTo(targetCurrencyPair)
                 Assertions.assertThat(it.exchangeVendor)
-                    .isEqualByComparingTo(ExchangeVendor.HUBI)
+                    .isEqualByComparingTo(ExchangeVendor.KRAKEN)
                 Assertions.assertThat(it.price)
                     .isGreaterThan(BigDecimal.ZERO)
                 Assertions.assertThat(it.quantity)
@@ -48,11 +64,12 @@ class HubiWebsocketClientTest {
     }
 
     @Test
-    fun `hubi orderBook subscribe`() {
+    fun `kraken orderBook subscribe`() {
         // given
-        val targetCurrencyPair = CurrencyPair.parse("BTC", "USDT")
-        val hubiOrderBookFlux = HubiWebsocketClient()
+        val targetCurrencyPair = CurrencyPair.parse("XBT", "USD")
+        val hubiOrderBookFlux = KrakenWebsocketClient()
             .createDepthSnapshot(listOf(targetCurrencyPair))
+            .doOnNext { log.info { it } }
 
         // when
         StepVerifier.create(hubiOrderBookFlux.limitRequest(3))
@@ -63,7 +80,7 @@ class HubiWebsocketClientTest {
                 Assertions.assertThat(it.currencyPair)
                     .isEqualTo(targetCurrencyPair)
                 Assertions.assertThat(it.exchangeVendor)
-                    .isEqualByComparingTo(ExchangeVendor.HUBI)
+                    .isEqualByComparingTo(ExchangeVendor.KRAKEN)
                 Assertions.assertThat(it.asks)
                     .isNotEmpty
                 Assertions.assertThat(it.bids)
@@ -90,7 +107,7 @@ class HubiWebsocketClientTest {
                 Assertions.assertThat(it.currencyPair)
                     .isEqualTo(targetCurrencyPair)
                 Assertions.assertThat(it.exchangeVendor)
-                    .isEqualByComparingTo(ExchangeVendor.HUBI)
+                    .isEqualByComparingTo(ExchangeVendor.KRAKEN)
                 Assertions.assertThat(it.asks)
                     .isNotEmpty
                 Assertions.assertThat(it.bids)
