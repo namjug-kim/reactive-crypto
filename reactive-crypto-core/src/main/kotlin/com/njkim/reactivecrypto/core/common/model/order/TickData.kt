@@ -27,5 +27,6 @@ data class TickData(
     val price: BigDecimal,
     var quantity: BigDecimal,
     val currencyPair: CurrencyPair,
-    val exchangeVendor: ExchangeVendor
+    val exchangeVendor: ExchangeVendor,
+    val tradeSideType: TradeSideType
 )

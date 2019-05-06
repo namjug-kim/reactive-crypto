@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.DeserializationContext
 import com.fasterxml.jackson.databind.JsonDeserializer
 import com.njkim.reactivecrypto.core.ExchangeJsonObjectMapper
 import com.njkim.reactivecrypto.core.common.model.currency.Currency
+import com.njkim.reactivecrypto.core.common.model.order.TradeSideType
 import mu.KotlinLogging
 import java.io.IOException
 import java.math.BigDecimal
@@ -58,6 +59,20 @@ class BithumbJsonObjectMapper : ExchangeJsonObjectMapper {
                     BigDecimal(valueAsString)
                 }
             }
+        }
+    }
+
+    override fun tradeSideTypeDeserializer(): JsonDeserializer<TradeSideType>? {
+        return object : JsonDeserializer<TradeSideType>() {
+            override fun deserialize(p: JsonParser, ctxt: DeserializationContext?): TradeSideType {
+                val valueAsString = p.valueAsString
+                return when (valueAsString) {
+                    "dn" -> TradeSideType.SELL
+                    "up" -> TradeSideType.BUY
+                    else -> throw IllegalArgumentException()
+                }
+            }
+
         }
     }
 

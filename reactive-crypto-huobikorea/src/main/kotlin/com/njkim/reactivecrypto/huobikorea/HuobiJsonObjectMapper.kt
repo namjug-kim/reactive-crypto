@@ -21,6 +21,7 @@ import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.DeserializationContext
 import com.fasterxml.jackson.databind.JsonDeserializer
 import com.njkim.reactivecrypto.core.ExchangeJsonObjectMapper
+import com.njkim.reactivecrypto.core.common.model.order.TradeSideType
 import java.io.IOException
 import java.math.BigDecimal
 import java.time.Instant
@@ -33,6 +34,15 @@ class HuobiJsonObjectMapper : ExchangeJsonObjectMapper {
             @Throws(IOException::class, JsonProcessingException::class)
             override fun deserialize(p: JsonParser, ctxt: DeserializationContext): ZonedDateTime {
                 return Instant.ofEpochMilli(p.longValue).atZone(ZoneId.systemDefault())
+            }
+        }
+    }
+
+    override fun tradeSideTypeDeserializer(): JsonDeserializer<TradeSideType>? {
+        return object : JsonDeserializer<TradeSideType>() {
+            override fun deserialize(p: JsonParser, ctxt: DeserializationContext?): TradeSideType {
+                val valueAsString = p.valueAsString
+                return TradeSideType.valueOf(valueAsString.toUpperCase())
             }
         }
     }

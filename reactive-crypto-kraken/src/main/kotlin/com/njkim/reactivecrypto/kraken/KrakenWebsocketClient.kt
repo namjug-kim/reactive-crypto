@@ -196,7 +196,8 @@ class KrakenWebsocketClient : AbstractExchangeWebsocketClient() {
                         krakenTickData.price,
                         krakenTickData.volume,
                         channelCurrencyPairMap[it.channelId]!!,
-                        ExchangeVendor.KRAKEN
+                        ExchangeVendor.KRAKEN,
+                        krakenTickData.tradeSideType
                     )
                 }
             }

@@ -128,7 +128,8 @@ class HubiWebsocketClient : AbstractExchangeWebsocketClient() {
                             hubiTickData.price,
                             hubiTickData.amount,
                             hubiTickData.symbol,
-                            ExchangeVendor.HUBI
+                            ExchangeVendor.HUBI,
+                            hubiTickData.type
                         )
                     }
                     .reversed()
