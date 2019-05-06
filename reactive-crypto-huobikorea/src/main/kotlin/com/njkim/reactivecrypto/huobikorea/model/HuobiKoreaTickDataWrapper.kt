@@ -16,6 +16,7 @@
 
 package com.njkim.reactivecrypto.huobikorea.model
 
+import com.njkim.reactivecrypto.core.common.model.order.TradeSideType
 import java.math.BigDecimal
 import java.time.ZonedDateTime
 
@@ -30,5 +31,5 @@ data class HuobiKoreaTickData(
     val amount: BigDecimal,
     val ts: ZonedDateTime,
     val price: BigDecimal,
-    val direction: String
+    val direction: TradeSideType
 )

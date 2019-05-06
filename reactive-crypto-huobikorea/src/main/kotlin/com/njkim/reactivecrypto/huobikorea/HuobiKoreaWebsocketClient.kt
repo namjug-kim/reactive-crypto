@@ -114,7 +114,8 @@ class HuobiKoreaWebsocketClient : AbstractExchangeWebsocketClient() {
                             huobiKoreaTickData.price,
                             huobiKoreaTickData.amount,
                             it.currencyPair,
-                            ExchangeVendor.HUOBI_KOREA
+                            ExchangeVendor.HUOBI_KOREA,
+                            huobiKoreaTickData.direction
                         )
                     }
                     .toList()

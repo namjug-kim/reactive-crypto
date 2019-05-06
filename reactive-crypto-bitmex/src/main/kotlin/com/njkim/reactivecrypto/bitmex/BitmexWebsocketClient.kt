@@ -95,14 +95,15 @@ class BitmexWebsocketClient : AbstractExchangeWebsocketClient() {
             .map { objectMapper.readValue<BitmexMessageFrame<List<BitmexTickData>>>(it) }
             .flatMapIterable {
                 it.data
-                    .map { hubiTickData ->
+                    .map { bitmexTickData ->
                         TickData(
-                            hubiTickData.trdMatchID,
-                            hubiTickData.timestamp,
-                            hubiTickData.price,
-                            hubiTickData.size,
-                            hubiTickData.symbol,
-                            ExchangeVendor.BITMEX
+                            bitmexTickData.trdMatchID,
+                            bitmexTickData.timestamp,
+                            bitmexTickData.price,
+                            bitmexTickData.size,
+                            bitmexTickData.symbol,
+                            ExchangeVendor.BITMEX,
+                            bitmexTickData.side
                         )
                     }
             }

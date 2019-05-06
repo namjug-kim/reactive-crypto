@@ -173,7 +173,8 @@ class OkexWebsocketClient : AbstractExchangeWebsocketClient() {
                         okexTickData.price,
                         okexTickData.size,
                         okexTickData.instrumentId,
-                        ExchangeVendor.OKEX
+                        ExchangeVendor.OKEX,
+                        okexTickData.side
                     )
                 }
             }

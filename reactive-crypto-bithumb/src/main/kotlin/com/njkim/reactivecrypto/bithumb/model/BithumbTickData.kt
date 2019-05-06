@@ -17,6 +17,7 @@
 package com.njkim.reactivecrypto.bithumb.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.njkim.reactivecrypto.core.common.model.order.TradeSideType
 import java.math.BigDecimal
 import java.time.ZonedDateTime
 
@@ -29,6 +30,8 @@ import java.time.ZonedDateTime
  * "type":"up",
  * "units_traded":"0.1436"
  * }
+ *
+ * @property type   dn : sell, up : buy
  */
 data class BithumbTickData(
     @get:JsonProperty("count_no")
@@ -44,7 +47,7 @@ data class BithumbTickData(
     val transactionDate: ZonedDateTime,
 
     @get:JsonProperty("type")
-    val type: String,
+    val type: TradeSideType,
 
     @get:JsonProperty("units_traded")
     val unitsTraded: BigDecimal

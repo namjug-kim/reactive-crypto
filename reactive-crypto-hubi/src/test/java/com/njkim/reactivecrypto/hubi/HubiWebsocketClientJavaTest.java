@@ -22,8 +22,7 @@ public class HubiWebsocketClientJavaTest {
                 .createTradeWebsocket(Collections.singletonList(targetCurrencyPair));
 
         // when
-        StepVerifier.create(tickDataFlux.limitRequest(5))
-                .expectNextCount(3)
+        StepVerifier.create(tickDataFlux.limitRequest(2))
                 // then
                 .assertNext(tickData -> {
                     assertThat(tickData).isNotNull();
@@ -58,8 +57,7 @@ public class HubiWebsocketClientJavaTest {
                 .createDepthSnapshot(Collections.singletonList(targetCurrencyPair));
 
         // when
-        StepVerifier.create(orderBookFlux.limitRequest(5))
-                .expectNextCount(3)
+        StepVerifier.create(orderBookFlux.limitRequest(2))
                 // then
                 .assertNext(orderBook -> {
                     assertThat(orderBook).isNotNull();
