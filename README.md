@@ -17,6 +17,7 @@ Support public market feature (tickData, orderBook)
 | ![bithumb](https://user-images.githubusercontent.com/16334718/57194948-e54fef80-6f87-11e9-90d8-41f108789c77.jpg)      | Bithumb     | BITHUMB        | ⚠️     | ⚠️ |
 | ![hubi](https://user-images.githubusercontent.com/16334718/57194945-e4b75900-6f87-11e9-8fea-889fc93a7ba4.jpg)         | Hubi        | HUBI           | *      | [ws](https://www.hubi.com/docs/index-en.pdf) |
 | ![bitmex](https://user-images.githubusercontent.com/16334718/57194950-e54fef80-6f87-11e9-8b54-3f2192012306.jpg)       | Bitmex      | BITMEX         | *      | [ws](https://www.bitmex.com/app/wsAPI) |
+| ![kraken](https://user-images.githubusercontent.com/16334718/57220400-2dc5e680-7036-11e9-803c-18b14e82921a.jpg)       | Kraken      | KRAKEN         | 0.1.1  | [ws](https://www.kraken.com/features/websocket-api) |
 
 ⚠️ : Uses endpoints that are used by the official web. This is not an official api and should be used with care.
 
