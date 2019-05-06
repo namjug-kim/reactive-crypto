@@ -53,6 +53,8 @@ interface ExchangeJsonObjectMapper {
         return null
     }
 
+    fun customConfiguration(simpleModule: SimpleModule) {
+    }
 
     fun objectMapper(): ObjectMapper {
         val simpleModule = SimpleModule()
@@ -76,6 +78,8 @@ interface ExchangeJsonObjectMapper {
         tradeSideTypeDeserializer()?.let {
             simpleModule.addDeserializer(TradeSideType::class.java, it)
         }
+
+        customConfiguration(simpleModule)
 
         val objectMapper = ObjectMapper().registerKotlinModule()
         objectMapper.registerModule(simpleModule)
