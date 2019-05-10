@@ -43,7 +43,7 @@ class BitmaxWebsocketClientTest {
                 Assertions.assertThat(it.currencyPair)
                     .isEqualTo(targetCurrencyPair)
                 Assertions.assertThat(it.exchangeVendor)
-                    .isEqualByComparingTo(ExchangeVendor.KRAKEN)
+                    .isEqualByComparingTo(ExchangeVendor.BITMAX)
                 Assertions.assertThat(it.price)
                     .isGreaterThan(BigDecimal.ZERO)
                 Assertions.assertThat(it.quantity)
@@ -54,7 +54,7 @@ class BitmaxWebsocketClientTest {
                 Assertions.assertThat(it.currencyPair)
                     .isEqualTo(targetCurrencyPair)
                 Assertions.assertThat(it.exchangeVendor)
-                    .isEqualByComparingTo(ExchangeVendor.KRAKEN)
+                    .isEqualByComparingTo(ExchangeVendor.BITMAX)
                 Assertions.assertThat(it.price)
                     .isGreaterThan(BigDecimal.ZERO)
                 Assertions.assertThat(it.quantity)
@@ -72,15 +72,15 @@ class BitmaxWebsocketClientTest {
             .doOnNext { log.info { it } }
 
         // when
-        StepVerifier.create(orderBookFlux.limitRequest(3))
-            .expectNextCount(1)
+        StepVerifier.create(orderBookFlux.limitRequest(5))
+            .expectNextCount(3)
             // then
             .assertNext {
                 Assertions.assertThat(it).isNotNull
                 Assertions.assertThat(it.currencyPair)
                     .isEqualTo(targetCurrencyPair)
                 Assertions.assertThat(it.exchangeVendor)
-                    .isEqualByComparingTo(ExchangeVendor.KRAKEN)
+                    .isEqualByComparingTo(ExchangeVendor.BITMAX)
                 Assertions.assertThat(it.asks)
                     .isNotEmpty
                 Assertions.assertThat(it.bids)
@@ -107,7 +107,7 @@ class BitmaxWebsocketClientTest {
                 Assertions.assertThat(it.currencyPair)
                     .isEqualTo(targetCurrencyPair)
                 Assertions.assertThat(it.exchangeVendor)
-                    .isEqualByComparingTo(ExchangeVendor.KRAKEN)
+                    .isEqualByComparingTo(ExchangeVendor.BITMAX)
                 Assertions.assertThat(it.asks)
                     .isNotEmpty
                 Assertions.assertThat(it.bids)
