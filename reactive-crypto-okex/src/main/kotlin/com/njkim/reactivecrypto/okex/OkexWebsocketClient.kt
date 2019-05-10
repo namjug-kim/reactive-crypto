@@ -104,8 +104,8 @@ class OkexWebsocketClient : AbstractExchangeWebsocketClient() {
                 orderBook.asks.forEach { updatedAsk ->
                     askMap.compute(updatedAsk.price.stripTrailingZeros()) { _, oldValue ->
                         when {
-                            oldValue == null -> updatedAsk
                             updatedAsk.quantity <= BigDecimal.ZERO -> null
+                            oldValue == null -> updatedAsk
                             else -> oldValue.copy(
                                 quantity = updatedAsk.quantity,
                                 orderNumbers = updatedAsk.orderNumbers
@@ -122,8 +122,8 @@ class OkexWebsocketClient : AbstractExchangeWebsocketClient() {
                 orderBook.bids.forEach { updatedBid ->
                     bidMap.compute(updatedBid.price.stripTrailingZeros()) { _, oldValue ->
                         when {
-                            oldValue == null -> updatedBid
                             updatedBid.quantity <= BigDecimal.ZERO -> null
+                            oldValue == null -> updatedBid
                             else -> oldValue.copy(
                                 quantity = updatedBid.quantity,
                                 orderNumbers = updatedBid.orderNumbers
