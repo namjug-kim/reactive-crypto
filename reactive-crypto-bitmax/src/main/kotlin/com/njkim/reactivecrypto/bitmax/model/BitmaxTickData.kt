@@ -31,12 +31,11 @@ data class BitmaxTickDataWrapper(
     val trades: List<BitmaxTickData>
 ) : BitmaxMessageFrame(m, s)
 
-
 /**
- * @property bm             bm : if true, the buyer is the market maker
- * @property price          p : price
- * @property quantity       q : quantity
- * @property timestamp      t : timestamp
+ * @property bm bm : if true, the buyer is the market maker
+ * @property price p : price
+ * @property quantity q : quantity
+ * @property timestamp t : timestamp
  */
 data class BitmaxTickData(
     @get:JsonProperty("bm")

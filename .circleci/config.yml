@@ -35,7 +35,7 @@ jobs:
           key: v1-dependencies-{{ checksum "build.gradle" }}
 
       # run tests!
-      - run: gradle test codeCoverageReport
+      - run: gradle ktlint test codeCoverageReport
       - codecov/upload:
           file: build/reports/jacoco/report.xml
           token: dc59b779-b8a0-4f1c-ba53-35f1550ac5cc

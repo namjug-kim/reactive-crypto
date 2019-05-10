@@ -133,6 +133,5 @@ class BithumbWebsocketClient : AbstractExchangeWebsocketClient() {
                     }
                 )
             }
-
     }
 }

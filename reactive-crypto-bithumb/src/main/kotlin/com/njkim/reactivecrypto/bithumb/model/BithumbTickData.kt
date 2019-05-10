@@ -31,7 +31,7 @@ import java.time.ZonedDateTime
  * "units_traded":"0.1436"
  * }
  *
- * @property type   dn : sell, up : buy
+ * @property type dn : sell, up : buy
  */
 data class BithumbTickData(
     @get:JsonProperty("count_no")

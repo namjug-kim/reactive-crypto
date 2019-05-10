@@ -95,6 +95,5 @@ class BinanceWebsocketClient : AbstractExchangeWebsocketClient() {
                     it.data.getAsks()
                 )
             }
-
     }
 }

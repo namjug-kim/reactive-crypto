@@ -19,8 +19,8 @@ package com.njkim.reactivecrypto.bitmax.model
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 
 /**
- * @property m  message type
- * @property s  product symbol. ex) ETH/BTC
+ * @property m message type
+ * @property s product symbol. ex) ETH/BTC
  */
 abstract class BitmaxMessageFrame(
     open val m: String,
