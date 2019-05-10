@@ -60,7 +60,6 @@ class HuobiKoreaWebsocketClient : AbstractExchangeWebsocketClient() {
             .map { "{\"sub\": \"market.$it.depth.step0\",\"id\": \"$it\"}" }
             .toList()
 
-
         return HttpClient.create()
             .wiretap(log.isDebugEnabled)
             .tcpConfiguration { tcp -> tcp.doOnConnected { connection -> connection.addHandler(GzipDecoder()) } }
@@ -92,7 +91,6 @@ class HuobiKoreaWebsocketClient : AbstractExchangeWebsocketClient() {
             .map { "{\"sub\": \"market.$it.trade.detail\",\"id\": \"$it\"}" }
             .toList()
 
-
         return HttpClient.create()
             .wiretap(log.isDebugEnabled)
             .tcpConfiguration { tcp -> tcp.doOnConnected { connection -> connection.addHandler(GzipDecoder()) } }
@@ -114,7 +112,8 @@ class HuobiKoreaWebsocketClient : AbstractExchangeWebsocketClient() {
                             huobiKoreaTickData.price,
                             huobiKoreaTickData.amount,
                             it.currencyPair,
-                            ExchangeVendor.HUOBI_KOREA
+                            ExchangeVendor.HUOBI_KOREA,
+                            huobiKoreaTickData.direction
                         )
                     }
                     .toList()

@@ -27,6 +27,8 @@ import com.njkim.reactivecrypto.core.common.model.ExchangeVendor
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import com.njkim.reactivecrypto.core.common.model.order.OrderBook
 import com.njkim.reactivecrypto.core.common.model.order.TickData
+import com.njkim.reactivecrypto.core.common.model.order.TradeSideType.BUY
+import com.njkim.reactivecrypto.core.common.model.order.TradeSideType.SELL
 import com.njkim.reactivecrypto.core.common.util.toEpochMilli
 import mu.KotlinLogging
 import reactor.core.publisher.Flux
@@ -65,7 +67,8 @@ class BinanceWebsocketClient : AbstractExchangeWebsocketClient() {
                     binanceTradeRawData.price,
                     binanceTradeRawData.quantity,
                     binanceTradeRawData.currencyPair,
-                    ExchangeVendor.BINANCE
+                    ExchangeVendor.BINANCE,
+                    if (binanceTradeRawData.isMarketMaker) SELL else BUY
                 )
             }
     }
@@ -92,6 +95,5 @@ class BinanceWebsocketClient : AbstractExchangeWebsocketClient() {
                     it.data.getAsks()
                 )
             }
-
     }
 }

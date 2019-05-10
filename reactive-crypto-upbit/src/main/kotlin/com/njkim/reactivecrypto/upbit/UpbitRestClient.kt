@@ -33,7 +33,6 @@ import org.springframework.web.reactive.function.client.bodyToMono
 import org.springframework.web.util.UriComponentsBuilder
 import java.time.Instant
 
-
 class UpbitRestClient {
     private val baseUrl = "https://api.upbit.com"
 

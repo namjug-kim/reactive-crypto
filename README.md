@@ -1,5 +1,18 @@
-# Reactive CryptoCurrency
-[![Kotlin](https://img.shields.io/badge/kotlin-1.3.x-blue.svg)](http://kotlinlang.org) [![CircleCI](https://circleci.com/gh/namjug-kim/reactive-crypto.svg?style=shield&circle-token=aa6aa4ebd3956dd3e1a767d938c7e73869ffd6ab)](https://circleci.com/gh/namjug-kim/reactive-crypto) [![codecov](https://codecov.io/gh/namjug-kim/reactive-crypto/branch/master/graph/badge.svg)](https://codecov.io/gh/namjug-kim/reactive-crypto) [![](https://jitpack.io/v/namjug-kim/reactive-crypto.svg)](https://jitpack.io/#namjug-kim/reactive-crypto)
+<h1 align="center">
+</br>
+</br>
+Reactive Crypto 
+</br>
+</br>
+</h1>
+
+<p align="center">
+<a href="http://kotlinlang.org"><img src="https://img.shields.io/badge/kotlin-1.3.x-blue.svg" alt="Kotlin"></a>
+<a href="https://circleci.com/gh/namjug-kim/reactive-crypto"><img src="https://circleci.com/gh/namjug-kim/reactive-crypto.svg?style=shield&circle-token=aa6aa4ebd3956dd3e1a767d938c7e73869ffd6ab" alt="CircleCI"></a>
+<a href="https://codecov.io/gh/namjug-kim/reactive-crypto"><img src="https://codecov.io/gh/namjug-kim/reactive-crypto/branch/master/graph/badge.svg" alt="codecov"></a>
+<a href="https://jitpack.io/#namjug-kim/reactive-crypto"><img src="https://jitpack.io/v/namjug-kim/reactive-crypto.svg" alt="jitpack"></a>
+<a href="https://ktlint.github.io/"><img src="https://img.shields.io/badge/code%20style-%E2%9D%A4-FF4081.svg" alt="ktlint"></a>
+</p>
 
 A Kotlin library for cryptocurrency trading.
 
@@ -18,6 +31,7 @@ Support public market feature (tickData, orderBook)
 | ![hubi](https://user-images.githubusercontent.com/16334718/57194945-e4b75900-6f87-11e9-8fea-889fc93a7ba4.jpg)         | Hubi        | HUBI           | *      | [ws](https://www.hubi.com/docs/index-en.pdf) |
 | ![bitmex](https://user-images.githubusercontent.com/16334718/57194950-e54fef80-6f87-11e9-8b54-3f2192012306.jpg)       | Bitmex      | BITMEX         | *      | [ws](https://www.bitmex.com/app/wsAPI) |
 | ![kraken](https://user-images.githubusercontent.com/16334718/57220400-2dc5e680-7036-11e9-803c-18b14e82921a.jpg)       | Kraken      | KRAKEN         | 0.1.1  | [ws](https://www.kraken.com/features/websocket-api) |
+| ![bitmax](https://user-images.githubusercontent.com/16334718/57548356-b082d480-739b-11e9-9539-b27c60877fb6.jpg)       | Bitmax      | BITMAX         | v1.2   | [ws](https://github.com/bitmax-exchange/api-doc/blob/master/bitmax-api-doc-v1.2.md) |
 
 ⚠️ : Uses endpoints that are used by the official web. This is not an official api and should be used with care.
 
@@ -44,7 +58,7 @@ Step 1. Add jitpack repository
 <dependency>
     <groupId>com.github.namjug-kim.reactive-crypto</groupId>
     <artifactId>reactive-crypto-{exchange-name}</artifactId>
-    <version>v0.1.0.RELEASE</version>
+    <version>LATEST</version>
 </dependency>
 ```
 Step 2. Add the dependency
@@ -61,7 +75,7 @@ Step 1. Add jitpack repository
 
 ``` groovy
 dependencies {
-    implementation 'com.github.namjug-kim.reactive-crypto:reactive-crypto-{exchange-name}:v0.1.0.RELEASE'
+    implementation 'com.github.namjug-kim.reactive-crypto:reactive-crypto-{exchange-name}:LATEST'
 }
 ```
 Step 2. Add the dependency

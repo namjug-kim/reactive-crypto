@@ -32,7 +32,6 @@ import mu.KotlinLogging
 import reactor.core.publisher.Flux
 import reactor.netty.http.client.HttpClient
 
-
 class BitmexWebsocketClient : AbstractExchangeWebsocketClient() {
     private val log = KotlinLogging.logger {}
 
@@ -95,14 +94,15 @@ class BitmexWebsocketClient : AbstractExchangeWebsocketClient() {
             .map { objectMapper.readValue<BitmexMessageFrame<List<BitmexTickData>>>(it) }
             .flatMapIterable {
                 it.data
-                    .map { hubiTickData ->
+                    .map { bitmexTickData ->
                         TickData(
-                            hubiTickData.trdMatchID,
-                            hubiTickData.timestamp,
-                            hubiTickData.price,
-                            hubiTickData.size,
-                            hubiTickData.symbol,
-                            ExchangeVendor.BITMEX
+                            bitmexTickData.trdMatchID,
+                            bitmexTickData.timestamp,
+                            bitmexTickData.price,
+                            bitmexTickData.size,
+                            bitmexTickData.symbol,
+                            ExchangeVendor.BITMEX,
+                            bitmexTickData.side
                         )
                     }
             }

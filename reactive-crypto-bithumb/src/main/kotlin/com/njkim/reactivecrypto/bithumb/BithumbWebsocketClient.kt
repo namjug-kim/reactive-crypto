@@ -79,7 +79,8 @@ class BithumbWebsocketClient : AbstractExchangeWebsocketClient() {
                         bithumbTickData.price,
                         bithumbTickData.unitsTraded,
                         CurrencyPair(it.header.currency, Currency.KRW), // Bithumb only have KRW market
-                        ExchangeVendor.BITHUMB
+                        ExchangeVendor.BITHUMB,
+                        bithumbTickData.type
                     )
                 }
             }
@@ -132,6 +133,5 @@ class BithumbWebsocketClient : AbstractExchangeWebsocketClient() {
                     }
                 )
             }
-
     }
 }

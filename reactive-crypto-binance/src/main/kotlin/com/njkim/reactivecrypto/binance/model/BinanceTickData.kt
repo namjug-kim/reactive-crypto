@@ -21,6 +21,9 @@ import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import java.math.BigDecimal
 import java.time.ZonedDateTime
 
+/**
+ * @property isMarketMaker true : sell, false : buy trade
+ */
 data class BinanceTickData(
     @JsonProperty("e")
     val eventType: String,

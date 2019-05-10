@@ -24,8 +24,10 @@ import com.njkim.reactivecrypto.core.common.model.ExchangeVendor
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import com.njkim.reactivecrypto.core.common.model.order.OrderBook
 import com.njkim.reactivecrypto.core.common.model.order.OrderBookUnit
-import com.njkim.reactivecrypto.core.common.model.order.OrderSideType
+import com.njkim.reactivecrypto.core.common.model.order.OrderSideType.ASK
 import com.njkim.reactivecrypto.core.common.model.order.TickData
+import com.njkim.reactivecrypto.core.common.model.order.TradeSideType.BUY
+import com.njkim.reactivecrypto.core.common.model.order.TradeSideType.SELL
 import com.njkim.reactivecrypto.core.common.util.toEpochMilli
 import com.njkim.reactivecrypto.upbit.model.UpbitOrderBook
 import com.njkim.reactivecrypto.upbit.model.UpbitTickData
@@ -73,7 +75,8 @@ class UpbitWebsocketClient : AbstractExchangeWebsocketClient() {
                     it.tradePrice,
                     it.tradeVolume,
                     it.code,
-                    ExchangeVendor.UPBIT
+                    ExchangeVendor.UPBIT,
+                    if (it.askBid == ASK) SELL else BUY
                 )
             }
     }
@@ -105,7 +108,7 @@ class UpbitWebsocketClient : AbstractExchangeWebsocketClient() {
                             OrderBookUnit(
                                 orderBookUnit.bidPrice,
                                 orderBookUnit.bidSize,
-                                OrderSideType.ASK,
+                                ASK,
                                 null
                             )
                         },
@@ -114,7 +117,7 @@ class UpbitWebsocketClient : AbstractExchangeWebsocketClient() {
                             OrderBookUnit(
                                 orderBookUnit.askPrice,
                                 orderBookUnit.askSize,
-                                OrderSideType.ASK,
+                                ASK,
                                 null
                             )
                         }

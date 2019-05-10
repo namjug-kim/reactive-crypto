@@ -36,7 +36,6 @@ import java.math.BigDecimal
 import java.time.ZonedDateTime
 import java.util.concurrent.ConcurrentHashMap
 
-
 /**
  * Kraken Websockets Public API Version 0.1.1
  *
@@ -118,8 +117,8 @@ class KrakenWebsocketClient : AbstractExchangeWebsocketClient() {
                 orderBook.asks.forEach { updatedAsk ->
                     askMap.compute(updatedAsk.price.stripTrailingZeros()) { _, oldValue ->
                         when {
-                            oldValue == null -> updatedAsk
                             updatedAsk.quantity <= BigDecimal.ZERO -> null
+                            oldValue == null -> updatedAsk
                             else -> oldValue.copy(
                                 quantity = updatedAsk.quantity,
                                 orderNumbers = updatedAsk.orderNumbers
@@ -136,8 +135,8 @@ class KrakenWebsocketClient : AbstractExchangeWebsocketClient() {
                 orderBook.bids.forEach { updatedBid ->
                     bidMap.compute(updatedBid.price.stripTrailingZeros()) { _, oldValue ->
                         when {
-                            oldValue == null -> updatedBid
                             updatedBid.quantity <= BigDecimal.ZERO -> null
+                            oldValue == null -> updatedBid
                             else -> oldValue.copy(
                                 quantity = updatedBid.quantity,
                                 orderNumbers = updatedBid.orderNumbers
@@ -155,7 +154,6 @@ class KrakenWebsocketClient : AbstractExchangeWebsocketClient() {
             }
             .doOnError { log.error(it.message, it) }
     }
-
 
     override fun createTradeWebsocket(subscribeTargets: List<CurrencyPair>): Flux<TickData> {
         val channelCurrencyPairMap: MutableMap<Int, CurrencyPair> = ConcurrentHashMap()
@@ -196,7 +194,8 @@ class KrakenWebsocketClient : AbstractExchangeWebsocketClient() {
                         krakenTickData.price,
                         krakenTickData.volume,
                         channelCurrencyPairMap[it.channelId]!!,
-                        ExchangeVendor.KRAKEN
+                        ExchangeVendor.KRAKEN,
+                        krakenTickData.tradeSideType
                     )
                 }
             }
