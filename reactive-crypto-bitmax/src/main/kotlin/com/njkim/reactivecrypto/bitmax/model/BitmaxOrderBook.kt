@@ -21,11 +21,11 @@ import java.math.BigDecimal
 import java.time.ZonedDateTime
 
 /**
- * @property seqnum         the sequence number is a strictly increasing integer number for each depth update assigned by the server.
+ * @property seqnum the sequence number is a strictly increasing integer number for each depth update assigned by the server.
  *                          In the message, it is the seqnum of the latest depth update.
- * @property ts             the UTC timestamp in milliseconds of the latest depth update contained in the message.
- * @property asks           ask levels, could be empty
- * @property bids           bid levels, could be empty
+ * @property ts the UTC timestamp in milliseconds of the latest depth update contained in the message.
+ * @property asks ask levels, could be empty
+ * @property bids bid levels, could be empty
  *
  * @see BitmaxMessageFrame message frame default property
  */

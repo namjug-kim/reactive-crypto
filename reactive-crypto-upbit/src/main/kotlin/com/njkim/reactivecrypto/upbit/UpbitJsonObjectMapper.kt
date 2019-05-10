@@ -71,7 +71,6 @@ class UpbitJsonObjectMapper : ExchangeJsonObjectMapper {
                 return if (StringUtils.isBlank(valueAsString)) {
                     null
                 } else BigDecimal(valueAsString)
-
             }
         }
     }

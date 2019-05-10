@@ -35,8 +35,8 @@ class BitmaxRawWebsocketClient {
     }
 
     /**
-     * @param symbol            must be seperated by a hyphen(-). ex) ETH-BTC
-     * @param recentTradeMaxCount  max number of recent trades to be included in the first market trades message
+     * @param symbol must be seperated by a hyphen(-). ex) ETH-BTC
+     * @param recentTradeMaxCount max number of recent trades to be included in the first market trades message
      */
     fun createTradeDataFlux(symbol: CurrencyPair, recentTradeMaxCount: Int): Flux<BitmaxTickDataWrapper> {
         val targetUri: String = "$baseUri/api/public/${symbol.targetCurrency}-${symbol.baseCurrency}"
@@ -56,8 +56,8 @@ class BitmaxRawWebsocketClient {
     }
 
     /**
-     * @param symbol            must be seperated by a hyphen(-). ex) ETH-BTC
-     * @param marketDepthLevel  max number of price levels on each side to be included in the first market depth message
+     * @param symbol must be seperated by a hyphen(-). ex) ETH-BTC
+     * @param marketDepthLevel max number of price levels on each side to be included in the first market depth message
      */
     fun createOrderBookFlux(symbol: CurrencyPair, marketDepthLevel: Int): Flux<BitmaxOrderBookWrapper> {
         val targetUri: String = "$baseUri/api/public/${symbol.targetCurrency}-${symbol.baseCurrency}"

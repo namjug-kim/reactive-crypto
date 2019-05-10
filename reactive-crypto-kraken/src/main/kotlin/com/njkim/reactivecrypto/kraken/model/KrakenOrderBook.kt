@@ -20,10 +20,10 @@ import java.math.BigDecimal
 import java.time.ZonedDateTime
 
 /**
- * @property channelID      ChannelID of pair-order book levels subscription
- * @property asks           as : Array of price levels, ascending from best ask
- * @property bids           bs : Array of price levels, descending from best bid
- * @property updateOnly     is update payload. from check has property 'as', 'bs'
+ * @property channelID ChannelID of pair-order book levels subscription
+ * @property asks as : Array of price levels, ascending from best ask
+ * @property bids bs : Array of price levels, descending from best bid
+ * @property updateOnly is update payload. from check has property 'as', 'bs'
  *
  * @see com.njkim.reactivecrypto.kraken.KrakenJsonObjectMapper.customConfiguration jackson custom deserializer
  */
@@ -35,9 +35,9 @@ data class KrakenOrderBook(
 )
 
 /**
- * @property price      PriceLevel
- * @property volume     Price level volume
- * @property timestamp  Price level last updated, seconds since epoch
+ * @property price PriceLevel
+ * @property volume Price level volume
+ * @property timestamp Price level last updated, seconds since epoch
  */
 data class KrakenOrderBookUnit(
     val price: BigDecimal,

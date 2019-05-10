@@ -42,7 +42,6 @@ import java.nio.charset.Charset
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.streams.toList
 
-
 class OkexWebsocketClient : AbstractExchangeWebsocketClient() {
     private val log = KotlinLogging.logger {}
 
@@ -146,7 +145,6 @@ class OkexWebsocketClient : AbstractExchangeWebsocketClient() {
             .map { "${it.targetCurrency.name}-${it.baseCurrency.name}" }
             .map { "{\"op\": \"subscribe\", \"args\": [\"spot/trade:$it\"]}" }
             .toList()
-
 
         return HttpClient.create()
             .wiretap(log.isDebugEnabled)

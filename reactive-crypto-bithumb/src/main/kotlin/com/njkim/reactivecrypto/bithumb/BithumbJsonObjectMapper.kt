@@ -72,7 +72,6 @@ class BithumbJsonObjectMapper : ExchangeJsonObjectMapper {
                     else -> throw IllegalArgumentException()
                 }
             }
-
         }
     }
 

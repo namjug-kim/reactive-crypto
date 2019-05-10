@@ -1,5 +1,18 @@
-# Reactive CryptoCurrency
-[![Kotlin](https://img.shields.io/badge/kotlin-1.3.x-blue.svg)](http://kotlinlang.org) [![CircleCI](https://circleci.com/gh/namjug-kim/reactive-crypto.svg?style=shield&circle-token=aa6aa4ebd3956dd3e1a767d938c7e73869ffd6ab)](https://circleci.com/gh/namjug-kim/reactive-crypto) [![codecov](https://codecov.io/gh/namjug-kim/reactive-crypto/branch/master/graph/badge.svg)](https://codecov.io/gh/namjug-kim/reactive-crypto) [![](https://jitpack.io/v/namjug-kim/reactive-crypto.svg)](https://jitpack.io/#namjug-kim/reactive-crypto)
+<h1 align="center">
+</br>
+</br>
+Reactive Crypto 
+</br>
+</br>
+</h1>
+
+<p align="center">
+<a href="http://kotlinlang.org"><img src="https://img.shields.io/badge/kotlin-1.3.x-blue.svg" alt="Kotlin"></a>
+<a href="https://circleci.com/gh/namjug-kim/reactive-crypto"><img src="https://circleci.com/gh/namjug-kim/reactive-crypto.svg?style=shield&circle-token=aa6aa4ebd3956dd3e1a767d938c7e73869ffd6ab" alt="CircleCI"></a>
+<a href="https://codecov.io/gh/namjug-kim/reactive-crypto"><img src="https://codecov.io/gh/namjug-kim/reactive-crypto/branch/master/graph/badge.svg" alt="codecov"></a>
+<a href="https://jitpack.io/#namjug-kim/reactive-crypto"><img src="https://jitpack.io/v/namjug-kim/reactive-crypto.svg" alt="jitpack"></a>
+<a href="https://ktlint.github.io/"><img src="https://img.shields.io/badge/code%20style-%E2%9D%A4-FF4081.svg" alt="ktlint"></a>
+</p>
 
 A Kotlin library for cryptocurrency trading.
 

@@ -37,11 +37,11 @@ data class KrakenTickDataWrapper(
 )
 
 /**
- * @property price      Price
- * @property volume     Volume
- * @property time       Time, seconds since epoch
- * @property side       Triggering order side (buy/sell), values: b|s
- * @property orderType  Triggering order type (market/limit), values: m|l
+ * @property price Price
+ * @property volume Volume
+ * @property time Time, seconds since epoch
+ * @property side Triggering order side (buy/sell), values: b|s
+ * @property orderType Triggering order type (market/limit), values: m|l
  */
 data class KrakenTickData(
     val time: ZonedDateTime,

@@ -71,6 +71,5 @@ class BinanceWebsocketClientTest {
         Assertions.assertThat(orderBook.bids[0].price)
             .withFailMessage("bids must be sorted by price desc")
             .isGreaterThan(orderBook.bids[1].price)
-
     }
 }

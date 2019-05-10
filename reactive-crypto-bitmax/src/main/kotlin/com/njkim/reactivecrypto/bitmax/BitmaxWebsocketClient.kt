@@ -19,7 +19,11 @@ package com.njkim.reactivecrypto.bitmax
 import com.njkim.reactivecrypto.core.ExchangeWebsocketClient
 import com.njkim.reactivecrypto.core.common.model.ExchangeVendor
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
-import com.njkim.reactivecrypto.core.common.model.order.*
+import com.njkim.reactivecrypto.core.common.model.order.OrderBook
+import com.njkim.reactivecrypto.core.common.model.order.OrderBookUnit
+import com.njkim.reactivecrypto.core.common.model.order.OrderSideType
+import com.njkim.reactivecrypto.core.common.model.order.TickData
+import com.njkim.reactivecrypto.core.common.model.order.TradeSideType
 import mu.KotlinLogging
 import reactor.core.publisher.Flux
 import reactor.core.scheduler.Schedulers
@@ -160,5 +164,4 @@ class BitmaxWebsocketClient : ExchangeWebsocketClient {
             "$timestamp$saltString"
         }
     }
-
 }

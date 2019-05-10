@@ -48,5 +48,4 @@ enum class Currency {
             ETH
         )
     }
-
 }

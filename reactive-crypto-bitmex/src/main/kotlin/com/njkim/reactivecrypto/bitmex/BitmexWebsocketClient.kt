@@ -32,7 +32,6 @@ import mu.KotlinLogging
 import reactor.core.publisher.Flux
 import reactor.netty.http.client.HttpClient
 
-
 class BitmexWebsocketClient : AbstractExchangeWebsocketClient() {
     private val log = KotlinLogging.logger {}
 

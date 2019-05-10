@@ -113,6 +113,5 @@ class BithumbWebsocketClientTest {
                     .isGreaterThan(it.bids[1].price)
             }
             .verifyComplete()
-
     }
 }
