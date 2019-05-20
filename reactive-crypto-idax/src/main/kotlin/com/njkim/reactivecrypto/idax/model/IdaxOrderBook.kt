@@ -14,16 +14,17 @@
  * under the License.
  */
 
-package com.njkim.reactivecrypto.core.common.model.order
+package com.njkim.reactivecrypto.idax.model
 
-import java.math.BigDecimal
+import com.njkim.reactivecrypto.core.common.model.order.OrderBookUnit
+import java.time.ZonedDateTime
 
 /**
- * @property orderNumbers the number of orders placed at limit order.
+ * @property timestamp Server timestamp
+ *
  */
-data class OrderBookUnit(
-    val price: BigDecimal,
-    val quantity: BigDecimal,
-    val orderSideType: OrderSideType,
-    val orderNumbers: Int? = null
+data class IdaxOrderBook(
+    val bids: List<OrderBookUnit>,
+    val asks: List<OrderBookUnit>,
+    val timestamp: ZonedDateTime
 )

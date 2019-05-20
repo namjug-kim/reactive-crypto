@@ -25,5 +25,6 @@ enum class ExchangeVendor(val implementedClassName: String) {
     HUBI("com.njkim.reactivecrypto.hubi.HubiWebsocketClient"),
     BITMEX("com.njkim.reactivecrypto.bitmex.BitmexWebsocketClient"),
     KRAKEN("com.njkim.reactivecrypto.kraken.KrakenWebsocketClient"),
-    BITMAX("com.njkim.reactivecrypto.bitmax.BitmaxWebsocketClient")
+    BITMAX("com.njkim.reactivecrypto.bitmax.BitmaxWebsocketClient"),
+    IDAX("com.njkim.reactivecrypto.idax.IdaxWebsocketClient")
 }
