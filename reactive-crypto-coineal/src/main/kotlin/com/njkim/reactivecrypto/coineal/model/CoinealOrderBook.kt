@@ -14,16 +14,11 @@
  * under the License.
  */
 
-package com.njkim.reactivecrypto.core.common.model.order
+package com.njkim.reactivecrypto.coineal.model
 
-import java.math.BigDecimal
+import com.njkim.reactivecrypto.core.common.model.order.OrderBookUnit
 
-/**
- * @property orderNumbers the number of orders placed at limit order.
- */
-data class OrderBookUnit(
-    val price: BigDecimal,
-    val quantity: BigDecimal,
-    val orderSideType: OrderSideType,
-    val orderNumbers: Int? = null
+data class CoinealOrderBook(
+    val bids: List<OrderBookUnit>,
+    val asks: List<OrderBookUnit>
 )

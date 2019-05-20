@@ -14,16 +14,21 @@
  * under the License.
  */
 
-package com.njkim.reactivecrypto.core.common.model.order
+package com.njkim.reactivecrypto.coineal.model
 
+import com.njkim.reactivecrypto.core.common.model.order.TradeSideType
 import java.math.BigDecimal
+import java.time.ZonedDateTime
 
-/**
- * @property orderNumbers the number of orders placed at limit order.
- */
-data class OrderBookUnit(
+data class CoinealTickDataWrapper(
+    val data: List<CoinealTickData>
+)
+
+data class CoinealTickData(
+    val side: TradeSideType,
+    val vol: BigDecimal,
+    val amount: BigDecimal,
     val price: BigDecimal,
-    val quantity: BigDecimal,
-    val orderSideType: OrderSideType,
-    val orderNumbers: Int? = null
+    val id: Long,
+    val ts: ZonedDateTime
 )

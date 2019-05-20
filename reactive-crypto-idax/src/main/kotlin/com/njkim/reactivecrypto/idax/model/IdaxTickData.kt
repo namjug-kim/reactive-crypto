@@ -14,16 +14,21 @@
  * under the License.
  */
 
-package com.njkim.reactivecrypto.core.common.model.order
+package com.njkim.reactivecrypto.idax.model
 
+import com.njkim.reactivecrypto.core.common.model.order.TradeSideType
 import java.math.BigDecimal
+import java.time.ZonedDateTime
 
 /**
- * @property orderNumbers the number of orders placed at limit order.
+ * @property transactionNumber Transaction number
+ * @property eventDateTime Clinch a deal the time
+ * @property tradeSideType Clinch a deal the type（buy|sell）
  */
-data class OrderBookUnit(
+data class IdaxTickData(
+    val transactionNumber: String,
     val price: BigDecimal,
-    val quantity: BigDecimal,
-    val orderSideType: OrderSideType,
-    val orderNumbers: Int? = null
+    val volume: BigDecimal,
+    val eventDateTime: ZonedDateTime,
+    val tradeSideType: TradeSideType
 )
