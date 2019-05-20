@@ -32,6 +32,7 @@ Support public market feature (tickData, orderBook)
 | ![bitmex](https://user-images.githubusercontent.com/16334718/57194950-e54fef80-6f87-11e9-8b54-3f2192012306.jpg)       | Bitmex      | BITMEX         | *      | [ws](https://www.bitmex.com/app/wsAPI) |
 | ![kraken](https://user-images.githubusercontent.com/16334718/57220400-2dc5e680-7036-11e9-803c-18b14e82921a.jpg)       | Kraken      | KRAKEN         | 0.1.1  | [ws](https://www.kraken.com/features/websocket-api) |
 | ![bitmax](https://user-images.githubusercontent.com/16334718/57548356-b082d480-739b-11e9-9539-b27c60877fb6.jpg)       | Bitmax      | BITMAX         | v1.2   | [ws](https://github.com/bitmax-exchange/api-doc/blob/master/bitmax-api-doc-v1.2.md) |
+| ![idax](https://user-images.githubusercontent.com/16334718/58029691-128bc880-7b58-11e9-9aaa-a331f394c8bd.jpg)         | Idax        | IDAX           | *      | [ws](https://github.com/idax-exchange/idax-official-api-docs/blob/master/open-ws_en.md) |
 
 ⚠️ : Uses endpoints that are used by the official web. This is not an official api and should be used with care.
 
