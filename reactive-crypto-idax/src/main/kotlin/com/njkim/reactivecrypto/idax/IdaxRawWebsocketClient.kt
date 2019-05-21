@@ -22,10 +22,16 @@ import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import com.njkim.reactivecrypto.idax.model.IdaxMessageFrame
 import com.njkim.reactivecrypto.idax.model.IdaxOrderBook
 import com.njkim.reactivecrypto.idax.model.IdaxTickData
+import io.netty.channel.ChannelHandlerContext
+import io.netty.handler.codec.http.websocketx.TextWebSocketFrame
+import io.netty.handler.timeout.IdleState
+import io.netty.handler.timeout.IdleStateEvent
+import io.netty.handler.timeout.IdleStateHandler
 import mu.KotlinLogging
 import reactor.core.publisher.Flux
 import reactor.core.publisher.toFlux
 import reactor.netty.http.client.HttpClient
+import java.util.concurrent.TimeUnit
 
 class IdaxRawWebsocketClient(
     private val baseUri: String = "wss://openws.idax.pro/ws"
@@ -54,12 +60,21 @@ class IdaxRawWebsocketClient(
             .toFlux()
 
         return HttpClient.create()
+            .tcpConfiguration { tcp ->
+                tcp.doOnConnected {
+                    // okex websocket 은 30초동안 응답이 없는경우 해당 연결을 끊는다. 이를 막기 위해서 20초마다 ping 요청을 보낸다.
+                    it.addHandlerFirst("heartBeat", HeartBeatHandler(false, 2, 0, 0, TimeUnit.SECONDS))
+                }
+            }
             .websocket()
             .uri(baseUri)
             .handle { inbound, outbound ->
                 outbound.sendString(subscribeStrings)
                     .then()
                     .thenMany(inbound.receive().asString())
+                    .filter { response ->
+                        !response!!.contentEquals("{\"event\":\"pong\"}")
+                    }
             }
             .map { objectMapper.readValue<IdaxMessageFrame<List<IdaxTickData>>>(it) }
     }
@@ -79,12 +94,21 @@ class IdaxRawWebsocketClient(
             .toFlux()
 
         return HttpClient.create()
+            .tcpConfiguration { tcp ->
+                tcp.doOnConnected {
+                    // okex websocket 은 30초동안 응답이 없는경우 해당 연결을 끊는다. 이를 막기 위해서 20초마다 ping 요청을 보낸다.
+                    it.addHandlerFirst("heartBeat", HeartBeatHandler(false, 2, 0, 0, TimeUnit.SECONDS))
+                }
+            }
             .websocket()
             .uri(baseUri)
             .handle { inbound, outbound ->
                 outbound.sendString(subscribeStrings)
                     .then()
                     .thenMany(inbound.receive().asString())
+                    .filter { response ->
+                        !response!!.contentEquals("{\"event\":\"pong\"}")
+                    }
             }
             .map { objectMapper.readValue<IdaxMessageFrame<List<IdaxOrderBook>>>(it) }
     }
@@ -113,5 +137,21 @@ class IdaxRawWebsocketClient(
                     .thenMany(inbound.receive().asString())
             }
             .map { objectMapper.readValue<IdaxMessageFrame<List<IdaxOrderBook>>>(it) }
+    }
+
+    private inner class HeartBeatHandler(
+        observeOutput: Boolean,
+        readerIdleTime: Long,
+        writerIdleTime: Long,
+        allIdleTime: Long,
+        unit: TimeUnit
+    ) : IdleStateHandler(observeOutput, readerIdleTime, writerIdleTime, allIdleTime, unit) {
+
+        @Throws(Exception::class)
+        override fun channelIdle(ctx: ChannelHandlerContext, evt: IdleStateEvent) {
+            if (evt.state() == IdleState.READER_IDLE) {
+                ctx.channel().writeAndFlush(TextWebSocketFrame("{\"event\":\"ping\"}"))
+            }
+        }
     }
 }
