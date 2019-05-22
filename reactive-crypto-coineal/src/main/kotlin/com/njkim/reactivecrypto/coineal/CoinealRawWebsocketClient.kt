@@ -22,6 +22,8 @@ import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import com.njkim.reactivecrypto.coineal.model.CoinealMessageFrame
 import com.njkim.reactivecrypto.coineal.model.CoinealOrderBook
 import com.njkim.reactivecrypto.coineal.model.CoinealTickDataWrapper
+import com.njkim.reactivecrypto.core.common.util.toEpochMilli
+import com.njkim.reactivecrypto.core.netty.HeartBeatHandler
 import io.netty.buffer.ByteBuf
 import io.netty.buffer.ByteBufInputStream
 import io.netty.channel.ChannelHandlerContext
@@ -34,6 +36,8 @@ import reactor.core.publisher.Flux
 import reactor.core.publisher.toFlux
 import reactor.netty.http.client.HttpClient
 import java.nio.charset.Charset
+import java.time.ZonedDateTime
+import java.util.concurrent.TimeUnit
 import java.util.zip.GZIPInputStream
 
 class CoinealRawWebsocketClient(
@@ -51,7 +55,20 @@ class CoinealRawWebsocketClient(
             .toFlux()
 
         return HttpClient.create()
-            .tcpConfiguration { tcp -> tcp.doOnConnected { connection -> connection.addHandler(GzipDecoder()) } }
+            .tcpConfiguration { tcp ->
+                tcp.doOnConnected { connection ->
+                    connection.addHandler(GzipDecoder())
+                    connection.addHandler(
+                        "heartBeat",
+                        HeartBeatHandler(
+                            false,
+                            10,
+                            TimeUnit.SECONDS,
+                            5
+                        ) { "{\"ping\": ${ZonedDateTime.now().toEpochMilli()}}" }
+                    )
+                }
+            }
             .websocket()
             .uri(baseUri)
             .handle { inbound, outbound ->
@@ -73,7 +90,20 @@ class CoinealRawWebsocketClient(
             .toFlux()
 
         return HttpClient.create()
-            .tcpConfiguration { tcp -> tcp.doOnConnected { connection -> connection.addHandler(GzipDecoder()) } }
+            .tcpConfiguration { tcp ->
+                tcp.doOnConnected { connection ->
+                    connection.addHandler(GzipDecoder())
+                    connection.addHandler(
+                        "heartBeat",
+                        HeartBeatHandler(
+                            false,
+                            10,
+                            TimeUnit.SECONDS,
+                            5
+                        ) { "{\"ping\": ${ZonedDateTime.now().toEpochMilli()}}" }
+                    )
+                }
+            }
             .websocket()
             .uri(baseUri)
             .handle { inbound, outbound ->
