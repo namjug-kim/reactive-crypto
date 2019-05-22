@@ -25,6 +25,7 @@ import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import com.njkim.reactivecrypto.core.common.model.order.OrderBook
 import com.njkim.reactivecrypto.core.common.model.order.TickData
 import com.njkim.reactivecrypto.core.common.util.toEpochMilli
+import com.njkim.reactivecrypto.core.netty.HeartBeatHandler
 import com.njkim.reactivecrypto.huobikorea.model.HuobiKoreaTickDataWrapper
 import com.njkim.reactivecrypto.huobikorea.model.HuobiOrderBook
 import com.njkim.reactivecrypto.huobikorea.model.HuobiSubscribeResponse
@@ -40,6 +41,7 @@ import reactor.core.publisher.Flux
 import reactor.netty.http.client.HttpClient
 import java.nio.charset.Charset
 import java.time.ZonedDateTime
+import java.util.concurrent.TimeUnit
 import java.util.zip.GZIPInputStream
 import kotlin.streams.toList
 
@@ -62,7 +64,20 @@ class HuobiKoreaWebsocketClient : AbstractExchangeWebsocketClient() {
 
         return HttpClient.create()
             .wiretap(log.isDebugEnabled)
-            .tcpConfiguration { tcp -> tcp.doOnConnected { connection -> connection.addHandler(GzipDecoder()) } }
+            .tcpConfiguration { tcp ->
+                tcp.doOnConnected { connection ->
+                    connection.addHandler(GzipDecoder())
+                    connection.addHandler(
+                        "heartBeat",
+                        HeartBeatHandler(
+                            false,
+                            2000,
+                            TimeUnit.MILLISECONDS,
+                            1000
+                        ) { "{\"ping\": ${ZonedDateTime.now().toEpochMilli()}}" }
+                    )
+                }
+            }
             .websocket()
             .uri(baseUri)
             .handle { inbound, outbound ->
@@ -93,7 +108,20 @@ class HuobiKoreaWebsocketClient : AbstractExchangeWebsocketClient() {
 
         return HttpClient.create()
             .wiretap(log.isDebugEnabled)
-            .tcpConfiguration { tcp -> tcp.doOnConnected { connection -> connection.addHandler(GzipDecoder()) } }
+            .tcpConfiguration { tcp ->
+                tcp.doOnConnected { connection ->
+                    connection.addHandler(GzipDecoder())
+                    connection.addHandler(
+                        "heartBeat",
+                        HeartBeatHandler(
+                            false,
+                            2000,
+                            TimeUnit.MILLISECONDS,
+                            1000
+                        ) { "{\"ping\": ${ZonedDateTime.now().toEpochMilli()}}" }
+                    )
+                }
+            }
             .websocket()
             .uri(baseUri)
             .handle { inbound, outbound ->
