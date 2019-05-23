@@ -18,28 +18,30 @@ package com.njkim.reactivecrypto.coineal
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import com.njkim.reactivecrypto.coineal.model.CoinealMessageFrame
 import com.njkim.reactivecrypto.coineal.model.CoinealOrderBook
 import com.njkim.reactivecrypto.coineal.model.CoinealTickDataWrapper
+import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import com.njkim.reactivecrypto.core.common.util.toEpochMilli
 import com.njkim.reactivecrypto.core.netty.HeartBeatHandler
 import io.netty.buffer.ByteBuf
 import io.netty.buffer.ByteBufInputStream
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.ByteToMessageDecoder
+import io.netty.handler.codec.compression.JdkZlibDecoder
+import io.netty.handler.codec.compression.ZlibWrapper
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame
 import mu.KotlinLogging
+import org.apache.commons.codec.Charsets
 import org.apache.commons.lang3.StringUtils
 import org.springframework.util.StreamUtils
 import reactor.core.publisher.Flux
 import reactor.core.publisher.toFlux
 import reactor.netty.http.client.HttpClient
-import java.nio.charset.Charset
 import java.time.ZonedDateTime
 import java.util.concurrent.TimeUnit
-import java.util.zip.GZIPInputStream
 
+@Suppress("IMPLICIT_CAST_TO_ANY")
 class CoinealRawWebsocketClient(
     private val baseUri: String = "wss://ws.coineal.com/kline-api/ws"
 ) {
@@ -57,7 +59,8 @@ class CoinealRawWebsocketClient(
         return HttpClient.create()
             .tcpConfiguration { tcp ->
                 tcp.doOnConnected { connection ->
-                    connection.addHandler(GzipDecoder())
+                    connection.addHandler(JdkZlibDecoder(ZlibWrapper.GZIP, true))
+                    connection.addHandler(PingPongHandler())
                     connection.addHandler(
                         "heartBeat",
                         HeartBeatHandler(
@@ -92,7 +95,8 @@ class CoinealRawWebsocketClient(
         return HttpClient.create()
             .tcpConfiguration { tcp ->
                 tcp.doOnConnected { connection ->
-                    connection.addHandler(GzipDecoder())
+                    connection.addHandler(JdkZlibDecoder(ZlibWrapper.GZIP, true))
+                    connection.addHandler(PingPongHandler())
                     connection.addHandler(
                         "heartBeat",
                         HeartBeatHandler(
@@ -115,18 +119,21 @@ class CoinealRawWebsocketClient(
             .map { objectMapper.readValue<CoinealMessageFrame<CoinealOrderBook>>(it) }
     }
 
-    private inner class GzipDecoder : ByteToMessageDecoder() {
-        @Throws(Exception::class)
+    /**
+     * server sent ping {"ping" : $epochMilli }
+     * client response pong {"pong" : $epochMilli }
+     */
+    private inner class PingPongHandler : ByteToMessageDecoder() {
         override fun decode(ctx: ChannelHandlerContext, msg: ByteBuf, out: MutableList<Any>) {
-            val gzipInputStream = GZIPInputStream(ByteBufInputStream(msg))
-            val responseBody = StreamUtils.copyToString(gzipInputStream, Charset.forName("UTF-8"))
-
-            if (StringUtils.contains(responseBody, "ping")) {
-                val replace = responseBody.replace("ping", "pong")
-                ctx.channel().writeAndFlush(TextWebSocketFrame(replace))
-            } else {
-                val uncompressed = msg.alloc().buffer().writeBytes(responseBody.toByteArray())
-                out.add(uncompressed)
+            ByteBufInputStream(msg).use {
+                val response = StreamUtils.copyToString(it, Charsets.UTF_8)
+                if (StringUtils.contains(response, "ping")) {
+                    val replace = response.replace("ping", "pong")
+                    ctx.channel().writeAndFlush(TextWebSocketFrame(replace))
+                } else {
+                    val uncompressed = msg.alloc().buffer().writeBytes(response.toByteArray())
+                    out.add(uncompressed)
+                }
             }
         }
     }
