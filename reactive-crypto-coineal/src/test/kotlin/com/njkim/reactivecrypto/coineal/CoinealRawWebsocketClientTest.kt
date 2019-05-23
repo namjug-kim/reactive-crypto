@@ -36,7 +36,8 @@ class CoinealRawWebsocketClientTest {
             .createTradeDataFlux(listOf(symbol))
 
         // when
-        StepVerifier.create(tradeDataFlux.limitRequest(2))
+        StepVerifier.create(tradeDataFlux.limitRequest(5))
+            .expectNextCount(3)
             // then
             .assertNext { coinealTickDataMessageWrapper: CoinealMessageFrame<CoinealTickDataWrapper> ->
                 assertThat(coinealTickDataMessageWrapper.currencyPair).isEqualTo(symbol)
@@ -71,7 +72,8 @@ class CoinealRawWebsocketClientTest {
             .createOrderBookFlux(listOf(symbol), "step0")
 
         // when
-        StepVerifier.create(orderBookFlux.limitRequest(1))
+        StepVerifier.create(orderBookFlux.limitRequest(2))
+            .expectNextCount(1)
             // then
             .assertNext { coinealOrderBookMessageFrame: CoinealMessageFrame<CoinealOrderBook> ->
                 assertThat(coinealOrderBookMessageFrame.tick.asks)
