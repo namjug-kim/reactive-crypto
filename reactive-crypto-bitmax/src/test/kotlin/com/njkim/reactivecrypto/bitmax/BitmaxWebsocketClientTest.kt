@@ -18,6 +18,7 @@ package com.njkim.reactivecrypto.bitmax
 
 import com.njkim.reactivecrypto.core.common.model.ExchangeVendor
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
+import com.njkim.reactivecrypto.core.common.util.toEpochMilli
 import mu.KotlinLogging
 import org.assertj.core.api.Assertions
 import org.junit.Test
@@ -30,7 +31,7 @@ class BitmaxWebsocketClientTest {
     @Test
     fun `tick data subscribe`() {
         // given
-        val targetCurrencyPair = CurrencyPair.parse("PAX", "USDT")
+        val targetCurrencyPair = CurrencyPair.parse("BTC", "USDT")
         val tickDataFlux = BitmaxWebsocketClient()
             .createTradeWebsocket(listOf(targetCurrencyPair))
 
@@ -66,16 +67,18 @@ class BitmaxWebsocketClientTest {
     @Test
     fun `orderBook subscribe`() {
         // given
-        val targetCurrencyPair = CurrencyPair.parse("PAX", "USDT")
+        val targetCurrencyPair = CurrencyPair.parse("BTC", "USDT")
         val orderBookFlux = BitmaxWebsocketClient()
             .createDepthSnapshot(listOf(targetCurrencyPair))
             .doOnNext { log.info { it } }
+        var prevTimestamp = 0L
 
         // when
         StepVerifier.create(orderBookFlux.limitRequest(5))
             .expectNextCount(3)
             // then
             .assertNext {
+                prevTimestamp = it.eventTime.toEpochMilli()
                 Assertions.assertThat(it).isNotNull
                 Assertions.assertThat(it.currencyPair)
                     .isEqualTo(targetCurrencyPair)
@@ -103,6 +106,8 @@ class BitmaxWebsocketClientTest {
                     .isGreaterThan(it.bids[1].price)
             }
             .assertNext {
+                Assertions.assertThat(prevTimestamp)
+                    .isNotEqualTo(it.eventTime.toEpochMilli())
                 Assertions.assertThat(it).isNotNull
                 Assertions.assertThat(it.currencyPair)
                     .isEqualTo(targetCurrencyPair)

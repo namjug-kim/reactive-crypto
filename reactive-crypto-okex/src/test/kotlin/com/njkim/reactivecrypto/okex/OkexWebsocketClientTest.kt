@@ -2,6 +2,7 @@ package com.njkim.reactivecrypto.okex
 
 import com.njkim.reactivecrypto.core.common.model.ExchangeVendor
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
+import com.njkim.reactivecrypto.core.common.util.toEpochMilli
 import mu.KotlinLogging
 import org.assertj.core.api.Assertions
 import org.junit.Test
@@ -50,13 +51,16 @@ class OkexWebsocketClientTest {
     fun `okex orderBook subscribe`() {
         // given
         val targetCurrencyPair = CurrencyPair.parse("BTC", "USDT")
-        val okexOrderBookFlux = OkexWebsocketClient()
+        val orderBookFlux = OkexWebsocketClient()
             .createDepthSnapshot(listOf(targetCurrencyPair))
+        var prevTimestamp = 0L
 
         // when
-        StepVerifier.create(okexOrderBookFlux.limitRequest(2))
+        StepVerifier.create(orderBookFlux.limitRequest(5))
+            .expectNextCount(3)
             // then
             .assertNext {
+                prevTimestamp = it.eventTime.toEpochMilli()
                 Assertions.assertThat(it).isNotNull
                 Assertions.assertThat(it.currencyPair)
                     .isEqualTo(targetCurrencyPair)
@@ -84,6 +88,8 @@ class OkexWebsocketClientTest {
                     .isGreaterThan(it.bids[1].price)
             }
             .assertNext {
+                Assertions.assertThat(prevTimestamp)
+                    .isNotEqualTo(it.eventTime.toEpochMilli())
                 Assertions.assertThat(it).isNotNull
                 Assertions.assertThat(it.currencyPair)
                     .isEqualTo(targetCurrencyPair)
