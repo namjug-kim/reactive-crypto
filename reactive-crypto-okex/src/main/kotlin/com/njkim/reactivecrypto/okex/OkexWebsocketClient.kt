@@ -39,6 +39,7 @@ import reactor.core.publisher.Flux
 import reactor.netty.http.client.HttpClient
 import java.math.BigDecimal
 import java.nio.charset.Charset
+import java.time.ZonedDateTime
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.streams.toList
 
@@ -77,10 +78,11 @@ class OkexWebsocketClient : AbstractExchangeWebsocketClient() {
             .map { it.data }
             .flatMapIterable {
                 it.map { okexTickData ->
+                    val now = ZonedDateTime.now()
                     OrderBook(
-                        "${okexTickData.instrumentId}${okexTickData.timestamp.toEpochMilli()}",
+                        "${okexTickData.instrumentId}${now.toEpochMilli()}",
                         okexTickData.instrumentId,
-                        okexTickData.timestamp,
+                        now,
                         ExchangeVendor.OKEX,
                         okexTickData.getBids().toMutableList(),
                         okexTickData.getAsks().toMutableList()
@@ -132,6 +134,7 @@ class OkexWebsocketClient : AbstractExchangeWebsocketClient() {
                 }
 
                 val currentOrderBook = prevOrderBook.copy(
+                    eventTime = orderBook.eventTime,
                     asks = askMap.values.sortedBy { orderBookUnit -> orderBookUnit.price },
                     bids = bidMap.values.sortedByDescending { orderBookUnit -> orderBookUnit.price }
                 )

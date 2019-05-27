@@ -26,6 +26,7 @@ import com.njkim.reactivecrypto.core.common.util.toEpochMilli
 import mu.KotlinLogging
 import reactor.core.publisher.Flux
 import java.math.BigDecimal
+import java.time.ZonedDateTime
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicLong
@@ -62,10 +63,11 @@ class IdaxWebsocketClient : ExchangeWebsocketClient {
         return idaxRawWebsocketClient.createOrderBookChangeFlux(subscribeTargets)
             .flatMapIterable { idaxMessageFrame ->
                 idaxMessageFrame.data.map {
+                    val now = ZonedDateTime.now()
                     OrderBook(
-                        createTickDataUniqueId(it.timestamp.toEpochMilli()),
+                        createTickDataUniqueId(now.toEpochMilli()),
                         idaxMessageFrame.currencyPair,
-                        it.timestamp,
+                        now,
                         ExchangeVendor.IDAX,
                         it.bids,
                         it.asks
@@ -117,6 +119,7 @@ class IdaxWebsocketClient : ExchangeWebsocketClient {
                 }
 
                 val currentOrderBook = prevOrderBook.copy(
+                    eventTime = orderBook.eventTime,
                     asks = askMap.values.sortedBy { orderBookUnit -> orderBookUnit.price },
                     bids = bidMap.values.sortedByDescending { orderBookUnit -> orderBookUnit.price }
                 )

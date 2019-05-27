@@ -28,7 +28,7 @@ class BitmaxRawWebsocketClientTest {
     @Test
     fun `bitmax tick data subscribe`() {
         // given
-        val symbol = CurrencyPair(Currency.PAX, Currency.USDT)
+        val symbol = CurrencyPair(Currency.BTC, Currency.USDT)
         val recentTradeMaxCount = 20
         val bitmaxTradeDataFlux = BitmaxRawWebsocketClient()
             .createTradeDataFlux(symbol, recentTradeMaxCount)
@@ -63,7 +63,7 @@ class BitmaxRawWebsocketClientTest {
     @Test
     fun `bitmax orderBook data subscribe`() {
         // given
-        val symbol = CurrencyPair(Currency.PAX, Currency.USDT)
+        val symbol = CurrencyPair(Currency.BTC, Currency.USDT)
         val marketDepthLevel = 20
         val bitmaxTradeDataFlux = BitmaxRawWebsocketClient()
             .createOrderBookFlux(symbol, marketDepthLevel)

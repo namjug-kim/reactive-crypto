@@ -146,6 +146,7 @@ class KrakenWebsocketClient : AbstractExchangeWebsocketClient() {
                 }
 
                 val currentOrderBook = prevOrderBook.copy(
+                    eventTime = orderBook.eventTime,
                     asks = askMap.values.sortedBy { orderBookUnit -> orderBookUnit.price },
                     bids = bidMap.values.sortedByDescending { orderBookUnit -> orderBookUnit.price }
                 )

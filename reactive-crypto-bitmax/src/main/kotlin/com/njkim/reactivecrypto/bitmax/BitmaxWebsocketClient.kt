@@ -28,6 +28,7 @@ import mu.KotlinLogging
 import reactor.core.publisher.Flux
 import reactor.core.scheduler.Schedulers
 import java.math.BigDecimal
+import java.time.ZonedDateTime
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicInteger
@@ -74,10 +75,11 @@ class BitmaxWebsocketClient : ExchangeWebsocketClient {
 
         return Flux.merge(targetWebsockets)
             .map { bitmaxOrderBookDataWrapper ->
+                val now = ZonedDateTime.now()
                 OrderBook(
                     "${bitmaxOrderBookDataWrapper.seqnum}",
                     bitmaxOrderBookDataWrapper.s,
-                    bitmaxOrderBookDataWrapper.ts,
+                    now,
                     ExchangeVendor.BITMAX,
                     bitmaxOrderBookDataWrapper.bids.map {
                         OrderBookUnit(
@@ -142,6 +144,7 @@ class BitmaxWebsocketClient : ExchangeWebsocketClient {
                 }
 
                 val currentOrderBook = prevOrderBook.copy(
+                    eventTime = orderBook.eventTime,
                     asks = askMap.values.sortedBy { orderBookUnit -> orderBookUnit.price },
                     bids = bidMap.values.sortedByDescending { orderBookUnit -> orderBookUnit.price }
                 )

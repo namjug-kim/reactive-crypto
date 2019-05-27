@@ -33,7 +33,7 @@ public class BitmaxWebsocketClientJavaTest {
     @Test
     public void tick_data_subscribe() {
         // given
-        CurrencyPair targetCurrencyPair = CurrencyPair.parse("PAX", "USDT");
+        CurrencyPair targetCurrencyPair = CurrencyPair.parse("BTC", "USDT");
         Flux<TickData> tickDataFlux = new BitmaxWebsocketClient()
                 .createTradeWebsocket(Collections.singletonList(targetCurrencyPair));
 
@@ -69,7 +69,7 @@ public class BitmaxWebsocketClientJavaTest {
     @Test
     public void bitmax_orderBook_subscribe() {
         // given
-        CurrencyPair targetCurrencyPair = CurrencyPair.parse("PAX", "USDT");
+        CurrencyPair targetCurrencyPair = CurrencyPair.parse("BTC", "USDT");
         Flux<OrderBook> orderBookFlux = new BitmaxWebsocketClient()
                 .createDepthSnapshot(Collections.singletonList(targetCurrencyPair));
 
