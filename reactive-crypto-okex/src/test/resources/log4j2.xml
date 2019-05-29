@@ -13,7 +13,7 @@
     </Appenders>
 
     <Loggers>
-        <Root level="debug">
+        <Root level="DEBUG">
             <AppenderRef ref="ConsoleAppender"/>
         </Root>
     </Loggers>
