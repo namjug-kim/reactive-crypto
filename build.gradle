@@ -51,23 +51,24 @@ subprojects {
     dependencies {
         ktlint "com.pinterest:ktlint:0.32.0"
         // common
-        compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
+        implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
 
         // reactor
-        compile group: 'io.projectreactor', name: 'reactor-core', version: reactorVersion
-        compile 'org.jetbrains.kotlin:kotlin-stdlib:1.3.31'
+        implementation group: 'io.projectreactor', name: 'reactor-core', version: '${reactorVersion}'
+        implementation group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: '1.3.31'
 
         // logging
-        compile group: 'io.github.microutils', name: 'kotlin-logging', version: '1.6.24'
-        compile("org.slf4j:slf4j-api:${slf4jVersion}")
-        compile("org.apache.logging.log4j:log4j-api:${log4j2Version}")
-        compile("org.apache.logging.log4j:log4j-core:${log4j2Version}")
-        compile("org.apache.logging.log4j:log4j-slf4j-impl:${log4j2Version}")
+        implementation group: 'io.github.microutils', name: 'kotlin-logging', version: '1.6.24'
+        implementation group: 'org.slf4j', name: 'slf4j-api', version: "${slf4jVersion}"
 
         // test
         testCompile group: 'junit', name: 'junit', version: '4.11'
         testCompile group: 'org.assertj', name: 'assertj-core', version: '3.11.1'
         testCompile group: 'io.projectreactor', name: 'reactor-test', version: reactorVersion
+
+        testRuntimeOnly group: 'org.apache.logging.log4j', name: 'log4j-api', version: "${log4j2Version}"
+        testRuntimeOnly group: 'org.apache.logging.log4j', name: 'log4j-core', version: "${log4j2Version}"
+        testRuntimeOnly group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: "${log4j2Version}"
     }
 
     task ktlint(type: JavaExec, group: "verification") {
