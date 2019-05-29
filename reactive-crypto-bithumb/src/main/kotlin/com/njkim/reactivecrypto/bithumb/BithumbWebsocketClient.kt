@@ -60,30 +60,32 @@ class BithumbWebsocketClient : AbstractExchangeWebsocketClient() {
             .map { "{\"currency\":\"$it\",\"tickDuration\":\"24H\",\"service\":\"transaction\"}" }
             .toFlux()
 
-        return HttpClient.create()
-            .headers { it.add("Origin", "https://www.bithumb.com") }
-            .wiretap(log.isDebugEnabled)
-            .websocket()
-            .uri(baseUri)
-            .handle { inbound, outbound ->
-                outbound.sendString(subscribeRequests)
-                    .then()
-                    .thenMany(inbound.receive().asString())
-            }
-            .map { objectMapper.readValue<BithumbResponseWrapper<List<BithumbTickData>>>(it) }
-            .flatMapIterable {
-                it.data.map { bithumbTickData ->
-                    TickData(
-                        bithumbTickData.countNo.toString(),
-                        bithumbTickData.transactionDate,
-                        bithumbTickData.price,
-                        bithumbTickData.unitsTraded,
-                        CurrencyPair(it.header.currency, Currency.KRW), // Bithumb only have KRW market
-                        ExchangeVendor.BITHUMB,
-                        bithumbTickData.type
-                    )
+        return subscribeRequests.flatMap { subscribeRequest ->
+            HttpClient.create()
+                .headers { it.add("Origin", "https://www.bithumb.com") }
+                .wiretap(log.isDebugEnabled)
+                .websocket()
+                .uri(baseUri)
+                .handle { inbound, outbound ->
+                    outbound.sendString(Flux.just(subscribeRequest))
+                        .then()
+                        .thenMany(inbound.receive().asString())
                 }
-            }
+                .map { objectMapper.readValue<BithumbResponseWrapper<List<BithumbTickData>>>(it) }
+                .flatMapIterable {
+                    it.data.map { bithumbTickData ->
+                        TickData(
+                            bithumbTickData.countNo.toString(),
+                            bithumbTickData.transactionDate,
+                            bithumbTickData.price,
+                            bithumbTickData.unitsTraded,
+                            CurrencyPair(it.header.currency, Currency.KRW), // Bithumb only have KRW market
+                            ExchangeVendor.BITHUMB,
+                            bithumbTickData.type
+                        )
+                    }
+                }
+        }
     }
 
     override fun createDepthSnapshot(subscribeTargets: List<CurrencyPair>): Flux<OrderBook> {
@@ -98,40 +100,42 @@ class BithumbWebsocketClient : AbstractExchangeWebsocketClient() {
             .map { "{\"currency\":\"$it\",\"tickDuration\":\"24H\",\"service\":\"orderbook\"}" }
             .toFlux()
 
-        return HttpClient.create()
-            .headers { it.add("Origin", "https://www.bithumb.com") }
-            .wiretap(log.isDebugEnabled)
-            .websocket()
-            .uri(baseUri)
-            .handle { inbound, outbound ->
-                outbound.sendString(subscribeRequests)
-                    .then()
-                    .thenMany(inbound.receive().asString())
-            }
-            .map { objectMapper.readValue<BithumbResponseWrapper<BithumbOrderBook>>(it) }
-            .map {
-                OrderBook(
-                    "${it.header.currency}${ZonedDateTime.now().toEpochMilli()}",
-                    CurrencyPair(it.header.currency, Currency.KRW), // Bithumb only have KRW market
-                    ZonedDateTime.now(),
-                    ExchangeVendor.BITHUMB,
-                    it.data.bids.map { bithumbBid ->
-                        OrderBookUnit(
-                            bithumbBid.price,
-                            bithumbBid.quantity,
-                            OrderSideType.BID,
-                            null
-                        )
-                    },
-                    it.data.asks.map { bithumbAsk ->
-                        OrderBookUnit(
-                            bithumbAsk.price,
-                            bithumbAsk.quantity,
-                            OrderSideType.ASK,
-                            null
-                        )
-                    }
-                )
-            }
+        return subscribeRequests.flatMap { subscribeRequest ->
+            HttpClient.create()
+                .headers { it.add("Origin", "https://www.bithumb.com") }
+                .wiretap(log.isDebugEnabled)
+                .websocket()
+                .uri(baseUri)
+                .handle { inbound, outbound ->
+                    outbound.sendString(Flux.just(subscribeRequest))
+                        .then()
+                        .thenMany(inbound.receive().asString())
+                }
+                .map { objectMapper.readValue<BithumbResponseWrapper<BithumbOrderBook>>(it) }
+                .map {
+                    OrderBook(
+                        "${it.header.currency}${ZonedDateTime.now().toEpochMilli()}",
+                        CurrencyPair(it.header.currency, Currency.KRW), // Bithumb only have KRW market
+                        ZonedDateTime.now(),
+                        ExchangeVendor.BITHUMB,
+                        it.data.bids.map { bithumbBid ->
+                            OrderBookUnit(
+                                bithumbBid.price,
+                                bithumbBid.quantity,
+                                OrderSideType.BID,
+                                null
+                            )
+                        },
+                        it.data.asks.map { bithumbAsk ->
+                            OrderBookUnit(
+                                bithumbAsk.price,
+                                bithumbAsk.quantity,
+                                OrderSideType.ASK,
+                                null
+                            )
+                        }
+                    )
+                }
+        }
     }
 }

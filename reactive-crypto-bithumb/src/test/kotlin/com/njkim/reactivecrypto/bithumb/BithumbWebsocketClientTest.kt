@@ -14,9 +14,13 @@ class BithumbWebsocketClientTest {
     @Test
     fun `bithumb tick data subscribe`() {
         // given
-        val targetCurrencyPair = CurrencyPair.parse("BTC", "KRW")
+        val targetCurrencyPairs = listOf(
+            CurrencyPair.parse("BTC", "KRW"),
+            CurrencyPair.parse("ETH", "KRW")
+        )
         val bithumbTickDataFlux = BithumbWebsocketClient()
-            .createTradeWebsocket(listOf(targetCurrencyPair))
+            .createTradeWebsocket(targetCurrencyPairs)
+            .doOnNext { log.debug { it } }
 
         // when
         StepVerifier.create(bithumbTickDataFlux.limitRequest(5))
@@ -24,8 +28,8 @@ class BithumbWebsocketClientTest {
             .expectNextCount(3)
             .assertNext {
                 Assertions.assertThat(it).isNotNull
-                Assertions.assertThat(it.currencyPair)
-                    .isEqualTo(targetCurrencyPair)
+                Assertions.assertThat(targetCurrencyPairs.contains(it.currencyPair))
+                    .isTrue()
                 Assertions.assertThat(it.exchangeVendor)
                     .isEqualByComparingTo(ExchangeVendor.BITHUMB)
                 Assertions.assertThat(it.price)
@@ -35,8 +39,8 @@ class BithumbWebsocketClientTest {
             }
             .assertNext {
                 Assertions.assertThat(it).isNotNull
-                Assertions.assertThat(it.currencyPair)
-                    .isEqualTo(targetCurrencyPair)
+                Assertions.assertThat(targetCurrencyPairs.contains(it.currencyPair))
+                    .isTrue()
                 Assertions.assertThat(it.exchangeVendor)
                     .isEqualByComparingTo(ExchangeVendor.BITHUMB)
                 Assertions.assertThat(it.price)
@@ -53,6 +57,7 @@ class BithumbWebsocketClientTest {
         val targetCurrencyPair = CurrencyPair.parse("BTC", "KRW")
         val orderBookFlux = BithumbWebsocketClient()
             .createDepthSnapshot(listOf(targetCurrencyPair))
+            .doOnNext { log.debug { it } }
 
         // when
         StepVerifier.create(orderBookFlux.limitRequest(5))
