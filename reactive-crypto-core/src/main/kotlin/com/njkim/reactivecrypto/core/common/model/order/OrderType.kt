@@ -14,8 +14,9 @@
  * under the License.
  */
 
-package com.njkim.reactivecrypto.core
+package com.njkim.reactivecrypto.core.common.model.order
 
-abstract class AbstractExchangeWebsocketClient : ExchangeWebsocketClient {
-    protected abstract fun createJsonObjectMapper(): ExchangeJsonObjectMapper
+enum class OrderType {
+    LIMIT,
+    MARKET
 }

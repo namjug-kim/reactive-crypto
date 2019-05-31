@@ -18,7 +18,6 @@ package com.njkim.reactivecrypto.huobikorea
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import com.njkim.reactivecrypto.core.AbstractExchangeWebsocketClient
 import com.njkim.reactivecrypto.core.ExchangeJsonObjectMapper
 import com.njkim.reactivecrypto.core.common.model.ExchangeVendor
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
@@ -26,6 +25,7 @@ import com.njkim.reactivecrypto.core.common.model.order.OrderBook
 import com.njkim.reactivecrypto.core.common.model.order.TickData
 import com.njkim.reactivecrypto.core.common.util.toEpochMilli
 import com.njkim.reactivecrypto.core.netty.HeartBeatHandler
+import com.njkim.reactivecrypto.core.websocket.AbstractExchangeWebsocketClient
 import com.njkim.reactivecrypto.huobikorea.model.HuobiKoreaTickDataWrapper
 import com.njkim.reactivecrypto.huobikorea.model.HuobiOrderBook
 import com.njkim.reactivecrypto.huobikorea.model.HuobiSubscribeResponse

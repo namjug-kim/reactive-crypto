@@ -14,22 +14,24 @@
  * under the License.
  */
 
-apply plugin: 'kotlin'
-apply plugin: 'org.jetbrains.kotlin.jvm'
+package com.njkim.reactivecrypto.core.common.model.order
 
-version '1.0-SNAPSHOT'
+import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
+import java.math.BigDecimal
+import java.time.ZonedDateTime
 
-dependencies {
-    compile project(':reactive-crypto-core')
+data class OrderStatus(
+    val uniqueId: String,
 
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    val orderSideType: OrderSideType,
+    val currencyPair: CurrencyPair,
+    val price: BigDecimal,
+    val orderVolume: BigDecimal,
+    val filledVolume: BigDecimal,
 
-    compile 'io.vavr:vavr-kotlin:0.10.0'
-}
+    val paidFee: BigDecimal,
+    val reservedFee: BigDecimal,
+    val remainingFee: BigDecimal,
 
-compileKotlin {
-    kotlinOptions.jvmTarget = "1.8"
-}
-compileTestKotlin {
-    kotlinOptions.jvmTarget = "1.8"
-}
+    val createDateTime: ZonedDateTime
+)

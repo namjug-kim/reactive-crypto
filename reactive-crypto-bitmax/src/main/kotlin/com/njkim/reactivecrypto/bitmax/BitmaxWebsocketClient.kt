@@ -16,7 +16,7 @@
 
 package com.njkim.reactivecrypto.bitmax
 
-import com.njkim.reactivecrypto.core.ExchangeWebsocketClient
+import com.njkim.reactivecrypto.core.websocket.ExchangeWebsocketClient
 import com.njkim.reactivecrypto.core.common.model.ExchangeVendor
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import com.njkim.reactivecrypto.core.common.model.order.OrderBook

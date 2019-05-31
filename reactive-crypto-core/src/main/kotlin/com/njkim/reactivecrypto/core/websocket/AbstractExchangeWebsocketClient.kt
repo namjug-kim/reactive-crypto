@@ -14,22 +14,10 @@
  * under the License.
  */
 
-apply plugin: 'kotlin'
-apply plugin: 'org.jetbrains.kotlin.jvm'
+package com.njkim.reactivecrypto.core.websocket
 
-version '1.0-SNAPSHOT'
+import com.njkim.reactivecrypto.core.ExchangeJsonObjectMapper
 
-dependencies {
-    compile project(':reactive-crypto-core')
-
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-
-    compile 'io.vavr:vavr-kotlin:0.10.0'
-}
-
-compileKotlin {
-    kotlinOptions.jvmTarget = "1.8"
-}
-compileTestKotlin {
-    kotlinOptions.jvmTarget = "1.8"
+abstract class AbstractExchangeWebsocketClient : ExchangeWebsocketClient {
+    protected abstract fun createJsonObjectMapper(): ExchangeJsonObjectMapper
 }

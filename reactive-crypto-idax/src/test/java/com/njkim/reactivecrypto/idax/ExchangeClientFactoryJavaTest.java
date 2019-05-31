@@ -16,10 +16,9 @@
 
 package com.njkim.reactivecrypto.idax;
 
-import com.njkim.reactivecrypto.idax.IdaxWebsocketClient;
 import com.njkim.reactivecrypto.core.ExchangeClientFactory;
-import com.njkim.reactivecrypto.core.ExchangeWebsocketClient;
 import com.njkim.reactivecrypto.core.common.model.ExchangeVendor;
+import com.njkim.reactivecrypto.core.websocket.ExchangeWebsocketClient;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -27,7 +26,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ExchangeClientFactoryJavaTest {
     @Test
     public void bitmax() {
-        ExchangeWebsocketClient exchangeWebsocketClient = ExchangeClientFactory.getInstance(ExchangeVendor.IDAX);
+        ExchangeWebsocketClient exchangeWebsocketClient = ExchangeClientFactory.websocket(ExchangeVendor.IDAX);
 
         assertThat(exchangeWebsocketClient).isNotNull();
         assertThat(exchangeWebsocketClient).isInstanceOf(ExchangeWebsocketClient.class);

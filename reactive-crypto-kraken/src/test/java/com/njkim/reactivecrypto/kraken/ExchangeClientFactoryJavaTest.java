@@ -17,7 +17,7 @@
 package com.njkim.reactivecrypto.kraken;
 
 import com.njkim.reactivecrypto.core.ExchangeClientFactory;
-import com.njkim.reactivecrypto.core.ExchangeWebsocketClient;
+import com.njkim.reactivecrypto.core.websocket.ExchangeWebsocketClient;
 import com.njkim.reactivecrypto.core.common.model.ExchangeVendor;
 import org.junit.Test;
 
@@ -26,7 +26,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ExchangeClientFactoryJavaTest {
     @Test
     public void kraken() {
-        ExchangeWebsocketClient exchangeWebsocketClient = ExchangeClientFactory.getInstance(ExchangeVendor.KRAKEN);
+        ExchangeWebsocketClient exchangeWebsocketClient = ExchangeClientFactory.websocket(ExchangeVendor.KRAKEN);
 
         assertThat(exchangeWebsocketClient).isNotNull();
         assertThat(exchangeWebsocketClient).isInstanceOf(ExchangeWebsocketClient.class);

@@ -18,7 +18,7 @@ package com.njkim.reactivecrypto.upbit
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import com.njkim.reactivecrypto.core.AbstractExchangeWebsocketClient
+import com.njkim.reactivecrypto.core.websocket.AbstractExchangeWebsocketClient
 import com.njkim.reactivecrypto.core.ExchangeJsonObjectMapper
 import com.njkim.reactivecrypto.core.common.model.ExchangeVendor
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair

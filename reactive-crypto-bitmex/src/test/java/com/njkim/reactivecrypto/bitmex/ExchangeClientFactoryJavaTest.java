@@ -17,8 +17,8 @@
 package com.njkim.reactivecrypto.bitmex;
 
 import com.njkim.reactivecrypto.core.ExchangeClientFactory;
-import com.njkim.reactivecrypto.core.ExchangeWebsocketClient;
 import com.njkim.reactivecrypto.core.common.model.ExchangeVendor;
+import com.njkim.reactivecrypto.core.websocket.ExchangeWebsocketClient;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -26,7 +26,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ExchangeClientFactoryJavaTest {
     @Test
     public void create_bitmex_websocket_client() {
-        ExchangeWebsocketClient exchangeWebsocketClient = ExchangeClientFactory.getInstance(ExchangeVendor.BITMEX);
+        ExchangeWebsocketClient exchangeWebsocketClient = ExchangeClientFactory.websocket(ExchangeVendor.BITMEX);
 
         assertThat(exchangeWebsocketClient).isNotNull();
         assertThat(exchangeWebsocketClient).isInstanceOf(ExchangeWebsocketClient.class);

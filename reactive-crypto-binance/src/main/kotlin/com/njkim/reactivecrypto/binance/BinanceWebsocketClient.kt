@@ -21,7 +21,7 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import com.njkim.reactivecrypto.binance.model.BinanceOrderBook
 import com.njkim.reactivecrypto.binance.model.BinanceResponseWrapper
 import com.njkim.reactivecrypto.binance.model.BinanceTickData
-import com.njkim.reactivecrypto.core.AbstractExchangeWebsocketClient
+import com.njkim.reactivecrypto.core.websocket.AbstractExchangeWebsocketClient
 import com.njkim.reactivecrypto.core.ExchangeJsonObjectMapper
 import com.njkim.reactivecrypto.core.common.model.ExchangeVendor
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair

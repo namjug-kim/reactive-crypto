@@ -20,7 +20,6 @@ import com.njkim.reactivecrypto.core.common.model.ExchangeVendor;
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair;
 import com.njkim.reactivecrypto.core.common.model.order.OrderBook;
 import com.njkim.reactivecrypto.core.common.model.order.TickData;
-import com.njkim.reactivecrypto.coineal.CoinealWebsocketClient;
 import org.junit.Test;
 import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;

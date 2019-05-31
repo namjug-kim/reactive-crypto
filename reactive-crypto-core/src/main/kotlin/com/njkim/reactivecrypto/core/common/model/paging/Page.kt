@@ -14,22 +14,9 @@
  * under the License.
  */
 
-apply plugin: 'kotlin'
-apply plugin: 'org.jetbrains.kotlin.jvm'
+package com.njkim.reactivecrypto.core.common.model.paging
 
-version '1.0-SNAPSHOT'
-
-dependencies {
-    compile project(':reactive-crypto-core')
-
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-
-    compile 'io.vavr:vavr-kotlin:0.10.0'
-}
-
-compileKotlin {
-    kotlinOptions.jvmTarget = "1.8"
-}
-compileTestKotlin {
-    kotlinOptions.jvmTarget = "1.8"
-}
+data class Page<T>(
+    val data: List<T>,
+    val pageable: Pageable
+)

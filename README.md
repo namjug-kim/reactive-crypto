@@ -87,13 +87,28 @@ Step 2. Add the dependency
 ### Kotlin
 
 ```kotlin
-fun binanceTickDataExample() {
+fun websocketTickDataExample() {
     // create websocketClient for each crypto currency exchange
-    val websocketClient = ExchangeClientFactory.getInstance(ExchangeVendor.BINANCE)
+    val websocketClient = ExchangeClientFactory.websocket(ExchangeVendor.BINANCE)
     
     websocketClient.createTradeWebsocket(listOf(CurrencyPair(BTC, USDT)))
                    .doOnNext { log.info { "new tick data $it" } }
                    .subscribe()
+}
+
+fun httpLimitOrderExample() {
+    val orderPlaceResult = ExchangeClientFactory.http(ExchangeVendor.BINANCE)
+                .privateApi("accessKey", "secretKey")
+                .order()
+                .limitOrder(
+                    CurrencyPair(Currency.BTC, Currency.KRW),
+                    TradeSideType.BUY,
+                    BigDecimal.valueOf(10000000.0),
+                    BigDecimal.valueOf(10.0)
+                )
+                .block()
+
+    log.info { orderPlaceResult }
 }
 
 ```
@@ -102,14 +117,30 @@ fun binanceTickDataExample() {
 
 ```java
 class SampleClass {
-    public void binanceTickDataExample() {
+    public void websocketTickDataExample() {
         // create websocketClient for each crypto currency exchange
-        ExchangeWebsocketClient exchangeWebsocketClient = ExchangeClientFactory.getInstance(ExchangeVendor.BINANCE);
+        ExchangeWebsocketClient exchangeWebsocketClient = ExchangeClientFactory.websocket(ExchangeVendor.BINANCE);
          
         List<CurrencyPair> targetPairs = Collections.singletonList(CurrencyPair.parse("BTC", "USDT"));
         exchangeWebsocketClient.createTradeWebsocket(targetPairs)
                                .doOnNext(tickData -> log.info("new tick data {}", tickData))
                                .subscribe();
     }
+
+    public void httpLimitOrderExample() {
+        OrderPlaceResult orderPlaceResult = ExchangeClientFactory.http(ExchangeVendor.BINANCE)
+                        .privateApi("accessKey", "secretKey")
+                        .order()
+                        .limitOrder(
+                            CurrencyPair(Currency.BTC, Currency.KRW),
+                            TradeSideType.BUY,
+                            BigDecimal.valueOf(10000000.0),
+                            BigDecimal.valueOf(10.0)
+                        )
+                        .block();
+
+        log.info("{}", orderPlaceResult);
+    }
+
 }
 ```

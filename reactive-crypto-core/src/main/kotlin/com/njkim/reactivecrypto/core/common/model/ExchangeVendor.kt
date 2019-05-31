@@ -16,16 +16,44 @@
 
 package com.njkim.reactivecrypto.core.common.model
 
-enum class ExchangeVendor(val implementedClassName: String) {
-    UPBIT("com.njkim.reactivecrypto.upbit.UpbitWebsocketClient"),
-    BINANCE("com.njkim.reactivecrypto.binance.BinanceWebsocketClient"),
-    HUOBI_KOREA("com.njkim.reactivecrypto.huobikorea.HuobiKoreaWebsocketClient"),
-    OKEX("com.njkim.reactivecrypto.okex.OkexWebsocketClient"),
-    BITHUMB("com.njkim.reactivecrypto.bithumb.BithumbWebsocketClient"),
-    HUBI("com.njkim.reactivecrypto.hubi.HubiWebsocketClient"),
-    BITMEX("com.njkim.reactivecrypto.bitmex.BitmexWebsocketClient"),
-    KRAKEN("com.njkim.reactivecrypto.kraken.KrakenWebsocketClient"),
-    BITMAX("com.njkim.reactivecrypto.bitmax.BitmaxWebsocketClient"),
-    IDAX("com.njkim.reactivecrypto.idax.IdaxWebsocketClient"),
-    COINEAL("com.njkim.reactivecrypto.coineal.CoinealWebsocketClient")
+import org.apache.commons.lang3.text.WordUtils
+
+enum class ExchangeVendor {
+    UPBIT,
+    BINANCE,
+    HUOBI_KOREA,
+    OKEX,
+    BITHUMB,
+    HUBI,
+    BITMEX,
+    KRAKEN,
+    BITMAX,
+    IDAX,
+    COINEAL;
+
+    /**
+     * format : com.njkim.reactivecrypto.$packageName.${carmelCaseName}WebsocketClient
+     */
+    val websocketClientName: String
+        get() {
+            val packageName = this.name.toLowerCase().replace("_", "")
+            val carmelCaseName = WordUtils
+                .capitalizeFully(this.name, '_')
+                .replace("_", "")
+
+            return "com.njkim.reactivecrypto.$packageName.${carmelCaseName}WebsocketClient"
+        }
+
+    /**
+     * format : com.njkim.reactivecrypto.$packageName.${carmelCaseName}WebsocketClient
+     */
+    val httpClientName: String
+        get() {
+            val packageName = this.name.toLowerCase().replace("_", "")
+            val carmelCaseName = WordUtils
+                .capitalizeFully(this.name, '_')
+                .replace("_", "")
+
+            return "com.njkim.reactivecrypto.$packageName.${carmelCaseName}HttpClient"
+        }
 }

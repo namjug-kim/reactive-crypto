@@ -17,14 +17,22 @@
 package com.njkim.reactivecrypto.core
 
 import com.njkim.reactivecrypto.core.common.model.ExchangeVendor
+import com.njkim.reactivecrypto.core.http.ExchangeHttpClient
+import com.njkim.reactivecrypto.core.websocket.ExchangeWebsocketClient
 import kotlin.reflect.full.createInstance
 
 class ExchangeClientFactory {
     companion object {
         @JvmStatic
-        fun getInstance(exchangeVendor: ExchangeVendor): ExchangeWebsocketClient {
-            val websocketClientClass = Class.forName(exchangeVendor.implementedClassName)?.kotlin
+        fun websocket(exchangeVendor: ExchangeVendor): ExchangeWebsocketClient {
+            val websocketClientClass = Class.forName(exchangeVendor.websocketClientName)?.kotlin
             return websocketClientClass?.createInstance() as ExchangeWebsocketClient
+        }
+
+        @JvmStatic
+        fun http(exchangeVendor: ExchangeVendor): ExchangeHttpClient {
+            val httpClientClass = Class.forName(exchangeVendor.httpClientName)?.kotlin
+            return httpClientClass?.createInstance() as ExchangeHttpClient
         }
     }
 }

@@ -14,22 +14,14 @@
  * under the License.
  */
 
-apply plugin: 'kotlin'
-apply plugin: 'org.jetbrains.kotlin.jvm'
+package com.njkim.reactivecrypto.core.websocket
 
-version '1.0-SNAPSHOT'
+import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
+import com.njkim.reactivecrypto.core.common.model.order.OrderBook
+import com.njkim.reactivecrypto.core.common.model.order.TickData
+import reactor.core.publisher.Flux
 
-dependencies {
-    compile project(':reactive-crypto-core')
-
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-
-    compile 'io.vavr:vavr-kotlin:0.10.0'
-}
-
-compileKotlin {
-    kotlinOptions.jvmTarget = "1.8"
-}
-compileTestKotlin {
-    kotlinOptions.jvmTarget = "1.8"
+interface ExchangeWebsocketClient {
+    fun createTradeWebsocket(subscribeTargets: List<CurrencyPair>): Flux<TickData>
+    fun createDepthSnapshot(subscribeTargets: List<CurrencyPair>): Flux<OrderBook>
 }

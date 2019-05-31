@@ -28,5 +28,15 @@ data class CurrencyPair(
                 Currency.valueOf(baseCurrency.toUpperCase())
             )
         }
+
+        @JvmStatic
+        fun parse(toStringValue: String): CurrencyPair {
+            val split = toStringValue.split("-")
+            return parse(split[0], split[1])
+        }
+    }
+
+    override fun toString(): String {
+        return "$targetCurrency-$baseCurrency"
     }
 }
