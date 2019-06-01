@@ -25,14 +25,12 @@ import com.njkim.reactivecrypto.core.common.model.order.TickData
 import com.njkim.reactivecrypto.core.common.model.order.TradeSideType
 import com.njkim.reactivecrypto.core.common.model.paging.Page
 import com.njkim.reactivecrypto.core.common.model.paging.Pageable
-import org.springframework.web.reactive.function.client.WebClient
 import reactor.core.publisher.Mono
 import java.math.BigDecimal
 
 abstract class PrivateHttpClient(
     protected val accessKey: String,
-    protected val secretKey: String,
-    protected val webClient: WebClient
+    protected val secretKey: String
 ) {
     abstract fun account(): AccountOperation
     abstract fun order(): OrderOperation
@@ -40,16 +38,14 @@ abstract class PrivateHttpClient(
 
 abstract class AccountOperation(
     protected val accessKey: String,
-    protected val secretKey: String,
-    protected val webClient: WebClient
+    protected val secretKey: String
 ) {
     abstract fun balance(): List<Balance>
 }
 
 abstract class OrderOperation(
     protected val accessKey: String,
-    protected val secretKey: String,
-    protected val webClient: WebClient
+    protected val secretKey: String
 ) {
     abstract fun limitOrder(
         pair: CurrencyPair,
@@ -62,5 +58,5 @@ abstract class OrderOperation(
 
     abstract fun openOrders(pair: CurrencyPair, pageable: Pageable): Mono<Page<OrderStatus>>
 
-    abstract fun tradeHistory(): Mono<Page<TickData>>
+    abstract fun tradeHistory(pair: CurrencyPair, pageable: Pageable): Mono<Page<TickData>>
 }

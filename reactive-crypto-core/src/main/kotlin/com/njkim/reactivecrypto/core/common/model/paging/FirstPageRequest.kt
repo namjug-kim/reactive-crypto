@@ -16,14 +16,18 @@
 
 package com.njkim.reactivecrypto.core.common.model.paging
 
-data class NumberPageable(
-    val page: Int,
+data class FirstPageRequest(
     val pageSize: Int
 ) : Pageable {
-    override fun next(): NumberPageable {
-        return NumberPageable(
-            page + 1,
-            pageSize
-        )
+    override fun next(): Pageable {
+        throw UnsupportedOperationException()
+    }
+
+    fun toNumberPageable(): NumberPageable {
+        return NumberPageable(0, pageSize)
+    }
+
+    fun toCursorPageable(): CursorPageable {
+        return CursorPageable(null, null, pageSize)
     }
 }
