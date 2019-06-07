@@ -14,17 +14,13 @@
  * under the License.
  */
 
-package com.njkim.reactivecrypto.coineal.http
+package com.njkim.reactivecrypto.upbit.http.raw
 
-import com.njkim.reactivecrypto.core.common.model.account.Balance
-import com.njkim.reactivecrypto.core.http.AccountOperation
-import reactor.core.publisher.Flux
+import com.njkim.reactivecrypto.upbit.model.UpbitApiException
+import com.njkim.reactivecrypto.upbit.model.UpbitErrorResponse
+import org.springframework.web.reactive.function.client.WebClient
 
-class CoinealAccountOperator(
-    accessKey: String,
-    secretKey: String
-) : AccountOperation(accessKey, secretKey) {
-    override fun balance(): Flux<Balance> {
-        TODO("not implemented")
-    }
-}
+fun WebClient.ResponseSpec.upbitErrorHandling(): WebClient.ResponseSpec = onStatus({ it.isError }, { clientResponse ->
+    clientResponse.bodyToMono(UpbitErrorResponse::class.java)
+        .map { UpbitApiException(clientResponse.statusCode(), it) }
+})

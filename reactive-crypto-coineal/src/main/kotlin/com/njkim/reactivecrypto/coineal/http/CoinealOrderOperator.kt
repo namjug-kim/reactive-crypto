@@ -37,6 +37,14 @@ class CoinealOrderOperator(
     secretKey: String,
     private val coinealRawOrderOperation: CoinealRawOrderOperation
 ) : OrderOperation(accessKey, secretKey) {
+    override fun marketOrder(
+        pair: CurrencyPair,
+        tradeSideType: TradeSideType,
+        quantity: BigDecimal
+    ): Mono<OrderPlaceResult> {
+        TODO("not implemented")
+    }
+
     override fun limitOrder(
         pair: CurrencyPair,
         tradeSideType: TradeSideType,
