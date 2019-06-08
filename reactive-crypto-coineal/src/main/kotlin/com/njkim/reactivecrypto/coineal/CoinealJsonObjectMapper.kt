@@ -16,20 +16,24 @@
 
 package com.njkim.reactivecrypto.coineal
 
+import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.DeserializationContext
 import com.fasterxml.jackson.databind.JsonDeserializer
 import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.JsonSerializer
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.SerializerProvider
 import com.fasterxml.jackson.databind.module.SimpleModule
+import com.njkim.reactivecrypto.coineal.model.CoinealOrderBook
 import com.njkim.reactivecrypto.core.ExchangeJsonObjectMapper
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import com.njkim.reactivecrypto.core.common.model.order.OrderBookUnit
 import com.njkim.reactivecrypto.core.common.model.order.OrderSideType
+import com.njkim.reactivecrypto.core.common.model.order.OrderType
 import com.njkim.reactivecrypto.core.common.model.order.TradeSideType
 import com.njkim.reactivecrypto.core.common.util.CurrencyPairUtil
-import com.njkim.reactivecrypto.coineal.model.CoinealOrderBook
 import java.io.IOException
 import java.math.BigDecimal
 import java.time.Instant
@@ -109,6 +113,35 @@ class CoinealJsonObjectMapper : ExchangeJsonObjectMapper {
             }
         }
 
+        val currencyPairSerializer = object : JsonSerializer<CurrencyPair>() {
+            override fun serialize(value: CurrencyPair, gen: JsonGenerator, serializers: SerializerProvider) {
+                val pair = "${value.targetCurrency}${value.baseCurrency}".toLowerCase()
+                return gen.writeString(pair)
+            }
+        }
+
+        val bigDecimalSerializer = object : JsonSerializer<BigDecimal>() {
+            override fun serialize(value: BigDecimal, gen: JsonGenerator, serializers: SerializerProvider) {
+                return gen.writeString(value.toPlainString())
+            }
+        }
+
+        /**
+         * Order type: 1: Limit Orders, 2. Market Price Orders
+         */
+        val orderTypeSerializer = object : JsonSerializer<OrderType>() {
+            override fun serialize(value: OrderType, gen: JsonGenerator, serializers: SerializerProvider) {
+                val orderType = when (value) {
+                    OrderType.LIMIT -> 1
+                    OrderType.MARKET -> 2
+                }
+                return gen.writeNumber(orderType)
+            }
+        }
+
+        simpleModule.addSerializer(CurrencyPair::class.java, currencyPairSerializer)
+        simpleModule.addSerializer(BigDecimal::class.java, bigDecimalSerializer)
+        simpleModule.addSerializer(OrderType::class.java, orderTypeSerializer)
         simpleModule.addDeserializer(CoinealOrderBook::class.java, orderBookDeserializer)
     }
 }

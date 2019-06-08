@@ -16,4 +16,6 @@
 
 package com.njkim.reactivecrypto.core.common.model.paging
 
-interface Pageable
+interface Pageable {
+    fun next(): Pageable
+}

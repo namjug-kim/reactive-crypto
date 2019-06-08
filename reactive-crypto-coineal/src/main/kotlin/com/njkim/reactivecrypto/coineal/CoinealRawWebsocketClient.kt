@@ -56,6 +56,11 @@ class CoinealRawWebsocketClient(
             .map { "{\"event\":\"sub\",\"params\":{\"channel\":\"market_${it}_trade_ticker\",\"cb_id\":\"$it\"}}" }
             .toFlux()
 
+        return createSubscribeRequest(subscribeStrings)
+            .map { objectMapper.readValue<CoinealMessageFrame<CoinealTickDataWrapper>>(it) }
+    }
+
+    private fun createSubscribeRequest(subscribeStrings: Flux<String>): Flux<String> {
         return HttpClient.create()
             .tcpConfiguration { tcp ->
                 tcp.doOnConnected { connection ->
@@ -80,7 +85,6 @@ class CoinealRawWebsocketClient(
                     .thenMany(inbound.receive().asString())
             }
             .filter { !it.contains("\"event_rep\":\"subed\"") }
-            .map { objectMapper.readValue<CoinealMessageFrame<CoinealTickDataWrapper>>(it) }
     }
 
     /**
@@ -92,30 +96,7 @@ class CoinealRawWebsocketClient(
             .map { "{\"event\":\"sub\",\"params\":{\"channel\":\"market_${it}_depth_$type\",\"cb_id\":\"${it}\"}}" }
             .toFlux()
 
-        return HttpClient.create()
-            .tcpConfiguration { tcp ->
-                tcp.doOnConnected { connection ->
-                    connection.addHandler(JdkZlibDecoder(ZlibWrapper.GZIP, true))
-                    connection.addHandler(PingPongHandler())
-                    connection.addHandler(
-                        "heartBeat",
-                        HeartBeatHandler(
-                            false,
-                            10,
-                            TimeUnit.SECONDS,
-                            5
-                        ) { "{\"ping\": ${ZonedDateTime.now().toEpochMilli()}}" }
-                    )
-                }
-            }
-            .websocket()
-            .uri(baseUri)
-            .handle { inbound, outbound ->
-                outbound.sendString(subscribeStrings)
-                    .then()
-                    .thenMany(inbound.receive().asString())
-            }
-            .filter { !it.contains("\"event_rep\":\"subed\"") }
+        return createSubscribeRequest(subscribeStrings)
             .map { objectMapper.readValue<CoinealMessageFrame<CoinealOrderBook>>(it) }
     }
 

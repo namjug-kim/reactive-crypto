@@ -14,16 +14,21 @@
  * under the License.
  */
 
-package com.njkim.reactivecrypto.core.common.model.paging
+package com.njkim.reactivecrypto.coineal.http.raw
 
-data class NumberPageable(
-    val page: Int,
-    val pageSize: Int
-) : Pageable {
-    override fun next(): NumberPageable {
-        return NumberPageable(
-            page + 1,
-            pageSize
-        )
+import com.njkim.reactivecrypto.core.http.AccountOperation
+import org.springframework.web.reactive.function.client.WebClient
+
+class CoinealRawPrivateHttpClient(
+    private val accessKey: String,
+    private val secretKey: String,
+    private val webClient: WebClient
+) {
+    fun order(): CoinealRawOrderOperation {
+        return CoinealRawOrderOperation(webClient, accessKey, secretKey)
+    }
+
+    fun account(): AccountOperation {
+        TODO("not implemented")
     }
 }

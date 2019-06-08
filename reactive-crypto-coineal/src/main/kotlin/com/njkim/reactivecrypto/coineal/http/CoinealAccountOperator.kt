@@ -14,16 +14,16 @@
  * under the License.
  */
 
-package com.njkim.reactivecrypto.core.common.model.paging
+package com.njkim.reactivecrypto.coineal.http
 
-data class NumberPageable(
-    val page: Int,
-    val pageSize: Int
-) : Pageable {
-    override fun next(): NumberPageable {
-        return NumberPageable(
-            page + 1,
-            pageSize
-        )
+import com.njkim.reactivecrypto.core.common.model.account.Balance
+import com.njkim.reactivecrypto.core.http.AccountOperation
+
+class CoinealAccountOperator(
+    accessKey: String,
+    secretKey: String
+) : AccountOperation(accessKey, secretKey) {
+    override fun balance(): List<Balance> {
+        TODO("not implemented")
     }
 }

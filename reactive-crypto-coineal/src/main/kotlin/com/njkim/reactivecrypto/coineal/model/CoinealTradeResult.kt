@@ -14,24 +14,29 @@
  * under the License.
  */
 
-package com.njkim.reactivecrypto.core.common.model.order
+package com.njkim.reactivecrypto.coineal.model
 
-import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
+import com.fasterxml.jackson.annotation.JsonProperty
+import com.njkim.reactivecrypto.core.common.model.order.OrderType
+import com.njkim.reactivecrypto.core.common.model.order.TradeSideType
 import java.math.BigDecimal
 import java.time.ZonedDateTime
 
-data class OrderStatus(
-    val uniqueId: String,
-
-    val orderSideType: OrderSideType,
-    val currencyPair: CurrencyPair,
+data class CoinealTradeResult(
+    @JsonProperty("volume")
+    val volume: BigDecimal,
+    @JsonProperty("price")
     val price: BigDecimal,
-    val orderVolume: BigDecimal,
-    val filledVolume: BigDecimal,
-
-    val paidFee: BigDecimal? = null,
-    val reservedFee: BigDecimal? = null,
-    val remainingFee: BigDecimal? = null,
-
-    val createDateTime: ZonedDateTime
+    @JsonProperty("side")
+    var side: TradeSideType,
+    @JsonProperty("fee")
+    val fee: BigDecimal,
+    @JsonProperty("ctime")
+    val ctime: ZonedDateTime,
+    @JsonProperty("deal_price")
+    val dealPrice: BigDecimal,
+    @JsonProperty("id")
+    val id: Int,
+    @JsonProperty("type")
+    val type: OrderType
 )

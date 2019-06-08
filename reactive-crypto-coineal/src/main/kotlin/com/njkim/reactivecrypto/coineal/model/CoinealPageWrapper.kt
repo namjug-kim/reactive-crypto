@@ -14,16 +14,9 @@
  * under the License.
  */
 
-package com.njkim.reactivecrypto.core.common.model.paging
+package com.njkim.reactivecrypto.coineal.model
 
-data class NumberPageable(
-    val page: Int,
-    val pageSize: Int
-) : Pageable {
-    override fun next(): NumberPageable {
-        return NumberPageable(
-            page + 1,
-            pageSize
-        )
-    }
-}
+data class CoinealPageWrapper<T>(
+    val count: Int,
+    val resultList: List<T>
+)

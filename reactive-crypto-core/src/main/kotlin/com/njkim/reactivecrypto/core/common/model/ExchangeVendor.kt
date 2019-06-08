@@ -54,6 +54,6 @@ enum class ExchangeVendor {
                 .capitalizeFully(this.name, '_')
                 .replace("_", "")
 
-            return "com.njkim.reactivecrypto.$packageName.${carmelCaseName}HttpClient"
+            return "com.njkim.reactivecrypto.$packageName.http.${carmelCaseName}HttpClient"
         }
 }
