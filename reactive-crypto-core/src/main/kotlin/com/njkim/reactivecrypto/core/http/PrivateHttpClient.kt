@@ -30,26 +30,23 @@ import reactor.core.publisher.Mono
 import java.math.BigDecimal
 
 abstract class PrivateHttpClient(
-    protected open val accessKey: String,
-    protected open val secretKey: String,
-    protected open val webClient: WebClient
+    protected val accessKey: String,
+    protected val secretKey: String
 ) {
     abstract fun account(): AccountOperation
     abstract fun order(): OrderOperation
 }
 
 abstract class AccountOperation(
-    protected open val accessKey: String,
-    protected open val secretKey: String,
-    protected open val webClient: WebClient
+    protected val accessKey: String,
+    protected val secretKey: String
 ) {
     abstract fun balance(): List<Balance>
 }
 
 abstract class OrderOperation(
-    protected open val accessKey: String,
-    protected open val secretKey: String,
-    protected open val webClient: WebClient
+    protected val accessKey: String,
+    protected val secretKey: String
 ) {
     abstract fun limitOrder(
         pair: CurrencyPair,
@@ -74,5 +71,5 @@ abstract class OrderOperation(
 
     abstract fun openOrders(pair: CurrencyPair, pageable: Pageable): Mono<Page<OrderStatus>>
 
-    abstract fun tradeHistory(): Mono<Page<TickData>>
+    abstract fun tradeHistory(pair: CurrencyPair, pageable: Pageable): Mono<Page<TickData>>
 }

@@ -16,24 +16,8 @@
 
 package com.njkim.reactivecrypto.core.http
 
-import org.springframework.web.reactive.function.client.WebClient
-
 abstract class ExchangeHttpClient {
-    private val webClientBuilder: WebClient.Builder = WebClient.builder()
+    abstract fun privateApi(accessKey: String, secretKey: String): PrivateHttpClient
 
-    fun privateApi(accessKey: String, secretKey: String): PrivateHttpClient {
-        return privateApi(accessKey, secretKey, webClientBuilder)
-    }
-
-    fun publicApi(): PublicHttpClient {
-        return publicApi(webClientBuilder)
-    }
-
-    protected abstract fun privateApi(
-        accessKey: String,
-        secretKey: String,
-        webClientBuilder: WebClient.Builder
-    ): PrivateHttpClient
-
-    protected abstract fun publicApi(webClientBuilder: WebClient.Builder): PublicHttpClient
+    abstract fun publicApi(): PublicHttpClient
 }

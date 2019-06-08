@@ -16,6 +16,16 @@
 
 package com.njkim.reactivecrypto.core.common.model.paging
 
-class CursorPageable(
-    val cursor: String
-) : Pageable
+data class CursorPageable(
+    val cursor: String?,
+    private val nextCursor: String?,
+    val pageSize: Int
+) : Pageable {
+    override fun next(): Pageable {
+        return CursorPageable(
+            nextCursor,
+            null,
+            pageSize
+        )
+    }
+}
