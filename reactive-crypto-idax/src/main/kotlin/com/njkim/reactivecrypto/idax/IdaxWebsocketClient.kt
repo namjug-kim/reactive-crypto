@@ -126,6 +126,7 @@ class IdaxWebsocketClient : ExchangeWebsocketClient {
                 currentOrderBookMap[currentOrderBook.currencyPair] = currentOrderBook
                 currentOrderBook
             }
+            .doFinally { currentOrderBookMap.clear() } // cleanup memory limit orderBook when disconnected
     }
 
     /**
