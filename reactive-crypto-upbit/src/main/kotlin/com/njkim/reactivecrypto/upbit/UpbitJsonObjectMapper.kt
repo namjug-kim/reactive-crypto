@@ -16,12 +16,18 @@
 
 package com.njkim.reactivecrypto.upbit
 
+import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.DeserializationContext
 import com.fasterxml.jackson.databind.JsonDeserializer
+import com.fasterxml.jackson.databind.JsonSerializer
+import com.fasterxml.jackson.databind.SerializerProvider
+import com.fasterxml.jackson.databind.module.SimpleModule
 import com.njkim.reactivecrypto.core.ExchangeJsonObjectMapper
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import com.njkim.reactivecrypto.core.common.model.order.OrderSideType
+import com.njkim.reactivecrypto.core.common.model.order.TradeSideType
+import com.njkim.reactivecrypto.upbit.model.UpbitOrderType
 import org.apache.commons.lang3.StringUtils
 import java.io.IOException
 import java.math.BigDecimal
@@ -30,12 +36,19 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 
 class UpbitJsonObjectMapper : ExchangeJsonObjectMapper {
+    companion object {
+        val instance = UpbitJsonObjectMapper().objectMapper()
+    }
 
     override fun zonedDateTimeDeserializer(): JsonDeserializer<ZonedDateTime>? {
         return object : JsonDeserializer<ZonedDateTime>() {
             @Throws(IOException::class)
             override fun deserialize(p: JsonParser, ctxt: DeserializationContext): ZonedDateTime {
-                return ZonedDateTime.ofInstant(Instant.ofEpochMilli(p.longValue), ZoneId.systemDefault())
+                return if (p.valueAsLong == 0L) {
+                    ZonedDateTime.parse(p.valueAsString)
+                } else {
+                    Instant.ofEpochMilli(p.valueAsLong).atZone(ZoneId.systemDefault())
+                }
             }
         }
     }
@@ -69,9 +82,41 @@ class UpbitJsonObjectMapper : ExchangeJsonObjectMapper {
             override fun deserialize(p: JsonParser, ctxt: DeserializationContext): BigDecimal? {
                 val valueAsString = p.valueAsString
                 return if (StringUtils.isBlank(valueAsString)) {
-                    null
-                } else BigDecimal(valueAsString)
+                    BigDecimal.ZERO
+                } else {
+                    BigDecimal(valueAsString)
+                }
             }
         }
+    }
+
+    override fun customConfiguration(simpleModule: SimpleModule) {
+        val currencyPairSerializer = object : JsonSerializer<CurrencyPair>() {
+            override fun serialize(value: CurrencyPair, gen: JsonGenerator, serializers: SerializerProvider) {
+                val pair = "${value.baseCurrency}-${value.targetCurrency}"
+                return gen.writeString(pair)
+            }
+        }
+
+        val tradeSideTypeSerializer = object : JsonSerializer<TradeSideType>() {
+            override fun serialize(value: TradeSideType, gen: JsonGenerator, serializers: SerializerProvider) {
+                val side = if (value == TradeSideType.BUY) {
+                    "bid"
+                } else {
+                    "ask"
+                }
+                return gen.writeString(side)
+            }
+        }
+
+        val upbitOrderTypeSerializer = object : JsonSerializer<UpbitOrderType>() {
+            override fun serialize(value: UpbitOrderType, gen: JsonGenerator, serializers: SerializerProvider) {
+                return gen.writeString(value.name.toLowerCase())
+            }
+        }
+
+        simpleModule.addSerializer(CurrencyPair::class.java, currencyPairSerializer)
+        simpleModule.addSerializer(TradeSideType::class.java, tradeSideTypeSerializer)
+        simpleModule.addSerializer(UpbitOrderType::class.java, upbitOrderTypeSerializer)
     }
 }

@@ -25,28 +25,28 @@ import com.njkim.reactivecrypto.core.common.model.order.TickData
 import com.njkim.reactivecrypto.core.common.model.order.TradeSideType
 import com.njkim.reactivecrypto.core.common.model.paging.Page
 import com.njkim.reactivecrypto.core.common.model.paging.Pageable
-import org.springframework.web.reactive.function.client.WebClient
+import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import java.math.BigDecimal
 
 abstract class PrivateHttpClient(
-    protected val accessKey: String,
-    protected val secretKey: String
+    protected open val accessKey: String,
+    protected open val secretKey: String
 ) {
     abstract fun account(): AccountOperation
     abstract fun order(): OrderOperation
 }
 
 abstract class AccountOperation(
-    protected val accessKey: String,
-    protected val secretKey: String
+    protected open val accessKey: String,
+    protected open val secretKey: String
 ) {
-    abstract fun balance(): List<Balance>
+    abstract fun balance(): Flux<Balance>
 }
 
 abstract class OrderOperation(
-    protected val accessKey: String,
-    protected val secretKey: String
+    protected open val accessKey: String,
+    protected open val secretKey: String
 ) {
     abstract fun limitOrder(
         pair: CurrencyPair,
@@ -63,7 +63,6 @@ abstract class OrderOperation(
     abstract fun marketOrder(
         pair: CurrencyPair,
         tradeSideType: TradeSideType,
-        price: BigDecimal,
         quantity: BigDecimal
     ): Mono<OrderPlaceResult>
 

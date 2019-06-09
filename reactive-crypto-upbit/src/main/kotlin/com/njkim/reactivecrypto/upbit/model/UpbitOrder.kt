@@ -1,3 +1,19 @@
+/*
+ * Copyright 2019 namjug-kim
+ *
+ * LINE Corporation licenses this file to you under the Apache License,
+ * version 2.0 (the "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at:
+ *
+ *   https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ */
+
 package com.njkim.reactivecrypto.upbit.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
@@ -5,10 +21,9 @@ import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import java.math.BigDecimal
 import java.time.ZonedDateTime
 
-
 /**
-Created by jay on 07/06/2019
- **/
+ * @author jay
+ */
 data class UpbitOrder(
 
     @get:JsonProperty("uuid")
@@ -21,13 +36,13 @@ data class UpbitOrder(
     val ordType: String,
 
     @get:JsonProperty("trade_date")
-    val tradeDate: String,
+    val tradeDate: String?,
 
     @get:JsonProperty("price")
-    val price: BigDecimal,
+    val price: BigDecimal?,
 
     @get:JsonProperty("avg_price")
-    val avgPrice: BigDecimal,
+    val avgPrice: BigDecimal?,
 
     @get:JsonProperty("market")
     val currencyPair: CurrencyPair,
@@ -36,10 +51,10 @@ data class UpbitOrder(
     val createdAt: ZonedDateTime,
 
     @get:JsonProperty("volume")
-    val volume: BigDecimal,
+    val volume: BigDecimal?,
 
     @get:JsonProperty("remaining_volume")
-    val remainingVolume: BigDecimal,
+    val remainingVolume: BigDecimal?,
 
     @get:JsonProperty("reserved_fee")
     val reservedFee: BigDecimal,
