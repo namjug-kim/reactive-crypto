@@ -154,6 +154,7 @@ class KrakenWebsocketClient : AbstractExchangeWebsocketClient() {
                 currentOrderBook
             }
             .doOnError { log.error(it.message, it) }
+            .doFinally { currentOrderBookMap.clear() } // cleanup memory limit orderBook when disconnected
     }
 
     override fun createTradeWebsocket(subscribeTargets: List<CurrencyPair>): Flux<TickData> {
