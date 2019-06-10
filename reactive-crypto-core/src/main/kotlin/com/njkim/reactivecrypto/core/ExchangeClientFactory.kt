@@ -18,6 +18,8 @@ package com.njkim.reactivecrypto.core
 
 import com.njkim.reactivecrypto.core.common.model.ExchangeVendor
 import com.njkim.reactivecrypto.core.http.ExchangeHttpClient
+import com.njkim.reactivecrypto.core.plugin.ReactiveCryptoPlugins
+import com.njkim.reactivecrypto.core.plugin.strategy.FactoryFunction
 import com.njkim.reactivecrypto.core.websocket.ExchangeWebsocketClient
 import kotlin.reflect.full.createInstance
 
@@ -25,14 +27,38 @@ class ExchangeClientFactory {
     companion object {
         @JvmStatic
         fun websocket(exchangeVendor: ExchangeVendor): ExchangeWebsocketClient {
-            val websocketClientClass = Class.forName(exchangeVendor.websocketClientName)?.kotlin
-            return websocketClientClass?.createInstance() as ExchangeWebsocketClient
+            return websocket(exchangeVendor.websocketClientName)
+        }
+
+        @JvmStatic
+        fun websocket(exchangeVendor: String): ExchangeWebsocketClient {
+            val customFactory: FactoryFunction<ExchangeWebsocketClient>? =
+                ReactiveCryptoPlugins.customClientFactory.customWsFactory()[exchangeVendor]
+
+            return if (customFactory != null) {
+                customFactory(exchangeVendor)
+            } else {
+                val websocketClientClass = Class.forName(exchangeVendor)?.kotlin
+                websocketClientClass?.createInstance() as ExchangeWebsocketClient
+            }
         }
 
         @JvmStatic
         fun http(exchangeVendor: ExchangeVendor): ExchangeHttpClient {
-            val httpClientClass = Class.forName(exchangeVendor.httpClientName)?.kotlin
-            return httpClientClass?.createInstance() as ExchangeHttpClient
+            return http(exchangeVendor.httpClientName)
+        }
+
+        @JvmStatic
+        fun http(exchangeVendor: String): ExchangeHttpClient {
+            val customFactory: FactoryFunction<ExchangeHttpClient>? =
+                ReactiveCryptoPlugins.customClientFactory.customHttpFactory()[exchangeVendor]
+
+            return if (customFactory != null) {
+                customFactory(exchangeVendor)
+            } else {
+                val httpClientClass = Class.forName(exchangeVendor)?.kotlin
+                return httpClientClass?.createInstance() as ExchangeHttpClient
+            }
         }
     }
 }
