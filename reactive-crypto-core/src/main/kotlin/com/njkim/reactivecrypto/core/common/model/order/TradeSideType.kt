@@ -17,6 +17,16 @@
 package com.njkim.reactivecrypto.core.common.model.order
 
 enum class TradeSideType {
-    SELL,
-    BUY
+    SELL {
+        override fun opposite(): TradeSideType {
+            return BUY
+        }
+    },
+    BUY {
+        override fun opposite(): TradeSideType {
+            return SELL
+        }
+    };
+
+    abstract fun opposite(): TradeSideType
 }
