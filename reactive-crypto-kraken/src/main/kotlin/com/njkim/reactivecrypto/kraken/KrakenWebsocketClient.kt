@@ -44,8 +44,6 @@ import java.util.concurrent.ConcurrentHashMap
  * Format of each tradeable pair is A/B, where A and B are ISO 4217-A3 for standardized assets and popular unique symbol if not standardized.
  * Timestamps should not be considered unique and not be considered as aliases for transaction ids. Also, the granularity of timestamps is not representative of transaction rates.
  *
- * @author namjug.kim
- *
  */
 class KrakenWebsocketClient : AbstractExchangeWebsocketClient() {
     private val log = KotlinLogging.logger {}

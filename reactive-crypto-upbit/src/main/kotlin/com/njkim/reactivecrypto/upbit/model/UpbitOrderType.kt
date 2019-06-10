@@ -14,15 +14,10 @@
  * under the License.
  */
 
-package com.njkim.reactivecrypto.core.common.util
+package com.njkim.reactivecrypto.upbit.model
 
-import org.springframework.util.LinkedMultiValueMap
-import org.springframework.util.MultiValueMap
-
-fun Map<String, Any>.toMultiValueMap(): MultiValueMap<String, String> {
-    val toMap = this
-        .map { it.key to listOf("${it.value}") }
-        .toMap()
-
-    return LinkedMultiValueMap(toMap)
+enum class UpbitOrderType {
+    LIMIT, // limit order
+    MARKET, // market order ask side
+    PRICE // market order bid side
 }

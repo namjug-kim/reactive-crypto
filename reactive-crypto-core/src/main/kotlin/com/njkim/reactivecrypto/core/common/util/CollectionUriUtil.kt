@@ -14,17 +14,21 @@
  * under the License.
  */
 
-package com.njkim.reactivecrypto.coineal.http
+package com.njkim.reactivecrypto.core.common.util
 
-import com.njkim.reactivecrypto.core.common.model.account.Balance
-import com.njkim.reactivecrypto.core.http.AccountOperation
-import reactor.core.publisher.Flux
+import org.springframework.util.LinkedMultiValueMap
+import org.springframework.util.MultiValueMap
+import java.net.URLEncoder
 
-class CoinealAccountOperator(
-    accessKey: String,
-    secretKey: String
-) : AccountOperation(accessKey, secretKey) {
-    override fun balance(): Flux<Balance> {
-        TODO("not implemented")
-    }
+fun Map<String, Any>.toMultiValueMap(): MultiValueMap<String, String> {
+    val toMap = this
+        .map { it.key to listOf("${it.value}") }
+        .toMap()
+
+    return LinkedMultiValueMap(toMap)
+}
+
+fun Map<String, Any>.toQueryString(): String {
+    return this.entries
+        .joinToString("&") { "${it.key}=${URLEncoder.encode("${it.value}", "UTF-8")}" }
 }
