@@ -16,7 +16,7 @@
 
 package com.njkim.reactivecrypto.core.common.model
 
-import org.apache.commons.lang3.text.WordUtils
+import com.njkim.reactivecrypto.core.common.util.toCarmelCase
 
 enum class ExchangeVendor {
     UPBIT,
@@ -37,11 +37,10 @@ enum class ExchangeVendor {
     val websocketClientName: String
         get() {
             val packageName = this.name.toLowerCase().replace("_", "")
-            val carmelCaseName = WordUtils
-                .capitalizeFully(this.name, '_')
-                .replace("_", "")
+            val className = this.name.toCarmelCase()
+                .capitalize()
 
-            return "com.njkim.reactivecrypto.$packageName.${carmelCaseName}WebsocketClient"
+            return "com.njkim.reactivecrypto.$packageName.${className}WebsocketClient"
         }
 
     /**
@@ -50,10 +49,9 @@ enum class ExchangeVendor {
     val httpClientName: String
         get() {
             val packageName = this.name.toLowerCase().replace("_", "")
-            val carmelCaseName = WordUtils
-                .capitalizeFully(this.name, '_')
-                .replace("_", "")
+            val className = this.name.toCarmelCase()
+                .capitalize()
 
-            return "com.njkim.reactivecrypto.$packageName.http.${carmelCaseName}HttpClient"
+            return "com.njkim.reactivecrypto.$packageName.http.${className}HttpClient"
         }
 }
