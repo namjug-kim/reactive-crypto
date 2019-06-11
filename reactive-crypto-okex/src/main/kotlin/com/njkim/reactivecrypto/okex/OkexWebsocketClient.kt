@@ -141,6 +141,7 @@ class OkexWebsocketClient : AbstractExchangeWebsocketClient() {
                 currentOrderBookMap[currentOrderBook.currencyPair] = currentOrderBook
                 currentOrderBook
             }
+            .doFinally { currentOrderBookMap.clear() } // cleanup memory limit orderBook when disconnected
     }
 
     override fun createTradeWebsocket(subscribeTargets: List<CurrencyPair>): Flux<TickData> {

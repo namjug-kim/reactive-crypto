@@ -144,3 +144,9 @@ class SampleClass {
 
 }
 ```
+
+## 💬 Contributing
+* [Commit convention](https://github.com/namjug-kim/reactive-crypto/blob/master/docs/COMMIT_MESSAGE_CONVENTION.md)
+
+## 📜 License
+* Reactive Crypto is Open Source Software released under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0)

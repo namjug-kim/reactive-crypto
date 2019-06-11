@@ -151,6 +151,7 @@ class BitmaxWebsocketClient : ExchangeWebsocketClient {
                 currentOrderBookMap[currentOrderBook.currencyPair] = currentOrderBook
                 currentOrderBook
             }
+            .doFinally { currentOrderBookMap.clear() } // cleanup memory limit orderBook when disconnected
     }
 
     /**
