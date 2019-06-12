@@ -29,7 +29,8 @@ enum class ExchangeVendor {
     KRAKEN,
     BITMAX,
     IDAX,
-    COINEAL;
+    COINEAL,
+    UNKNOWN;
 
     /**
      * format : com.njkim.reactivecrypto.$packageName.${carmelCaseName}WebsocketClient
