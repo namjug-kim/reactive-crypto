@@ -30,6 +30,7 @@ enum class ExchangeVendor {
     BITMAX,
     IDAX,
     COINEAL,
+    POLONIEX,
     UNKNOWN;
 
     /**
