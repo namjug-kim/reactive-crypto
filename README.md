@@ -35,6 +35,7 @@ Support public market feature (tickData, orderBook)
 | ![idax](https://user-images.githubusercontent.com/16334718/58029691-128bc880-7b58-11e9-9aaa-a331f394c8bd.jpg)         | Idax        | IDAX           | *      | [ws](https://github.com/idax-exchange/idax-official-api-docs/blob/master/open-ws_en.md) |
 | ![coineal](https://user-images.githubusercontent.com/16334718/58037062-7d90cb80-7b67-11e9-9278-e8b03c5ddd86.jpg)      | Coineal     | COINEAL        | ⚠️     | ⚠️ |
 | ![poloniex](https://user-images.githubusercontent.com/16334718/59551277-335a0900-8fb2-11e9-9d1e-4ab2a7574148.jpg)     | Poloniex    | POLONIEX       | *      | [ws](https://docs.poloniex.com/#websocket-api) |
+| ![bitstamp](https://user-images.githubusercontent.com/16334718/59565122-2c062e80-908a-11e9-8a38-6264c26aa3c2.jpg)     | Bitstamp    | BITSTAMP       | v2     | [ws](https://www.bitstamp.net/websocket/v2/) |
 
 ⚠️ : Uses endpoints that are used by the official web. This is not an official api and should be used with care.
 
