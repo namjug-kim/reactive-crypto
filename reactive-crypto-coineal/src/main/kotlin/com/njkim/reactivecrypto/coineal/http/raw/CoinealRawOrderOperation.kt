@@ -67,7 +67,7 @@ class CoinealRawOrderOperation(
             "api_key" to accessKey,
             "time" to ZonedDateTime.now().toEpochMilli(),
             "page" to page,
-            "page" to pageSize
+            "pageSize" to pageSize
         )
         params = sign(params, secretKey)
         return webClient.get()
