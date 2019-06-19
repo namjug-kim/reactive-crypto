@@ -19,15 +19,11 @@ package com.njkim.reactivecrypto.coineal
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.core.JsonProcessingException
-import com.fasterxml.jackson.databind.DeserializationContext
-import com.fasterxml.jackson.databind.JsonDeserializer
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.JsonSerializer
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.SerializerProvider
+import com.fasterxml.jackson.databind.*
 import com.fasterxml.jackson.databind.module.SimpleModule
 import com.njkim.reactivecrypto.coineal.model.CoinealOrderBook
 import com.njkim.reactivecrypto.core.ExchangeJsonObjectMapper
+import com.njkim.reactivecrypto.core.common.model.currency.Currency
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import com.njkim.reactivecrypto.core.common.model.order.OrderBookUnit
 import com.njkim.reactivecrypto.core.common.model.order.OrderSideType
@@ -41,7 +37,6 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 
 class CoinealJsonObjectMapper : ExchangeJsonObjectMapper {
-
     companion object {
         val instance: ObjectMapper = CoinealJsonObjectMapper().objectMapper()
     }
@@ -70,6 +65,26 @@ class CoinealJsonObjectMapper : ExchangeJsonObjectMapper {
             override fun deserialize(p: JsonParser, ctxt: DeserializationContext): CurrencyPair {
                 val parse = CurrencyPairUtil.parse(p.valueAsString)
                 return checkNotNull(parse)
+            }
+        }
+    }
+
+    override fun currencyDeserializer(): JsonDeserializer<Currency>? {
+        return object : JsonDeserializer<Currency>() {
+            override fun deserialize(p: JsonParser, ctxt: DeserializationContext): Currency {
+                return Currency.valueOf(p.valueAsString.toUpperCase())
+            }
+        }
+    }
+
+    override fun orderSideTypeDeserializer(): JsonDeserializer<OrderSideType>? {
+        return object : JsonDeserializer<OrderSideType>() {
+            override fun deserialize(p: JsonParser, ctxt: DeserializationContext): OrderSideType {
+                return when (p.valueAsString) {
+                    "BUY" -> OrderSideType.BID
+                    "SELL" -> OrderSideType.ASK
+                    else -> throw IllegalArgumentException()
+                }
             }
         }
     }

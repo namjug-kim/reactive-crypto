@@ -16,7 +16,15 @@
 
 package com.njkim.reactivecrypto.coineal.model
 
+import com.fasterxml.jackson.annotation.JsonProperty
+
 data class CoinealPageWrapper<T>(
     val count: Int,
+    @JsonProperty("resultList")
+    private val nullableResultList: List<T>?
+) {
     val resultList: List<T>
-)
+        get() {
+            return nullableResultList ?: emptyList()
+        }
+}
