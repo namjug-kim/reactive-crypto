@@ -55,7 +55,7 @@ subprojects {
 
         // reactor
         implementation group: 'io.projectreactor', name: 'reactor-core', version: '${reactorVersion}'
-        implementation group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: '1.3.31'
+        implementation group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: '1.3.40'
 
         // logging
         implementation group: 'io.github.microutils', name: 'kotlin-logging', version: '1.6.26'
