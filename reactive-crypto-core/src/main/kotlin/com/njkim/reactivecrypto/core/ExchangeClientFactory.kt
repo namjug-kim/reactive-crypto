@@ -25,6 +25,16 @@ import kotlin.reflect.full.createInstance
 
 class ExchangeClientFactory {
     companion object {
+        init {
+            ExchangeVendor.values()
+                .forEach { exchangeVendor ->
+                    ReactiveCryptoPlugins.customClientFactory
+                        .addHttpCustomFactory(exchangeVendor.name) { http(exchangeVendor) }
+                    ReactiveCryptoPlugins.customClientFactory
+                        .addWsCustomFactory(exchangeVendor.name) { websocket(exchangeVendor) }
+                }
+        }
+
         @JvmStatic
         fun websocket(exchangeVendor: ExchangeVendor): ExchangeWebsocketClient {
             return websocket(exchangeVendor.websocketClientName)
