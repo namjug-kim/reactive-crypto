@@ -14,14 +14,13 @@
  * under the License.
  */
 
-package com.njkim.reactivecrypto.huobikorea
+package com.njkim.reactivecrypto.huobiglobal.model
 
-import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
-import com.njkim.reactivecrypto.core.common.util.CurrencyPairUtil
+import java.math.BigDecimal
+import java.time.ZonedDateTime
 
-object HuobiCommonUtil {
-    fun parseCurrencyPair(rawValue: String): CurrencyPair {
-        val parse = CurrencyPairUtil.parse(rawValue)
-        return checkNotNull(parse)
-    }
-}
+data class HuobiTickDataWrapper(
+    val id: BigDecimal,
+    val ts: ZonedDateTime,
+    val data: List<HuobiTickData>
+)

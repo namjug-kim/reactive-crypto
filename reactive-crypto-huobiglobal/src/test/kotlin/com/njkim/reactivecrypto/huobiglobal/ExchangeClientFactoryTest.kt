@@ -14,7 +14,7 @@
  * under the License.
  */
 
-package com.njkim.reactivecrypto.huobikorea
+package com.njkim.reactivecrypto.huobiglobal
 
 import com.njkim.reactivecrypto.core.ExchangeClientFactory
 import com.njkim.reactivecrypto.core.common.model.ExchangeVendor
@@ -25,10 +25,10 @@ import org.junit.Test
 class ExchangeClientFactoryTest {
     @Test
     fun `create huobi websocket client`() {
-        val exchangeWebsocketClient = ExchangeClientFactory.websocket(ExchangeVendor.HUOBI_KOREA)
+        val exchangeWebsocketClient = ExchangeClientFactory.websocket(ExchangeVendor.HUOBI_GLOBAL)
 
         assertThat(exchangeWebsocketClient).isNotNull
         assertThat(exchangeWebsocketClient).isInstanceOf(ExchangeWebsocketClient::class.java)
-        assertThat(exchangeWebsocketClient).isExactlyInstanceOf(HuobiKoreaWebsocketClient::class.java)
+        assertThat(exchangeWebsocketClient).isExactlyInstanceOf(HuobiGlobalWebsocketClient::class.java)
     }
 }

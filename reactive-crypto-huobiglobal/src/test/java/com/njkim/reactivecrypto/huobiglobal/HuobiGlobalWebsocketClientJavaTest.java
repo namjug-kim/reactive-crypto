@@ -14,7 +14,7 @@
  * under the License.
  */
 
-package com.njkim.reactivecrypto.huobikorea;
+package com.njkim.reactivecrypto.huobiglobal;
 
 import com.njkim.reactivecrypto.core.common.model.ExchangeVendor;
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair;
@@ -29,12 +29,12 @@ import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class HuobiKoreaWebsocketClientJavaTest {
+public class HuobiGlobalWebsocketClientJavaTest {
     @Test
     public void huobi_tick_data_subscribe() {
         // given
-        CurrencyPair targetCurrencyPair = CurrencyPair.parse("BTC", "KRW");
-        Flux<TickData> tickDataFlux = new HuobiKoreaWebsocketClient()
+        CurrencyPair targetCurrencyPair = CurrencyPair.parse("BTC", "USDT");
+        Flux<TickData> tickDataFlux = new HuobiGlobalWebsocketClient()
                 .createTradeWebsocket(Collections.singletonList(targetCurrencyPair));
 
         // when
@@ -45,7 +45,7 @@ public class HuobiKoreaWebsocketClientJavaTest {
         assertThat(tickData.getCurrencyPair())
                 .isEqualTo(targetCurrencyPair);
         assertThat(tickData.getExchangeVendor())
-                .isEqualByComparingTo(ExchangeVendor.HUOBI_KOREA);
+                .isEqualByComparingTo(ExchangeVendor.HUOBI_GLOBAL);
         assertThat(tickData.getPrice())
                 .isGreaterThan(BigDecimal.ZERO);
         assertThat(tickData.getQuantity())
@@ -55,8 +55,8 @@ public class HuobiKoreaWebsocketClientJavaTest {
     @Test
     public void huobi_orderBook_subscribe() {
         // given
-        CurrencyPair targetCurrencyPair = CurrencyPair.parse("BTC", "KRW");
-        Flux<OrderBook> orderBookFlux = new HuobiKoreaWebsocketClient()
+        CurrencyPair targetCurrencyPair = CurrencyPair.parse("BTC", "USDT");
+        Flux<OrderBook> orderBookFlux = new HuobiGlobalWebsocketClient()
                 .createDepthSnapshot(Collections.singletonList(targetCurrencyPair));
 
         // when
@@ -67,7 +67,7 @@ public class HuobiKoreaWebsocketClientJavaTest {
         assertThat(orderBook.getCurrencyPair())
                 .isEqualTo(targetCurrencyPair);
         assertThat(orderBook.getExchangeVendor())
-                .isEqualByComparingTo(ExchangeVendor.HUOBI_KOREA);
+                .isEqualByComparingTo(ExchangeVendor.HUOBI_GLOBAL);
         assertThat(orderBook.getAsks())
                 .isNotEmpty();
         assertThat(orderBook.getBids())

@@ -14,21 +14,16 @@
  * under the License.
  */
 
-rootProject.name = 'reactive-crypto'
+package com.njkim.reactivecrypto.huobiglobal.model
 
-include 'reactive-crypto-core'
-include 'reactive-crypto-binance'
-include 'reactive-crypto-huobiglobal'
-include 'reactive-crypto-huobikorea'
-include 'reactive-crypto-upbit'
-include 'reactive-crypto-okex'
-include 'reactive-crypto-bithumb'
-include 'reactive-crypto-hubi'
-include 'reactive-crypto-bitmex'
-include 'reactive-crypto-kraken'
-include 'reactive-crypto-bitmax'
-include 'reactive-crypto-idax'
-include 'reactive-crypto-coineal'
-include 'reactive-crypto-poloniex'
-include 'reactive-crypto-bitstamp'
-include 'reactive-crypto-korbotex'
+import com.njkim.reactivecrypto.core.common.model.order.TradeSideType
+import java.math.BigDecimal
+import java.time.ZonedDateTime
+
+data class HuobiTickData(
+    val id: BigDecimal,
+    val amount: BigDecimal,
+    val ts: ZonedDateTime,
+    val price: BigDecimal,
+    val direction: TradeSideType
+)

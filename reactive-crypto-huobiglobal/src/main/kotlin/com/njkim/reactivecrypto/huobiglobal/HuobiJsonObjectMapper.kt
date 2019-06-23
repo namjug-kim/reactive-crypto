@@ -14,7 +14,7 @@
  * under the License.
  */
 
-package com.njkim.reactivecrypto.huobikorea
+package com.njkim.reactivecrypto.huobiglobal
 
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.core.JsonProcessingException

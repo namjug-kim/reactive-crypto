@@ -21,6 +21,8 @@ import com.njkim.reactivecrypto.core.common.util.toCarmelCase
 enum class ExchangeVendor {
     UPBIT,
     BINANCE,
+    HUOBI_GLOBAL,
+    HUOBI_JAPAN,
     HUOBI_KOREA,
     OKEX,
     BITHUMB,

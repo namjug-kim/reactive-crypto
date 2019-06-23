@@ -14,7 +14,7 @@
  * under the License.
  */
 
-package com.njkim.reactivecrypto.huobikorea
+package com.njkim.reactivecrypto.huobiglobal
 
 import com.njkim.reactivecrypto.core.common.model.ExchangeVendor
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
@@ -24,14 +24,14 @@ import org.junit.Test
 import reactor.test.StepVerifier
 import java.math.BigDecimal
 
-class HuobiKoreaWebsocketClientTest {
+class HuobiGlobalWebsocketClientTest {
     private val log = KotlinLogging.logger {}
 
     @Test
     fun `huobi tick data subscribe`() {
         // given
         val targetCurrencyPair = CurrencyPair.parse("BTC", "USDT")
-        val tickDataFlux = HuobiKoreaWebsocketClient()
+        val tickDataFlux = HuobiGlobalWebsocketClient()
             .createTradeWebsocket(listOf(targetCurrencyPair))
 
         // when
@@ -43,7 +43,7 @@ class HuobiKoreaWebsocketClientTest {
                 Assertions.assertThat(it.currencyPair)
                     .isEqualTo(targetCurrencyPair)
                 Assertions.assertThat(it.exchangeVendor)
-                    .isEqualByComparingTo(ExchangeVendor.HUOBI_KOREA)
+                    .isEqualByComparingTo(ExchangeVendor.HUOBI_GLOBAL)
                 Assertions.assertThat(it.price)
                     .isGreaterThan(BigDecimal.ZERO)
                 Assertions.assertThat(it.quantity)
@@ -54,7 +54,7 @@ class HuobiKoreaWebsocketClientTest {
                 Assertions.assertThat(it.currencyPair)
                     .isEqualTo(targetCurrencyPair)
                 Assertions.assertThat(it.exchangeVendor)
-                    .isEqualByComparingTo(ExchangeVendor.HUOBI_KOREA)
+                    .isEqualByComparingTo(ExchangeVendor.HUOBI_GLOBAL)
                 Assertions.assertThat(it.price)
                     .isGreaterThan(BigDecimal.ZERO)
                 Assertions.assertThat(it.quantity)
@@ -67,7 +67,7 @@ class HuobiKoreaWebsocketClientTest {
     fun `huobi orderBook subscribe`() {
         // given
         val targetCurrencyPair = CurrencyPair.parse("BTC", "USDT")
-        val orderBookFlux = HuobiKoreaWebsocketClient()
+        val orderBookFlux = HuobiGlobalWebsocketClient()
             .createDepthSnapshot(listOf(targetCurrencyPair))
 
         // when
@@ -79,7 +79,7 @@ class HuobiKoreaWebsocketClientTest {
                 Assertions.assertThat(it.currencyPair)
                     .isEqualTo(targetCurrencyPair)
                 Assertions.assertThat(it.exchangeVendor)
-                    .isEqualByComparingTo(ExchangeVendor.HUOBI_KOREA)
+                    .isEqualByComparingTo(ExchangeVendor.HUOBI_GLOBAL)
                 Assertions.assertThat(it.asks)
                     .isNotEmpty
                 Assertions.assertThat(it.bids)
@@ -106,7 +106,7 @@ class HuobiKoreaWebsocketClientTest {
                 Assertions.assertThat(it.currencyPair)
                     .isEqualTo(targetCurrencyPair)
                 Assertions.assertThat(it.exchangeVendor)
-                    .isEqualByComparingTo(ExchangeVendor.HUOBI_KOREA)
+                    .isEqualByComparingTo(ExchangeVendor.HUOBI_GLOBAL)
                 Assertions.assertThat(it.asks)
                     .isNotEmpty
                 Assertions.assertThat(it.bids)
