@@ -32,6 +32,7 @@ enum class ExchangeVendor {
     COINEAL,
     POLONIEX,
     BITSTAMP,
+    KORBOTEX,
     UNKNOWN;
 
     /**

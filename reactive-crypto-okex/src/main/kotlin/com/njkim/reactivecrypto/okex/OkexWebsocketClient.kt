@@ -18,7 +18,6 @@ package com.njkim.reactivecrypto.okex
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import com.njkim.reactivecrypto.core.websocket.AbstractExchangeWebsocketClient
 import com.njkim.reactivecrypto.core.ExchangeJsonObjectMapper
 import com.njkim.reactivecrypto.core.common.model.ExchangeVendor
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
@@ -26,6 +25,7 @@ import com.njkim.reactivecrypto.core.common.model.order.OrderBook
 import com.njkim.reactivecrypto.core.common.model.order.OrderBookUnit
 import com.njkim.reactivecrypto.core.common.model.order.TickData
 import com.njkim.reactivecrypto.core.common.util.toEpochMilli
+import com.njkim.reactivecrypto.core.websocket.AbstractExchangeWebsocketClient
 import com.njkim.reactivecrypto.okex.model.OkexOrderBookWrapper
 import com.njkim.reactivecrypto.okex.model.OkexTickDataWrapper
 import io.netty.buffer.ByteBuf
@@ -43,10 +43,10 @@ import java.time.ZonedDateTime
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.streams.toList
 
-class OkexWebsocketClient : AbstractExchangeWebsocketClient() {
+open class OkexWebsocketClient(
+    private val baseUri: String = "wss://real.okex.com:10442/ws/v3"
+) : AbstractExchangeWebsocketClient() {
     private val log = KotlinLogging.logger {}
-
-    private val baseUri = "wss://real.okex.com:10442/ws/v3"
 
     private val objectMapper: ObjectMapper = createJsonObjectMapper().objectMapper()
 
