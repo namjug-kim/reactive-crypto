@@ -25,6 +25,7 @@ Support public market feature (tickData, orderBook)
 | --------------------------------------------------------------------------------------------------------------------- | ----------- | ---------------- |--------|---|
 | ![binance](https://user-images.githubusercontent.com/16334718/57194951-e5e88600-6f87-11e9-918e-74de5c58e883.jpg)      | Binance     | BINANCE        | *      | [ws](https://github.com/binance-exchange/binance-official-api-docs/blob/master/web-socket-streams.md) | 
 | ![upbit](https://user-images.githubusercontent.com/16334718/57194949-e54fef80-6f87-11e9-85b3-67b8f82db564.jpg)        | Upbit       | UPBIT          | v1.0.3 | [ws](https://docs.upbit.com/docs/upbit-quotation-websocket) | 
+| ![huobi_global](https://user-images.githubusercontent.com/16334718/59974411-f19b1500-95e6-11e9-95e3-a68a34e65c68.jpg) | HuobiGlobal | HUOBI_GLOBAL   | *      | [ws](https://github.com/huobiapi/API_Docs_en/wiki/WS_api_reference_en) | 
 | ![huobi korea](https://user-images.githubusercontent.com/16334718/57194946-e4b75900-6f87-11e9-940a-08ceb98193e4.jpg)  | HuobiKorea  | HUOBI_KOREA    | *      | [ws](https://github.com/alphaex-api/BAPI_Docs_ko/wiki) | 
 | ![okex](https://user-images.githubusercontent.com/16334718/57195022-90f93f80-6f88-11e9-8aaa-f6a515d300ae.jpg)         | Okex        | OKEX           | v3     | [ws](https://www.okex.com/docs/en/#spot_ws-all) | 
 | ![bithumb](https://user-images.githubusercontent.com/16334718/57194948-e54fef80-6f87-11e9-90d8-41f108789c77.jpg)      | Bithumb     | BITHUMB        | ⚠️     | ⚠️ |

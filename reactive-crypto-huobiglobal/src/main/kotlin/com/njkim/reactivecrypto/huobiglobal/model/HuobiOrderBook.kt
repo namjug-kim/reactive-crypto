@@ -14,7 +14,7 @@
  * under the License.
  */
 
-package com.njkim.reactivecrypto.huobikorea.model
+package com.njkim.reactivecrypto.huobiglobal.model
 
 import com.njkim.reactivecrypto.core.common.model.order.OrderBookUnit
 import com.njkim.reactivecrypto.core.common.model.order.OrderSideType

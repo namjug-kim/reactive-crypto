@@ -14,10 +14,10 @@
  * under the License.
  */
 
-package com.njkim.reactivecrypto.huobikorea.model
+package com.njkim.reactivecrypto.huobiglobal.model
 
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
-import com.njkim.reactivecrypto.huobikorea.HuobiCommonUtil
+import com.njkim.reactivecrypto.huobiglobal.HuobiCommonUtil
 import java.time.ZonedDateTime
 import java.util.regex.Pattern
 

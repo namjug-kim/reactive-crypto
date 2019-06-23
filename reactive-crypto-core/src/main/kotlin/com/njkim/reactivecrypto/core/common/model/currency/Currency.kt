@@ -42,7 +42,7 @@ enum class Currency {
 
     M19,
 
-    KRW, USD,
+    KRW, USD, JPY,
 
     USDT, TUSD;
 
@@ -53,7 +53,8 @@ enum class Currency {
             USDT,
             TUSD,
             BTC,
-            ETH
+            ETH,
+            JPY
         )
     }
 }
