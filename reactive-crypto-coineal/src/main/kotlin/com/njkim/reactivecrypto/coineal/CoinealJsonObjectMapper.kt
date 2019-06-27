@@ -25,10 +25,7 @@ import com.njkim.reactivecrypto.coineal.model.CoinealOrderBook
 import com.njkim.reactivecrypto.core.ExchangeJsonObjectMapper
 import com.njkim.reactivecrypto.core.common.model.currency.Currency
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
-import com.njkim.reactivecrypto.core.common.model.order.OrderBookUnit
-import com.njkim.reactivecrypto.core.common.model.order.OrderSideType
-import com.njkim.reactivecrypto.core.common.model.order.OrderType
-import com.njkim.reactivecrypto.core.common.model.order.TradeSideType
+import com.njkim.reactivecrypto.core.common.model.order.*
 import com.njkim.reactivecrypto.core.common.util.CurrencyPairUtil
 import java.io.IOException
 import java.math.BigDecimal
@@ -83,6 +80,20 @@ class CoinealJsonObjectMapper : ExchangeJsonObjectMapper {
                 return when (p.valueAsString) {
                     "BUY" -> OrderSideType.BID
                     "SELL" -> OrderSideType.ASK
+                    else -> throw IllegalArgumentException()
+                }
+            }
+        }
+    }
+
+    override fun orderStatusTypeDeserializer(): JsonDeserializer<OrderStatusType>? {
+        return object : JsonDeserializer<OrderStatusType>() {
+            override fun deserialize(p: JsonParser, ctxt: DeserializationContext): OrderStatusType {
+                return when (p.valueAsInt) {
+                    0 -> OrderStatusType.WAIT
+                    1 -> OrderStatusType.WAIT
+                    2 -> OrderStatusType.DONE
+                    4 -> OrderStatusType.CANCEL
                     else -> throw IllegalArgumentException()
                 }
             }

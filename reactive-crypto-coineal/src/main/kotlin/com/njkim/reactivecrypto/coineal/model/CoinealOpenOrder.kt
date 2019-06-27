@@ -19,6 +19,7 @@ package com.njkim.reactivecrypto.coineal.model
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.njkim.reactivecrypto.core.common.model.currency.Currency
 import com.njkim.reactivecrypto.core.common.model.order.OrderSideType
+import com.njkim.reactivecrypto.core.common.model.order.OrderStatusType
 import com.njkim.reactivecrypto.core.common.model.order.OrderType
 import java.math.BigDecimal
 import java.time.ZonedDateTime
@@ -59,5 +60,5 @@ data class CoinealOpenOrder(
     @JsonProperty("tradeList")
     val tradeList: List<CoinealTradeResult>,
     @JsonProperty("status")
-    val status: Int
+    val status: OrderStatusType
 )

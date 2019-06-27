@@ -26,6 +26,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule
 import com.njkim.reactivecrypto.core.ExchangeJsonObjectMapper
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import com.njkim.reactivecrypto.core.common.model.order.OrderSideType
+import com.njkim.reactivecrypto.core.common.model.order.OrderStatusType
 import com.njkim.reactivecrypto.core.common.model.order.TradeSideType
 import com.njkim.reactivecrypto.upbit.model.UpbitOrderType
 import org.apache.commons.lang3.StringUtils
@@ -60,6 +61,15 @@ class UpbitJsonObjectMapper : ExchangeJsonObjectMapper {
                 val rawValue = p.valueAsString
                 val split = StringUtils.split(rawValue, "-")
                 return CurrencyPair.parse(split[1], split[0])
+            }
+        }
+    }
+
+    override fun orderStatusTypeDeserializer(): JsonDeserializer<OrderStatusType>? {
+        return object : JsonDeserializer<OrderStatusType>() {
+            override fun deserialize(p: JsonParser, ctxt: DeserializationContext?): OrderStatusType {
+                val valueAsString = p.valueAsString
+                return OrderStatusType.valueOf(valueAsString.toUpperCase())
             }
         }
     }

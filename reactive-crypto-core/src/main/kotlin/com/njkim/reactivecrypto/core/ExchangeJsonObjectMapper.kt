@@ -24,6 +24,7 @@ import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.njkim.reactivecrypto.core.common.model.currency.Currency
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import com.njkim.reactivecrypto.core.common.model.order.OrderSideType
+import com.njkim.reactivecrypto.core.common.model.order.OrderStatusType
 import com.njkim.reactivecrypto.core.common.model.order.TradeSideType
 import java.math.BigDecimal
 import java.time.ZonedDateTime
@@ -55,6 +56,10 @@ interface ExchangeJsonObjectMapper {
     }
 
     fun orderSideTypeDeserializer(): JsonDeserializer<OrderSideType>? {
+        return null
+    }
+
+    fun orderStatusTypeDeserializer(): JsonDeserializer<OrderStatusType>? {
         return null
     }
 

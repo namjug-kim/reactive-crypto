@@ -18,11 +18,7 @@ package com.njkim.reactivecrypto.upbit.http
 
 import com.fasterxml.jackson.module.kotlin.convertValue
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
-import com.njkim.reactivecrypto.core.common.model.order.OrderCancelResult
-import com.njkim.reactivecrypto.core.common.model.order.OrderPlaceResult
-import com.njkim.reactivecrypto.core.common.model.order.OrderStatus
-import com.njkim.reactivecrypto.core.common.model.order.TickData
-import com.njkim.reactivecrypto.core.common.model.order.TradeSideType
+import com.njkim.reactivecrypto.core.common.model.order.*
 import com.njkim.reactivecrypto.core.common.model.paging.Page
 import com.njkim.reactivecrypto.core.common.model.paging.Pageable
 import com.njkim.reactivecrypto.core.http.OrderOperation
@@ -30,6 +26,7 @@ import com.njkim.reactivecrypto.upbit.UpbitJsonObjectMapper
 import com.njkim.reactivecrypto.upbit.http.raw.sign
 import com.njkim.reactivecrypto.upbit.http.raw.upbitErrorHandling
 import com.njkim.reactivecrypto.upbit.model.UpbitOrder
+import com.njkim.reactivecrypto.upbit.model.UpbitOrderStatus
 import com.njkim.reactivecrypto.upbit.model.UpbitOrderType
 import org.springframework.web.reactive.function.BodyInserters
 import org.springframework.web.reactive.function.client.WebClient
@@ -45,6 +42,39 @@ class UpbitOrderOperation(
     override val secretKey: String,
     private val privateWebClient: WebClient
 ) : OrderOperation(accessKey, secretKey) {
+    override fun orderStatus(orderId: String): Mono<OrderStatus> {
+        val marketRequest =
+            mapOf(
+                "uuid" to orderId
+            )
+
+        val upbitRequest = UpbitJsonObjectMapper.instance.convertValue<Map<String, Any>>(marketRequest)
+        val sign = sign(upbitRequest, accessKey, secretKey)
+
+        return privateWebClient
+            .post()
+            .uri { it.path("/v1/order").build() }
+            .header("Authorization", "Bearer $sign")
+            .retrieve()
+            .upbitErrorHandling()
+            .bodyToMono<UpbitOrderStatus>()
+            .map {
+                OrderStatus(
+                    it.uuid,
+                    it.orderStatusType,
+                    it.side,
+                    it.currencyPair,
+                    it.price,
+                    it.volume,
+                    it.executedVolume,
+                    it.paidFee,
+                    it.reservedFee,
+                    it.remainingFee,
+                    it.createdAt
+                )
+            }
+    }
+
     override fun tradeHistory(pair: CurrencyPair, pageable: Pageable): Mono<Page<TickData>> {
         TODO("not implemented")
     }

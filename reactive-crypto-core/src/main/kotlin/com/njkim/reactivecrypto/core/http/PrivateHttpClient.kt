@@ -69,4 +69,6 @@ abstract class OrderOperation(
     abstract fun openOrders(pair: CurrencyPair, pageable: Pageable): Mono<Page<OrderStatus>>
 
     abstract fun tradeHistory(pair: CurrencyPair, pageable: Pageable): Mono<Page<TickData>>
+
+    abstract fun orderStatus(orderId: String): Mono<OrderStatus>
 }
