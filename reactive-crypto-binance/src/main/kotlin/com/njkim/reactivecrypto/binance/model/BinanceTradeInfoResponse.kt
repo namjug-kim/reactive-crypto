@@ -16,7 +16,6 @@
 
 package com.njkim.reactivecrypto.binance.model
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.njkim.reactivecrypto.core.common.model.currency.Currency
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair

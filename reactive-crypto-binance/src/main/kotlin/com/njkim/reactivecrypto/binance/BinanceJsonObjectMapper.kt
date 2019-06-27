@@ -18,7 +18,6 @@ package com.njkim.reactivecrypto.binance
 
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonParser
-import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.DeserializationContext
 import com.fasterxml.jackson.databind.JsonDeserializer
 import com.fasterxml.jackson.databind.JsonSerializer
@@ -30,7 +29,6 @@ import com.njkim.reactivecrypto.core.common.model.currency.Currency
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import com.njkim.reactivecrypto.core.common.util.toEpochMilli
 import mu.KotlinLogging
-import java.io.IOException
 import java.math.BigDecimal
 import java.time.Instant
 import java.time.ZoneId

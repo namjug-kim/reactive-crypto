@@ -43,7 +43,7 @@ enum class Currency {
     EON, FUN, WPR, POA, BLZ, NEBL, BRD, ETF, DATA, TNB, BCX, SBTC, WABI, LEND,
     CND, CMT, PPT, DGD, BCD, FUEL, QSP, GXS, CVT, AMB, RDN, MOD, MTH, MDA, CTR, CDT, TNT,
     SALT, SUB, REQ, VEN, GVT, VIBE, CHAT, INS, NANO, RPX, BCN, NAS, PHX, BCHABC, BCHSV,
-    REN, FTM,
+    REN, FTM, ATP,
 
     M19,
 
@@ -58,9 +58,13 @@ enum class Currency {
             KRW,
             USD,
             USDT,
+            USDC,
+            USDSB,
             TUSD,
+            PAX,
             BTC,
             ETH,
+            HT,
             JPY
         )
     }

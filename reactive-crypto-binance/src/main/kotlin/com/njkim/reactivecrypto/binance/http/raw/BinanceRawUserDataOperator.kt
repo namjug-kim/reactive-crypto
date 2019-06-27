@@ -124,6 +124,41 @@ class BinanceRawUserDataOperator internal constructor(private val webClient: Web
     }
 
     /**
+     * Check an order's status.
+     *
+     * Weight: 1
+     *
+     * Either orderId or origClientOrderId must be sent.
+     * For some historical orders cummulativeQuoteQty will be < 0, meaning the data is not available at this time.
+     */
+    fun order(
+        symbol: CurrencyPair,
+        orderId: Long? = null,
+        origClientOrderId: String? = null,
+        recvWindow: Long = 5000
+    ): Mono<BinanceOrderInfoResponse> {
+        val request = mapOf(
+            "symbol" to symbol,
+            "recvWindow" to recvWindow,
+            "timestamp" to Instant.now().toEpochMilli()
+        ).toMutableMap()
+        orderId?.let { request["orderId"] = orderId }
+        origClientOrderId?.let { request["origClientOrderId"] = origClientOrderId }
+
+        val convertedRequest = BinanceJsonObjectMapper.instance.convertValue<Map<String, Any>>(request)
+            .toMultiValueMap()
+
+        return webClient.get()
+            .uri {
+                it.path("/api/v3/order")
+                    .queryParams(convertedRequest)
+                    .build()
+            }
+            .retrieve()
+            .bodyToMono()
+    }
+
+    /**
      * Get trades for a specific account and symbol.
      *
      * Weight: 5 with symbol

@@ -16,10 +16,8 @@
 
 package com.njkim.reactivecrypto.binance.model
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
-import com.njkim.reactivecrypto.core.common.model.order.OrderStatusType
 import com.njkim.reactivecrypto.core.common.model.order.OrderType
 import com.njkim.reactivecrypto.core.common.model.order.TimeInForceType
 import com.njkim.reactivecrypto.core.common.model.order.TradeSideType
@@ -30,7 +28,7 @@ data class BinanceOrderInfoResponse(
     @JsonProperty("symbol")
     val symbol: CurrencyPair,
     @JsonProperty("orderId")
-    val orderId: Int,
+    val orderId: Long,
     @JsonProperty("clientOrderId")
     val clientOrderId: String,
     @JsonProperty("price")
@@ -42,7 +40,7 @@ data class BinanceOrderInfoResponse(
     @JsonProperty("cummulativeQuoteQty")
     val cummulativeQuoteQty: BigDecimal,
     @JsonProperty("status")
-    val status: OrderStatusType,
+    val status: BinanceOrderStatusType,
     @JsonProperty("timeInForce")
     val timeInForce: TimeInForceType,
     @JsonProperty("type")
