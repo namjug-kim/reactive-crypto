@@ -42,7 +42,7 @@ class UpbitOrderOperation(
     override val secretKey: String,
     private val privateWebClient: WebClient
 ) : OrderOperation(accessKey, secretKey) {
-    override fun orderStatus(pair: CurrencyPair, orderId: String): Mono<OrderStatus> {
+    override fun orderStatus(orderId: String): Mono<OrderStatus> {
         val marketRequest =
             mapOf(
                 "uuid" to orderId
