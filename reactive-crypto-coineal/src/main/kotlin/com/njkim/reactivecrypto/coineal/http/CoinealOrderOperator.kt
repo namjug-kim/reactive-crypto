@@ -93,7 +93,7 @@ class CoinealOrderOperator(
                         OrderStatus(
                             uniqueId = "${it.id}",
                             orderStatusType = it.status,
-                            orderSideType = it.side,
+                            side = it.side,
                             currencyPair = pair,
                             price = it.price,
                             orderVolume = it.volume,

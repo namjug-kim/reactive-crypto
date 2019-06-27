@@ -23,7 +23,6 @@ import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.njkim.reactivecrypto.core.common.model.currency.Currency
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
-import com.njkim.reactivecrypto.core.common.model.order.OrderSideType
 import com.njkim.reactivecrypto.core.common.model.order.OrderStatusType
 import com.njkim.reactivecrypto.core.common.model.order.TradeSideType
 import java.math.BigDecimal
@@ -55,10 +54,6 @@ interface ExchangeJsonObjectMapper {
         return null
     }
 
-    fun orderSideTypeDeserializer(): JsonDeserializer<OrderSideType>? {
-        return null
-    }
-
     fun orderStatusTypeDeserializer(): JsonDeserializer<OrderStatusType>? {
         return null
     }
@@ -87,10 +82,6 @@ interface ExchangeJsonObjectMapper {
 
         tradeSideTypeDeserializer()?.let {
             simpleModule.addDeserializer(TradeSideType::class.java, it)
-        }
-
-        orderSideTypeDeserializer()?.let {
-            simpleModule.addDeserializer(OrderSideType::class.java, it)
         }
 
         customConfiguration(simpleModule)

@@ -24,6 +24,6 @@ import java.math.BigDecimal
 data class OrderBookUnit(
     val price: BigDecimal,
     val quantity: BigDecimal,
-    val orderSideType: OrderSideType,
+    val side: TradeSideType,
     val orderNumbers: Int? = null
 )

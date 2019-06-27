@@ -25,7 +25,6 @@ import com.fasterxml.jackson.databind.module.SimpleModule
 import com.njkim.reactivecrypto.core.ExchangeJsonObjectMapper
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import com.njkim.reactivecrypto.core.common.model.order.OrderBookUnit
-import com.njkim.reactivecrypto.core.common.model.order.OrderSideType
 import com.njkim.reactivecrypto.core.common.model.order.TradeSideType
 import com.njkim.reactivecrypto.poloniex.model.*
 import java.math.BigDecimal
@@ -36,7 +35,7 @@ import java.time.ZonedDateTime
 class PoloniexJsonObjectMapper : ExchangeJsonObjectMapper {
 
     companion object {
-        val instance: ObjectMapper = com.njkim.reactivecrypto.poloniex.PoloniexJsonObjectMapper().objectMapper()
+        val instance: ObjectMapper = PoloniexJsonObjectMapper().objectMapper()
     }
 
     override fun zonedDateTimeDeserializer(): JsonDeserializer<ZonedDateTime> {
@@ -57,19 +56,6 @@ class PoloniexJsonObjectMapper : ExchangeJsonObjectMapper {
                 val split = currencyPairRawValue.split("_")
 
                 return CurrencyPair.parse(split[1], split[0])
-            }
-        }
-    }
-
-    override fun orderSideTypeDeserializer(): JsonDeserializer<OrderSideType>? {
-        // <1 for bid 0 for ask>
-        return object : JsonDeserializer<OrderSideType>() {
-            override fun deserialize(p: JsonParser, ctxt: DeserializationContext): OrderSideType {
-                return when (p.valueAsInt) {
-                    0 -> OrderSideType.ASK
-                    1 -> OrderSideType.BID
-                    else -> throw IllegalArgumentException()
-                }
             }
         }
     }
@@ -129,7 +115,7 @@ class PoloniexJsonObjectMapper : ExchangeJsonObjectMapper {
             override fun deserialize(p: JsonParser, ctxt: DeserializationContext): PoloniexOrderBookUpdateEvent {
                 val jsonNode: JsonNode = p.codec.readTree(p)
 
-                val side: OrderSideType = instance.convertValue(jsonNode[1], OrderSideType::class.java)
+                val side: TradeSideType = instance.convertValue(jsonNode[1], TradeSideType::class.java)
                 val price: BigDecimal = instance.convertValue(jsonNode[2], BigDecimal::class.java)
                 val size: BigDecimal = instance.convertValue(jsonNode[3], BigDecimal::class.java)
 
@@ -169,7 +155,7 @@ class PoloniexJsonObjectMapper : ExchangeJsonObjectMapper {
                     OrderBookUnit(
                         instance.convertValue(price, BigDecimal::class.java),
                         instance.convertValue(size, BigDecimal::class.java),
-                        OrderSideType.ASK
+                        TradeSideType.SELL
                     )
                 }
 
@@ -181,7 +167,7 @@ class PoloniexJsonObjectMapper : ExchangeJsonObjectMapper {
                     OrderBookUnit(
                         instance.convertValue(price, BigDecimal::class.java),
                         instance.convertValue(size, BigDecimal::class.java),
-                        OrderSideType.BID
+                        TradeSideType.BUY
                     )
                 }
 

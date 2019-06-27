@@ -25,7 +25,6 @@ import com.fasterxml.jackson.databind.SerializerProvider
 import com.fasterxml.jackson.databind.module.SimpleModule
 import com.njkim.reactivecrypto.core.ExchangeJsonObjectMapper
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
-import com.njkim.reactivecrypto.core.common.model.order.OrderSideType
 import com.njkim.reactivecrypto.core.common.model.order.OrderStatusType
 import com.njkim.reactivecrypto.core.common.model.order.TradeSideType
 import com.njkim.reactivecrypto.upbit.model.UpbitOrderType
@@ -74,14 +73,14 @@ class UpbitJsonObjectMapper : ExchangeJsonObjectMapper {
         }
     }
 
-    /**
-     * upbit value : ask, bid
-     */
-    override fun orderSideTypeDeserializer(): JsonDeserializer<OrderSideType>? {
-        return object : JsonDeserializer<OrderSideType>() {
-            override fun deserialize(p: JsonParser, ctxt: DeserializationContext?): OrderSideType {
-                val valueAsString = p.valueAsString
-                return OrderSideType.valueOf(valueAsString.toUpperCase())
+    override fun tradeSideTypeDeserializer(): JsonDeserializer<TradeSideType>? {
+        return object : JsonDeserializer<TradeSideType>() {
+            override fun deserialize(p: JsonParser, ctxt: DeserializationContext?): TradeSideType {
+                return when (p.valueAsString.toUpperCase()) {
+                    "BID" -> TradeSideType.BUY
+                    "ASK" -> TradeSideType.SELL
+                    else -> throw IllegalArgumentException()
+                }
             }
         }
     }

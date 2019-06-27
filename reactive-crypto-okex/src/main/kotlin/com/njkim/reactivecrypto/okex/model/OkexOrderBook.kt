@@ -19,7 +19,7 @@ package com.njkim.reactivecrypto.okex.model
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import com.njkim.reactivecrypto.core.common.model.order.OrderBookUnit
-import com.njkim.reactivecrypto.core.common.model.order.OrderSideType
+import com.njkim.reactivecrypto.core.common.model.order.TradeSideType
 import java.math.BigDecimal
 import java.time.ZonedDateTime
 import kotlin.streams.toList
@@ -73,7 +73,7 @@ data class OkexOrderBook(
                 OrderBookUnit(
                     BigDecimal(objects[0]),
                     BigDecimal(objects[1]),
-                    OrderSideType.BID,
+                    TradeSideType.BUY,
                     objects[2].toInt()
                 )
             }
@@ -86,7 +86,7 @@ data class OkexOrderBook(
                 OrderBookUnit(
                     BigDecimal(objects[0]),
                     BigDecimal(objects[1]),
-                    OrderSideType.ASK,
+                    TradeSideType.SELL,
                     objects[2].toInt()
                 )
             }

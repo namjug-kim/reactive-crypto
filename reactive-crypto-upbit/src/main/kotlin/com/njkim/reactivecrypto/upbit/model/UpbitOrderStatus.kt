@@ -18,8 +18,8 @@ package com.njkim.reactivecrypto.upbit.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
-import com.njkim.reactivecrypto.core.common.model.order.OrderSideType
 import com.njkim.reactivecrypto.core.common.model.order.OrderStatusType
+import com.njkim.reactivecrypto.core.common.model.order.TradeSideType
 import java.math.BigDecimal
 import java.time.ZonedDateTime
 
@@ -32,7 +32,7 @@ data class UpbitOrderStatus(
     val uuid: String,
 
     @get:JsonProperty("side")
-    val side: OrderSideType,
+    val side: TradeSideType,
 
     @get:JsonProperty("ord_type")
     val ordType: String,

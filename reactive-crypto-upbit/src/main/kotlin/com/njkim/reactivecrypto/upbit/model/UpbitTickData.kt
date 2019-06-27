@@ -18,7 +18,7 @@ package com.njkim.reactivecrypto.upbit.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
-import com.njkim.reactivecrypto.core.common.model.order.OrderSideType
+import com.njkim.reactivecrypto.core.common.model.order.TradeSideType
 import java.math.BigDecimal
 import java.time.ZonedDateTime
 
@@ -48,7 +48,7 @@ data class UpbitTickData(
     val tradeVolume: BigDecimal,
 
     @get:JsonProperty("ask_bid")
-    val askBid: OrderSideType,
+    val askBid: TradeSideType,
 
     @get:JsonProperty("prev_closing_price")
     val prevClosingPrice: BigDecimal,

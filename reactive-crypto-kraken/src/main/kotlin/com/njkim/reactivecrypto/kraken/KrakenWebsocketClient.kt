@@ -18,14 +18,14 @@ package com.njkim.reactivecrypto.kraken
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import com.njkim.reactivecrypto.core.websocket.AbstractExchangeWebsocketClient
 import com.njkim.reactivecrypto.core.ExchangeJsonObjectMapper
 import com.njkim.reactivecrypto.core.common.model.ExchangeVendor
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import com.njkim.reactivecrypto.core.common.model.order.OrderBook
 import com.njkim.reactivecrypto.core.common.model.order.OrderBookUnit
-import com.njkim.reactivecrypto.core.common.model.order.OrderSideType
 import com.njkim.reactivecrypto.core.common.model.order.TickData
+import com.njkim.reactivecrypto.core.common.model.order.TradeSideType
+import com.njkim.reactivecrypto.core.websocket.AbstractExchangeWebsocketClient
 import com.njkim.reactivecrypto.kraken.model.KrakenOrderBook
 import com.njkim.reactivecrypto.kraken.model.KrakenSubscriptionStatus
 import com.njkim.reactivecrypto.kraken.model.KrakenTickDataWrapper
@@ -95,8 +95,8 @@ class KrakenWebsocketClient : AbstractExchangeWebsocketClient() {
                     channelCurrencyPairMap[krakenOrderBook.channelID]!!,
                     now,
                     ExchangeVendor.KRAKEN,
-                    krakenOrderBook.bids.map { OrderBookUnit(it.price, it.volume, OrderSideType.BID, null) },
-                    krakenOrderBook.asks.map { OrderBookUnit(it.price, it.volume, OrderSideType.ASK, null) }
+                    krakenOrderBook.bids.map { OrderBookUnit(it.price, it.volume, TradeSideType.BUY, null) },
+                    krakenOrderBook.asks.map { OrderBookUnit(it.price, it.volume, TradeSideType.SELL, null) }
                 )
             }
             .map { orderBook ->

@@ -21,16 +21,16 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import com.njkim.reactivecrypto.bithumb.model.BithumbOrderBook
 import com.njkim.reactivecrypto.bithumb.model.BithumbResponseWrapper
 import com.njkim.reactivecrypto.bithumb.model.BithumbTickData
-import com.njkim.reactivecrypto.core.websocket.AbstractExchangeWebsocketClient
 import com.njkim.reactivecrypto.core.ExchangeJsonObjectMapper
 import com.njkim.reactivecrypto.core.common.model.ExchangeVendor
 import com.njkim.reactivecrypto.core.common.model.currency.Currency
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import com.njkim.reactivecrypto.core.common.model.order.OrderBook
 import com.njkim.reactivecrypto.core.common.model.order.OrderBookUnit
-import com.njkim.reactivecrypto.core.common.model.order.OrderSideType
 import com.njkim.reactivecrypto.core.common.model.order.TickData
+import com.njkim.reactivecrypto.core.common.model.order.TradeSideType
 import com.njkim.reactivecrypto.core.common.util.toEpochMilli
+import com.njkim.reactivecrypto.core.websocket.AbstractExchangeWebsocketClient
 import mu.KotlinLogging
 import reactor.core.publisher.Flux
 import reactor.core.publisher.toFlux
@@ -122,7 +122,7 @@ class BithumbWebsocketClient : AbstractExchangeWebsocketClient() {
                             OrderBookUnit(
                                 bithumbBid.price,
                                 bithumbBid.quantity,
-                                OrderSideType.BID,
+                                TradeSideType.BUY,
                                 null
                             )
                         },
@@ -130,7 +130,7 @@ class BithumbWebsocketClient : AbstractExchangeWebsocketClient() {
                             OrderBookUnit(
                                 bithumbAsk.price,
                                 bithumbAsk.quantity,
-                                OrderSideType.ASK,
+                                TradeSideType.SELL,
                                 null
                             )
                         }

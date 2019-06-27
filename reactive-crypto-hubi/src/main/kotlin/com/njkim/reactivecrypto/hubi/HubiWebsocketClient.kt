@@ -18,15 +18,15 @@ package com.njkim.reactivecrypto.hubi
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import com.njkim.reactivecrypto.core.websocket.AbstractExchangeWebsocketClient
 import com.njkim.reactivecrypto.core.ExchangeJsonObjectMapper
 import com.njkim.reactivecrypto.core.common.model.ExchangeVendor
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import com.njkim.reactivecrypto.core.common.model.order.OrderBook
 import com.njkim.reactivecrypto.core.common.model.order.OrderBookUnit
-import com.njkim.reactivecrypto.core.common.model.order.OrderSideType
 import com.njkim.reactivecrypto.core.common.model.order.TickData
+import com.njkim.reactivecrypto.core.common.model.order.TradeSideType
 import com.njkim.reactivecrypto.core.common.util.toEpochMilli
+import com.njkim.reactivecrypto.core.websocket.AbstractExchangeWebsocketClient
 import com.njkim.reactivecrypto.hubi.model.HubiMessageFrame
 import com.njkim.reactivecrypto.hubi.model.HubiOrderBook
 import com.njkim.reactivecrypto.hubi.model.HubiTickDataWrapper
@@ -77,8 +77,8 @@ class HubiWebsocketClient : AbstractExchangeWebsocketClient() {
                     messageFrame.symbol,
                     eventTime,
                     ExchangeVendor.HUBI,
-                    messageFrame.data.bids.map { OrderBookUnit(it.price, it.amount, OrderSideType.BID, null) },
-                    messageFrame.data.asks.map { OrderBookUnit(it.price, it.amount, OrderSideType.ASK, null) }
+                    messageFrame.data.bids.map { OrderBookUnit(it.price, it.amount, TradeSideType.BUY, null) },
+                    messageFrame.data.asks.map { OrderBookUnit(it.price, it.amount, TradeSideType.SELL, null) }
                 )
             }
     }
