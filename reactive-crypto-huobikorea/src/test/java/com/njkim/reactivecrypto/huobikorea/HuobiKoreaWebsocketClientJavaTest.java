@@ -33,7 +33,7 @@ public class HuobiKoreaWebsocketClientJavaTest {
     @Test
     public void huobi_tick_data_subscribe() {
         // given
-        CurrencyPair targetCurrencyPair = CurrencyPair.parse("BTC", "KRW");
+        CurrencyPair targetCurrencyPair = CurrencyPair.parse("BTC", "USDT");
         Flux<TickData> tickDataFlux = new HuobiKoreaWebsocketClient()
                 .createTradeWebsocket(Collections.singletonList(targetCurrencyPair));
 
@@ -55,7 +55,7 @@ public class HuobiKoreaWebsocketClientJavaTest {
     @Test
     public void huobi_orderBook_subscribe() {
         // given
-        CurrencyPair targetCurrencyPair = CurrencyPair.parse("BTC", "KRW");
+        CurrencyPair targetCurrencyPair = CurrencyPair.parse("BTC", "USDT");
         Flux<OrderBook> orderBookFlux = new HuobiKoreaWebsocketClient()
                 .createDepthSnapshot(Collections.singletonList(targetCurrencyPair));
 

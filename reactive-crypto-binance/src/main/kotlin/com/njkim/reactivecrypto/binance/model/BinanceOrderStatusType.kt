@@ -14,10 +14,26 @@
  * under the License.
  */
 
-package com.njkim.reactivecrypto.core.common.model.order
+package com.njkim.reactivecrypto.binance.model
 
-enum class OrderStatusType {
-    WAIT,
-    DONE,
-    CANCEL
+import com.njkim.reactivecrypto.core.common.model.order.OrderStatusType
+
+enum class BinanceOrderStatusType {
+    NEW,
+    PARTIALLY_FILLED,
+    FILLED,
+    CANCELED,
+    REJECTED,
+    EXPIRED;
+
+    fun toOrderStatusType(): OrderStatusType {
+        return when (this) {
+            NEW -> OrderStatusType.WAIT
+            PARTIALLY_FILLED -> OrderStatusType.WAIT
+            FILLED -> OrderStatusType.DONE
+            CANCELED -> OrderStatusType.CANCEL
+            REJECTED -> OrderStatusType.DONE
+            EXPIRED -> OrderStatusType.DONE
+        }
+    }
 }

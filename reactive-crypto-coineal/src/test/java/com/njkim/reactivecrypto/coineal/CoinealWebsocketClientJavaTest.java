@@ -95,7 +95,7 @@ public class CoinealWebsocketClientJavaTest {
 
                     assertThat(orderBook.getAsks().get(0).getPrice())
                             .withFailMessage("ask price must be bigger than bid price")
-                            .isGreaterThan(orderBook.getBids().get(0).getPrice());
+                            .isGreaterThanOrEqualTo(orderBook.getBids().get(0).getPrice());
 
                     assertThat(orderBook.getAsks().get(0).getPrice())
                             .withFailMessage("asks must be sorted by price asc")
@@ -122,7 +122,7 @@ public class CoinealWebsocketClientJavaTest {
 
                     assertThat(orderBook.getAsks().get(0).getPrice())
                             .withFailMessage("ask price must be bigger than bid price")
-                            .isGreaterThan(orderBook.getBids().get(0).getPrice());
+                            .isGreaterThanOrEqualTo(orderBook.getBids().get(0).getPrice());
 
                     assertThat(orderBook.getAsks().get(0).getPrice())
                             .withFailMessage("asks must be sorted by price asc")

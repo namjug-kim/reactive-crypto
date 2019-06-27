@@ -16,8 +16,8 @@
 
 package com.njkim.reactivecrypto.core.common.model.order
 
-enum class OrderStatusType {
-    WAIT,
-    DONE,
-    CANCEL
+enum class TimeInForceType {
+    GTC,
+    IOC,
+    FOK
 }
