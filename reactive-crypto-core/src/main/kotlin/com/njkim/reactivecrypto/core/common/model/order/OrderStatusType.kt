@@ -1,6 +1,5 @@
 package com.njkim.reactivecrypto.core.common.model.order
 
-
 /**
 Created by jay on 27/06/2019
  **/

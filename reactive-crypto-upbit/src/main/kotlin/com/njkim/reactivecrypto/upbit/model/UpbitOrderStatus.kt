@@ -19,7 +19,6 @@ package com.njkim.reactivecrypto.upbit.model
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import com.njkim.reactivecrypto.core.common.model.order.OrderSideType
-import com.njkim.reactivecrypto.core.common.model.order.OrderStatus
 import com.njkim.reactivecrypto.core.common.model.order.OrderStatusType
 import java.math.BigDecimal
 import java.time.ZonedDateTime

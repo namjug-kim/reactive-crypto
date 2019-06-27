@@ -19,8 +19,6 @@ package com.njkim.reactivecrypto.coineal
 import com.njkim.reactivecrypto.coineal.http.CoinealHttpClient
 import com.njkim.reactivecrypto.core.ExchangeClientFactory
 import com.njkim.reactivecrypto.core.common.model.ExchangeVendor
-import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
-import com.njkim.reactivecrypto.core.common.model.paging.FirstPageRequest
 import com.njkim.reactivecrypto.core.http.ExchangeHttpClient
 import com.njkim.reactivecrypto.core.websocket.ExchangeWebsocketClient
 import org.assertj.core.api.Assertions.assertThat
@@ -44,5 +42,4 @@ class ExchangeClientFactoryTest {
         assertThat(exchangeWebsocketClient).isInstanceOf(ExchangeHttpClient::class.java)
         assertThat(exchangeWebsocketClient).isExactlyInstanceOf(CoinealHttpClient::class.java)
     }
-
 }
