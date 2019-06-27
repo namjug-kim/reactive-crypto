@@ -26,7 +26,6 @@ import com.fasterxml.jackson.databind.module.SimpleModule
 import com.njkim.reactivecrypto.core.ExchangeJsonObjectMapper
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import com.njkim.reactivecrypto.core.common.model.order.OrderBookUnit
-import com.njkim.reactivecrypto.core.common.model.order.OrderSideType
 import com.njkim.reactivecrypto.core.common.model.order.TradeSideType
 import com.njkim.reactivecrypto.idax.model.IdaxOrderBook
 import com.njkim.reactivecrypto.idax.model.IdaxTickData
@@ -111,7 +110,7 @@ class IdaxJsonObjectMapper : ExchangeJsonObjectMapper {
                     OrderBookUnit(
                         instance.convertValue(it.get(0).asText(), BigDecimal::class.java),
                         instance.convertValue(it.get(1).asText(), BigDecimal::class.java),
-                        OrderSideType.BID
+                        TradeSideType.BUY
                     )
                 }
 
@@ -119,7 +118,7 @@ class IdaxJsonObjectMapper : ExchangeJsonObjectMapper {
                     OrderBookUnit(
                         instance.convertValue(it.get(0).asText(), BigDecimal::class.java),
                         instance.convertValue(it.get(1).asText(), BigDecimal::class.java),
-                        OrderSideType.ASK
+                        TradeSideType.SELL
                     )
                 }
 

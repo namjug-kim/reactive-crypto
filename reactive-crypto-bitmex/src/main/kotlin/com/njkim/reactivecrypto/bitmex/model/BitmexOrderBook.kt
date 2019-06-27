@@ -18,7 +18,7 @@ package com.njkim.reactivecrypto.bitmex.model
 
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import com.njkim.reactivecrypto.core.common.model.order.OrderBookUnit
-import com.njkim.reactivecrypto.core.common.model.order.OrderSideType
+import com.njkim.reactivecrypto.core.common.model.order.TradeSideType
 import java.math.BigDecimal
 import java.time.ZonedDateTime
 import kotlin.streams.toList
@@ -35,7 +35,7 @@ data class BitmexOrderBook(
                 OrderBookUnit(
                     BigDecimal(objects[0]),
                     BigDecimal(objects[1]),
-                    OrderSideType.BID,
+                    TradeSideType.BUY,
                     null
                 )
             }
@@ -48,7 +48,7 @@ data class BitmexOrderBook(
                 OrderBookUnit(
                     BigDecimal(objects[0]),
                     BigDecimal(objects[1]),
-                    OrderSideType.ASK,
+                    TradeSideType.SELL,
                     null
                 )
             }

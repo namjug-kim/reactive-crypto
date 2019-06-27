@@ -17,7 +17,7 @@
 package com.njkim.reactivecrypto.huobiglobal.model
 
 import com.njkim.reactivecrypto.core.common.model.order.OrderBookUnit
-import com.njkim.reactivecrypto.core.common.model.order.OrderSideType
+import com.njkim.reactivecrypto.core.common.model.order.TradeSideType
 import java.math.BigDecimal
 import kotlin.streams.toList
 
@@ -31,7 +31,7 @@ data class HuobiOrderBook(
                 OrderBookUnit(
                     BigDecimal(objects[0]),
                     BigDecimal(objects[1]),
-                    OrderSideType.BID,
+                    TradeSideType.BUY,
                     null
                 )
             }
@@ -44,7 +44,7 @@ data class HuobiOrderBook(
                 OrderBookUnit(
                     BigDecimal(objects[0]),
                     BigDecimal(objects[1]),
-                    OrderSideType.ASK,
+                    TradeSideType.SELL,
                     null
                 )
             }

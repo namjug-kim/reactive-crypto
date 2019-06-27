@@ -18,17 +18,15 @@ package com.njkim.reactivecrypto.upbit
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import com.njkim.reactivecrypto.core.websocket.AbstractExchangeWebsocketClient
 import com.njkim.reactivecrypto.core.ExchangeJsonObjectMapper
 import com.njkim.reactivecrypto.core.common.model.ExchangeVendor
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import com.njkim.reactivecrypto.core.common.model.order.OrderBook
 import com.njkim.reactivecrypto.core.common.model.order.OrderBookUnit
-import com.njkim.reactivecrypto.core.common.model.order.OrderSideType.ASK
 import com.njkim.reactivecrypto.core.common.model.order.TickData
-import com.njkim.reactivecrypto.core.common.model.order.TradeSideType.BUY
-import com.njkim.reactivecrypto.core.common.model.order.TradeSideType.SELL
+import com.njkim.reactivecrypto.core.common.model.order.TradeSideType
 import com.njkim.reactivecrypto.core.common.util.toEpochMilli
+import com.njkim.reactivecrypto.core.websocket.AbstractExchangeWebsocketClient
 import com.njkim.reactivecrypto.upbit.model.UpbitOrderBook
 import com.njkim.reactivecrypto.upbit.model.UpbitTickData
 import io.netty.handler.codec.json.JsonObjectDecoder
@@ -76,7 +74,7 @@ class UpbitWebsocketClient : AbstractExchangeWebsocketClient() {
                     it.tradeVolume,
                     it.code,
                     ExchangeVendor.UPBIT,
-                    if (it.askBid == ASK) SELL else BUY
+                    it.askBid
                 )
             }
     }
@@ -108,7 +106,7 @@ class UpbitWebsocketClient : AbstractExchangeWebsocketClient() {
                             OrderBookUnit(
                                 orderBookUnit.bidPrice,
                                 orderBookUnit.bidSize,
-                                ASK,
+                                TradeSideType.BUY,
                                 null
                             )
                         },
@@ -117,7 +115,7 @@ class UpbitWebsocketClient : AbstractExchangeWebsocketClient() {
                             OrderBookUnit(
                                 orderBookUnit.askPrice,
                                 orderBookUnit.askSize,
-                                ASK,
+                                TradeSideType.SELL,
                                 null
                             )
                         }

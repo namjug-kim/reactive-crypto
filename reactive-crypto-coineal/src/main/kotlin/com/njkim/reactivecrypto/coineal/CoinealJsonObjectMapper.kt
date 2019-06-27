@@ -74,18 +74,6 @@ class CoinealJsonObjectMapper : ExchangeJsonObjectMapper {
         }
     }
 
-    override fun orderSideTypeDeserializer(): JsonDeserializer<OrderSideType>? {
-        return object : JsonDeserializer<OrderSideType>() {
-            override fun deserialize(p: JsonParser, ctxt: DeserializationContext): OrderSideType {
-                return when (p.valueAsString) {
-                    "BUY" -> OrderSideType.BID
-                    "SELL" -> OrderSideType.ASK
-                    else -> throw IllegalArgumentException()
-                }
-            }
-        }
-    }
-
     override fun orderStatusTypeDeserializer(): JsonDeserializer<OrderStatusType>? {
         return object : JsonDeserializer<OrderStatusType>() {
             override fun deserialize(p: JsonParser, ctxt: DeserializationContext): OrderStatusType {
@@ -120,7 +108,7 @@ class CoinealJsonObjectMapper : ExchangeJsonObjectMapper {
                     OrderBookUnit(
                         instance.convertValue(it.get(0).asText(), BigDecimal::class.java),
                         instance.convertValue(it.get(1).asText(), BigDecimal::class.java),
-                        OrderSideType.BID
+                        TradeSideType.BUY
                     )
                 }
 
@@ -128,7 +116,7 @@ class CoinealJsonObjectMapper : ExchangeJsonObjectMapper {
                     OrderBookUnit(
                         instance.convertValue(it.get(0).asText(), BigDecimal::class.java),
                         instance.convertValue(it.get(1).asText(), BigDecimal::class.java),
-                        OrderSideType.ASK
+                        TradeSideType.SELL
                     )
                 }
 

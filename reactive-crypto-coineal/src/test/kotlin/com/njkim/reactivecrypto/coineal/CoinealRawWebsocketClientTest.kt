@@ -90,7 +90,7 @@ class CoinealRawWebsocketClientTest {
 
                 Assertions.assertThat(coinealOrderBookMessageFrame.tick.asks[0].price)
                     .withFailMessage("ask price must be bigger than bid price")
-                    .isGreaterThan(coinealOrderBookMessageFrame.tick.bids[0].price)
+                    .isGreaterThanOrEqualTo(coinealOrderBookMessageFrame.tick.bids[0].price)
 
                 Assertions.assertThat(coinealOrderBookMessageFrame.tick.asks[0].price)
                     .withFailMessage("asks must be sorted by price asc")

@@ -20,8 +20,8 @@ import com.njkim.reactivecrypto.core.common.model.ExchangeVendor
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import com.njkim.reactivecrypto.core.common.model.order.OrderBook
 import com.njkim.reactivecrypto.core.common.model.order.OrderBookUnit
-import com.njkim.reactivecrypto.core.common.model.order.OrderSideType
 import com.njkim.reactivecrypto.core.common.model.order.TickData
+import com.njkim.reactivecrypto.core.common.model.order.TradeSideType
 import com.njkim.reactivecrypto.core.common.util.toEpochMilli
 import com.njkim.reactivecrypto.core.websocket.ExchangeWebsocketClient
 import reactor.core.publisher.Flux
@@ -60,8 +60,8 @@ class BitstampWebsocketClient : ExchangeWebsocketClient {
                     bitstampMessageFrame.currencyPair,
                     microTimestamp,
                     ExchangeVendor.BITSTAMP,
-                    bitstampMessageFrame.data.bids.map { OrderBookUnit(it.price, it.quantity, OrderSideType.BID) },
-                    bitstampMessageFrame.data.asks.map { OrderBookUnit(it.price, it.quantity, OrderSideType.ASK) }
+                    bitstampMessageFrame.data.bids.map { OrderBookUnit(it.price, it.quantity, TradeSideType.BUY) },
+                    bitstampMessageFrame.data.asks.map { OrderBookUnit(it.price, it.quantity, TradeSideType.SELL) }
                 )
             }
     }

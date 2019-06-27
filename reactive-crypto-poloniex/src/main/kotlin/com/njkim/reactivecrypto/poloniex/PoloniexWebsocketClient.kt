@@ -20,8 +20,8 @@ import com.njkim.reactivecrypto.core.common.model.ExchangeVendor
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import com.njkim.reactivecrypto.core.common.model.order.OrderBook
 import com.njkim.reactivecrypto.core.common.model.order.OrderBookUnit
-import com.njkim.reactivecrypto.core.common.model.order.OrderSideType
 import com.njkim.reactivecrypto.core.common.model.order.TickData
+import com.njkim.reactivecrypto.core.common.model.order.TradeSideType
 import com.njkim.reactivecrypto.core.common.util.toEpochMilli
 import com.njkim.reactivecrypto.core.websocket.ExchangeWebsocketClient
 import com.njkim.reactivecrypto.poloniex.model.PoloniexEventType
@@ -90,7 +90,7 @@ class PoloniexWebsocketClient : ExchangeWebsocketClient {
                     var bids = prevOrderBook.bids.toMutableList()
                     var asks = prevOrderBook.asks.toMutableList()
 
-                    if (orderBookUpdateEvent.side == OrderSideType.BID) {
+                    if (orderBookUpdateEvent.side == TradeSideType.BUY) {
                         bids = applyOrderBookUpdate(bids, orderBookUpdateEvent)
                     } else {
                         asks = applyOrderBookUpdate(asks, orderBookUpdateEvent)

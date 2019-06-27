@@ -24,7 +24,7 @@ data class OrderStatus(
     val uniqueId: String,
     val orderStatusType: OrderStatusType,
 
-    val orderSideType: OrderSideType,
+    val side: TradeSideType,
     val currencyPair: CurrencyPair,
     val price: BigDecimal,
     val orderVolume: BigDecimal,

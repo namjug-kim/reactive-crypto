@@ -44,7 +44,7 @@ class BinanceOrderOperation(
                 OrderStatus(
                     createOrderId(it.symbol, it.orderId),
                     it.status.toOrderStatusType(),
-                    if (it.side == TradeSideType.BUY) OrderSideType.BID else OrderSideType.ASK,
+                    if (it.side == TradeSideType.BUY) TradeSideType.BUY else TradeSideType.SELL,
                     it.symbol,
                     it.price,
                     it.origQty,
@@ -96,7 +96,7 @@ class BinanceOrderOperation(
                 OrderStatus(
                     createOrderId(it.symbol, it.orderId),
                     it.status.toOrderStatusType(),
-                    if (it.side == TradeSideType.BUY) OrderSideType.BID else OrderSideType.ASK,
+                    if (it.side == TradeSideType.BUY) TradeSideType.BUY else TradeSideType.SELL,
                     it.symbol,
                     it.price,
                     it.origQty,
