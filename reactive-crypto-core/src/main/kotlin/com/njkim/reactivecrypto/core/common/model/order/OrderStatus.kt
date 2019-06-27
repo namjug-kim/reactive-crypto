@@ -22,6 +22,7 @@ import java.time.ZonedDateTime
 
 data class OrderStatus(
     val uniqueId: String,
+    val orderStatusType: OrderStatusType,
 
     val orderSideType: OrderSideType,
     val currencyPair: CurrencyPair,
@@ -34,4 +35,5 @@ data class OrderStatus(
     val remainingFee: BigDecimal? = null,
 
     val createDateTime: ZonedDateTime
+
 )
