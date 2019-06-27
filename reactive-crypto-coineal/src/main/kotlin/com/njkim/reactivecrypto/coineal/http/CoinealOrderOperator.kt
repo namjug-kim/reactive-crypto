@@ -37,6 +37,10 @@ class CoinealOrderOperator(
     secretKey: String,
     private val coinealRawOrderOperation: CoinealRawOrderOperation
 ) : OrderOperation(accessKey, secretKey) {
+    override fun orderStatus(pair: CurrencyPair, orderId: Pageable): Mono<OrderStatus> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun marketOrder(
         pair: CurrencyPair,
         tradeSideType: TradeSideType,
