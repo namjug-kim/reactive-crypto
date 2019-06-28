@@ -25,6 +25,7 @@ enum class ExchangeVendor {
     HUOBI_JAPAN,
     HUOBI_KOREA,
     OKEX,
+    OKEX_KOREA,
     BITHUMB,
     HUBI,
     BITMEX,
