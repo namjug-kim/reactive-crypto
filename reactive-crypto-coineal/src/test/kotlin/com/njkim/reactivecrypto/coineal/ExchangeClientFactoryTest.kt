@@ -23,6 +23,7 @@ import com.njkim.reactivecrypto.core.http.ExchangeHttpClient
 import com.njkim.reactivecrypto.core.websocket.ExchangeWebsocketClient
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
+import java.util.concurrent.CountDownLatch
 
 class ExchangeClientFactoryTest {
     @Test
@@ -42,4 +43,5 @@ class ExchangeClientFactoryTest {
         assertThat(exchangeWebsocketClient).isInstanceOf(ExchangeHttpClient::class.java)
         assertThat(exchangeWebsocketClient).isExactlyInstanceOf(CoinealHttpClient::class.java)
     }
+
 }
