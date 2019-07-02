@@ -16,15 +16,25 @@
 
 package com.njkim.reactivecrypto.coineal.http
 
+import com.njkim.reactivecrypto.coineal.http.raw.CoinealRawAccountOperation
 import com.njkim.reactivecrypto.core.common.model.account.Balance
 import com.njkim.reactivecrypto.core.http.AccountOperation
 import reactor.core.publisher.Flux
 
 class CoinealAccountOperator(
     accessKey: String,
-    secretKey: String
+    secretKey: String,
+    private val coinealRawAccountOperation: CoinealRawAccountOperation
 ) : AccountOperation(accessKey, secretKey) {
     override fun balance(): Flux<Balance> {
-        TODO("not implemented")
+        return coinealRawAccountOperation
+            .balance()
+            .map {
+                Balance(
+                    it.currency,
+                    it.normal,
+                    it.locked
+                )
+            }
     }
 }

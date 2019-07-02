@@ -27,7 +27,11 @@ class CoinealPrivateHttpClient(
     private val coinealRawPrivateHttpClient: CoinealRawPrivateHttpClient
 ) : PrivateHttpClient(accessKey, secretKey) {
     override fun account(): AccountOperation {
-        TODO("not implemented")
+        return CoinealAccountOperator(
+            accessKey,
+            secretKey,
+            coinealRawPrivateHttpClient.account()
+        )
     }
 
     override fun order(): OrderOperation {

@@ -16,7 +16,6 @@
 
 package com.njkim.reactivecrypto.coineal.http.raw
 
-import com.njkim.reactivecrypto.core.http.AccountOperation
 import org.springframework.web.reactive.function.client.WebClient
 
 class CoinealRawPrivateHttpClient(
@@ -28,7 +27,7 @@ class CoinealRawPrivateHttpClient(
         return CoinealRawOrderOperation(webClient, accessKey, secretKey)
     }
 
-    fun account(): AccountOperation {
-        TODO("not implemented")
+    fun account(): CoinealRawAccountOperation {
+        return CoinealRawAccountOperation(webClient, accessKey, secretKey)
     }
 }
