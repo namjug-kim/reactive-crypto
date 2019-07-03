@@ -56,10 +56,12 @@ data class ExchangeVendor(val name: String) {
         @JvmField
         val KORBOTEX = ExchangeVendor("KORBOTEX")
 
+        @JvmStatic
         fun valueOf(value: String): ExchangeVendor {
             return mapCache[value] ?: throw NoSuchElementException()
         }
 
+        @JvmStatic
         fun values(): List<ExchangeVendor> {
             return listOf(
                 UPBIT, BINANCE, HUOBI_GLOBAL, HUOBI_JAPAN, HUOBI_KOREA, OKEX, OKEX_KOREA, BITHUMB, HUBI, BITMEX,
