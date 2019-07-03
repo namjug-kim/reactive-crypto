@@ -57,8 +57,8 @@ data class ExchangeVendor(val name: String) {
         val KORBOTEX = ExchangeVendor("KORBOTEX")
 
         @JvmStatic
-        fun valueOf(value: String): ExchangeVendor {
-            return mapCache[value] ?: ExchangeVendor(value)
+        fun getInstance(value: String): ExchangeVendor {
+            return mapCache.computeIfAbsent(value) { ExchangeVendor(value) }
         }
 
         @JvmStatic
@@ -69,7 +69,7 @@ data class ExchangeVendor(val name: String) {
             )
         }
 
-        private val mapCache = values().map { it.name to it }.toMap()
+        private val mapCache = values().map { it.name to it }.toMap().toMutableMap()
     }
 
     /**

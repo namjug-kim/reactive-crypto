@@ -21,6 +21,7 @@ import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import com.njkim.reactivecrypto.core.common.model.order.*
 import com.njkim.reactivecrypto.core.common.model.paging.Page
 import com.njkim.reactivecrypto.core.common.model.paging.Pageable
+import com.njkim.reactivecrypto.core.common.util.toMultiValueMap
 import com.njkim.reactivecrypto.core.http.OrderOperation
 import com.njkim.reactivecrypto.upbit.UpbitJsonObjectMapper
 import com.njkim.reactivecrypto.upbit.http.raw.sign
@@ -53,7 +54,11 @@ class UpbitOrderOperation(
 
         return privateWebClient
             .post()
-            .uri { it.path("/v1/order").build() }
+            .uri {
+                it.path("/v1/order")
+                    .queryParams(upbitRequest.toMultiValueMap())
+                    .build()
+            }
             .header("Authorization", "Bearer $sign")
             .retrieve()
             .upbitErrorHandling()
@@ -85,7 +90,34 @@ class UpbitOrderOperation(
         price: BigDecimal,
         quantity: BigDecimal
     ): Mono<OrderPlaceResult> {
-        TODO("not implemented")
+        val limitRequest = mapOf(
+            "market" to pair,
+            "side" to tradeSideType,
+            "volume" to quantity,
+            "price" to price,
+            "ord_type" to UpbitOrderType.LIMIT
+        )
+
+        val upbitLimitRequest = UpbitJsonObjectMapper.instance.convertValue<Map<String, Any>>(limitRequest)
+        val sign = sign(upbitLimitRequest, accessKey, secretKey)
+
+        return privateWebClient
+            .post()
+            .uri {
+                it.path("/v1/orders")
+                    .queryParams(upbitLimitRequest.toMultiValueMap())
+                    .build()
+            }
+            .header("Authorization", "Bearer $sign")
+            .body(BodyInserters.fromObject(upbitLimitRequest))
+            .retrieve()
+            .upbitErrorHandling()
+            .bodyToMono<UpbitOrder>()
+            .map {
+                OrderPlaceResult(
+                    it.uuid
+                )
+            }
     }
 
     override fun marketOrder(
@@ -117,7 +149,11 @@ class UpbitOrderOperation(
 
         return privateWebClient
             .post()
-            .uri { it.path("/v1/orders").build() }
+            .uri {
+                it.path("/v1/orders")
+                    .queryParams(upbitMarketRequest.toMultiValueMap())
+                    .build()
+            }
             .header("Authorization", "Bearer $sign")
             .body(BodyInserters.fromObject(upbitMarketRequest))
             .retrieve()
