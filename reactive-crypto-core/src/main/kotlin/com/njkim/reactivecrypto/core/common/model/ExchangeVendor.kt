@@ -58,7 +58,7 @@ data class ExchangeVendor(val name: String) {
 
         @JvmStatic
         fun valueOf(value: String): ExchangeVendor {
-            return mapCache[value] ?: throw NoSuchElementException()
+            return mapCache[value] ?: ExchangeVendor(value)
         }
 
         @JvmStatic
