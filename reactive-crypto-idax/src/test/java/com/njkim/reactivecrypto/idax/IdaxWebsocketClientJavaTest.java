@@ -46,7 +46,7 @@ public class IdaxWebsocketClientJavaTest {
                     assertThat(tickData.getCurrencyPair())
                             .isEqualTo(targetCurrencyPair);
                     assertThat(tickData.getExchangeVendor())
-                            .isEqualByComparingTo(ExchangeVendor.IDAX);
+                            .isEqualTo(ExchangeVendor.IDAX);
                     assertThat(tickData.getPrice())
                             .isGreaterThan(BigDecimal.ZERO);
                     assertThat(tickData.getQuantity())
@@ -57,7 +57,7 @@ public class IdaxWebsocketClientJavaTest {
                     assertThat(tickData.getCurrencyPair())
                             .isEqualTo(targetCurrencyPair);
                     assertThat(tickData.getExchangeVendor())
-                            .isEqualByComparingTo(ExchangeVendor.IDAX);
+                            .isEqualTo(ExchangeVendor.IDAX);
                     assertThat(tickData.getPrice())
                             .isGreaterThan(BigDecimal.ZERO);
                     assertThat(tickData.getQuantity())
@@ -82,7 +82,7 @@ public class IdaxWebsocketClientJavaTest {
                     assertThat(orderBook.getCurrencyPair())
                             .isEqualTo(targetCurrencyPair);
                     assertThat(orderBook.getExchangeVendor())
-                            .isEqualByComparingTo(ExchangeVendor.IDAX);
+                            .isEqualTo(ExchangeVendor.IDAX);
                     assertThat(orderBook.getAsks())
                             .isNotEmpty();
                     assertThat(orderBook.getBids())
@@ -109,7 +109,7 @@ public class IdaxWebsocketClientJavaTest {
                     assertThat(orderBook.getCurrencyPair())
                             .isEqualTo(targetCurrencyPair);
                     assertThat(orderBook.getExchangeVendor())
-                            .isEqualByComparingTo(ExchangeVendor.IDAX);
+                            .isEqualTo(ExchangeVendor.IDAX);
                     assertThat(orderBook.getAsks())
                             .isNotEmpty();
                     assertThat(orderBook.getBids())

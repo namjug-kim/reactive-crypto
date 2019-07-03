@@ -47,7 +47,7 @@ public class BitstampWebsocketClientJavaTest {
                     assertThat(tickData.getCurrencyPair())
                             .isEqualTo(targetCurrencyPair);
                     assertThat(tickData.getExchangeVendor())
-                            .isEqualByComparingTo(ExchangeVendor.BITSTAMP);
+                            .isEqualTo(ExchangeVendor.BITSTAMP);
                     assertThat(tickData.getPrice())
                             .isGreaterThan(BigDecimal.ZERO);
                     assertThat(tickData.getQuantity())
@@ -58,7 +58,7 @@ public class BitstampWebsocketClientJavaTest {
                     assertThat(tickData.getCurrencyPair())
                             .isEqualTo(targetCurrencyPair);
                     assertThat(tickData.getExchangeVendor())
-                            .isEqualByComparingTo(ExchangeVendor.BITSTAMP);
+                            .isEqualTo(ExchangeVendor.BITSTAMP);
                     assertThat(tickData.getPrice())
                             .isGreaterThan(BigDecimal.ZERO);
                     assertThat(tickData.getQuantity())
@@ -83,7 +83,7 @@ public class BitstampWebsocketClientJavaTest {
                     assertThat(orderBook.getCurrencyPair())
                             .isEqualTo(targetCurrencyPair);
                     assertThat(orderBook.getExchangeVendor())
-                            .isEqualByComparingTo(ExchangeVendor.BITSTAMP);
+                            .isEqualTo(ExchangeVendor.BITSTAMP);
                     assertThat(orderBook.getAsks())
                             .isNotEmpty();
                     assertThat(orderBook.getBids())
@@ -110,7 +110,7 @@ public class BitstampWebsocketClientJavaTest {
                     assertThat(orderBook.getCurrencyPair())
                             .isEqualTo(targetCurrencyPair);
                     assertThat(orderBook.getExchangeVendor())
-                            .isEqualByComparingTo(ExchangeVendor.BITSTAMP);
+                            .isEqualTo(ExchangeVendor.BITSTAMP);
                     assertThat(orderBook.getAsks())
                             .isNotEmpty();
                     assertThat(orderBook.getBids())

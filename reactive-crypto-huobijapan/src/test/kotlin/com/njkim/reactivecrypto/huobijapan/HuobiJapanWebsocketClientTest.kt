@@ -42,7 +42,7 @@ class HuobiJapanWebsocketClientTest {
                 Assertions.assertThat(it.currencyPair)
                     .isEqualTo(targetCurrencyPair)
                 Assertions.assertThat(it.exchangeVendor)
-                    .isEqualByComparingTo(ExchangeVendor.HUOBI_JAPAN)
+                    .isEqualTo(ExchangeVendor.HUOBI_JAPAN)
                 Assertions.assertThat(it.price)
                     .isGreaterThan(BigDecimal.ZERO)
                 Assertions.assertThat(it.quantity)
@@ -67,7 +67,7 @@ class HuobiJapanWebsocketClientTest {
                 Assertions.assertThat(it.currencyPair)
                     .isEqualTo(targetCurrencyPair)
                 Assertions.assertThat(it.exchangeVendor)
-                    .isEqualByComparingTo(ExchangeVendor.HUOBI_JAPAN)
+                    .isEqualTo(ExchangeVendor.HUOBI_JAPAN)
                 Assertions.assertThat(it.asks)
                     .isNotEmpty
                 Assertions.assertThat(it.bids)
@@ -94,7 +94,7 @@ class HuobiJapanWebsocketClientTest {
                 Assertions.assertThat(it.currencyPair)
                     .isEqualTo(targetCurrencyPair)
                 Assertions.assertThat(it.exchangeVendor)
-                    .isEqualByComparingTo(ExchangeVendor.HUOBI_JAPAN)
+                    .isEqualTo(ExchangeVendor.HUOBI_JAPAN)
                 Assertions.assertThat(it.asks)
                     .isNotEmpty
                 Assertions.assertThat(it.bids)

@@ -21,13 +21,14 @@ class BinanceWebsocketClientTest {
         // when
         val tickData = binanceWebsocketClient.blockFirst(Duration.ofSeconds(10))!!
         log.info { tickData }
+        log.info { tickData.exchangeVendor.toString() }
 
         // then
         Assertions.assertThat(tickData).isNotNull
         Assertions.assertThat(tickData.currencyPair)
             .isEqualTo(targetCurrencyPair)
         Assertions.assertThat(tickData.exchangeVendor)
-            .isEqualByComparingTo(ExchangeVendor.BINANCE)
+            .isEqualTo(ExchangeVendor.BINANCE)
         Assertions.assertThat(tickData.price)
             .isGreaterThan(BigDecimal.ZERO)
         Assertions.assertThat(tickData.quantity)
@@ -50,7 +51,7 @@ class BinanceWebsocketClientTest {
         Assertions.assertThat(orderBook.currencyPair)
             .isEqualTo(targetCurrencyPair)
         Assertions.assertThat(orderBook.exchangeVendor)
-            .isEqualByComparingTo(ExchangeVendor.BINANCE)
+            .isEqualTo(ExchangeVendor.BINANCE)
         Assertions.assertThat(orderBook.asks)
             .isNotEmpty
         Assertions.assertThat(orderBook.bids)

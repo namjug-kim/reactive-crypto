@@ -47,7 +47,7 @@ public class KorbotexWebsocketClientJavaTest {
                     assertThat(tickData.getCurrencyPair())
                             .isEqualTo(targetCurrencyPair);
                     assertThat(tickData.getExchangeVendor())
-                            .isEqualByComparingTo(ExchangeVendor.KORBOTEX);
+                            .isEqualTo(ExchangeVendor.KORBOTEX);
                     assertThat(tickData.getPrice())
                             .isGreaterThan(BigDecimal.ZERO);
                     assertThat(tickData.getQuantity())
@@ -58,7 +58,7 @@ public class KorbotexWebsocketClientJavaTest {
                     assertThat(tickData.getCurrencyPair())
                             .isEqualTo(targetCurrencyPair);
                     assertThat(tickData.getExchangeVendor())
-                            .isEqualByComparingTo(ExchangeVendor.KORBOTEX);
+                            .isEqualTo(ExchangeVendor.KORBOTEX);
                     assertThat(tickData.getPrice())
                             .isGreaterThan(BigDecimal.ZERO);
                     assertThat(tickData.getQuantity())
@@ -83,7 +83,7 @@ public class KorbotexWebsocketClientJavaTest {
                     assertThat(orderBook.getCurrencyPair())
                             .isEqualTo(targetCurrencyPair);
                     assertThat(orderBook.getExchangeVendor())
-                            .isEqualByComparingTo(ExchangeVendor.KORBOTEX);
+                            .isEqualTo(ExchangeVendor.KORBOTEX);
                     assertThat(orderBook.getAsks())
                             .isNotEmpty();
                     assertThat(orderBook.getBids())
@@ -110,7 +110,7 @@ public class KorbotexWebsocketClientJavaTest {
                     assertThat(orderBook.getCurrencyPair())
                             .isEqualTo(targetCurrencyPair);
                     assertThat(orderBook.getExchangeVendor())
-                            .isEqualByComparingTo(ExchangeVendor.KORBOTEX);
+                            .isEqualTo(ExchangeVendor.KORBOTEX);
                     assertThat(orderBook.getAsks())
                             .isNotEmpty();
                     assertThat(orderBook.getBids())

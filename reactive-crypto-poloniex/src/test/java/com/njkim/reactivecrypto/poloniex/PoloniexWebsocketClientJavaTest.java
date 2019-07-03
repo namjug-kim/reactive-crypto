@@ -46,7 +46,7 @@ public class PoloniexWebsocketClientJavaTest {
                     assertThat(tickData.getCurrencyPair())
                             .isEqualTo(targetCurrencyPair);
                     assertThat(tickData.getExchangeVendor())
-                            .isEqualByComparingTo(ExchangeVendor.POLONIEX);
+                            .isEqualTo(ExchangeVendor.POLONIEX);
                     assertThat(tickData.getPrice())
                             .isGreaterThan(BigDecimal.ZERO);
                     assertThat(tickData.getQuantity())
@@ -57,7 +57,7 @@ public class PoloniexWebsocketClientJavaTest {
                     assertThat(tickData.getCurrencyPair())
                             .isEqualTo(targetCurrencyPair);
                     assertThat(tickData.getExchangeVendor())
-                            .isEqualByComparingTo(ExchangeVendor.POLONIEX);
+                            .isEqualTo(ExchangeVendor.POLONIEX);
                     assertThat(tickData.getPrice())
                             .isGreaterThan(BigDecimal.ZERO);
                     assertThat(tickData.getQuantity())
@@ -82,7 +82,7 @@ public class PoloniexWebsocketClientJavaTest {
                     assertThat(orderBook.getCurrencyPair())
                             .isEqualTo(targetCurrencyPair);
                     assertThat(orderBook.getExchangeVendor())
-                            .isEqualByComparingTo(ExchangeVendor.POLONIEX);
+                            .isEqualTo(ExchangeVendor.POLONIEX);
                     assertThat(orderBook.getAsks())
                             .isNotEmpty();
                     assertThat(orderBook.getBids())
@@ -109,7 +109,7 @@ public class PoloniexWebsocketClientJavaTest {
                     assertThat(orderBook.getCurrencyPair())
                             .isEqualTo(targetCurrencyPair);
                     assertThat(orderBook.getExchangeVendor())
-                            .isEqualByComparingTo(ExchangeVendor.POLONIEX);
+                            .isEqualTo(ExchangeVendor.POLONIEX);
                     assertThat(orderBook.getAsks())
                             .isNotEmpty();
                     assertThat(orderBook.getBids())

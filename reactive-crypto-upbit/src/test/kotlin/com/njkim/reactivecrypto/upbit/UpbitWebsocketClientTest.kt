@@ -27,7 +27,7 @@ class UpbitWebsocketClientTest {
         assertThat(tickData.currencyPair)
             .isEqualTo(targetCurrencyPair)
         assertThat(tickData.exchangeVendor)
-            .isEqualByComparingTo(ExchangeVendor.UPBIT)
+            .isEqualTo(ExchangeVendor.UPBIT)
         assertThat(tickData.price)
             .isGreaterThan(BigDecimal.ZERO)
         assertThat(tickData.quantity)
@@ -50,7 +50,7 @@ class UpbitWebsocketClientTest {
         assertThat(orderBook.currencyPair)
             .isEqualTo(targetCurrencyPair)
         assertThat(orderBook.exchangeVendor)
-            .isEqualByComparingTo(ExchangeVendor.UPBIT)
+            .isEqualTo(ExchangeVendor.UPBIT)
         assertThat(orderBook.asks)
             .isNotEmpty
         assertThat(orderBook.bids)

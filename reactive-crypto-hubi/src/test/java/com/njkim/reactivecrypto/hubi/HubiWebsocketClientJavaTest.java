@@ -29,7 +29,7 @@ public class HubiWebsocketClientJavaTest {
                     assertThat(tickData.getCurrencyPair())
                             .isEqualTo(targetCurrencyPair);
                     assertThat(tickData.getExchangeVendor())
-                            .isEqualByComparingTo(ExchangeVendor.HUBI);
+                            .isEqualTo(ExchangeVendor.HUBI);
                     assertThat(tickData.getPrice())
                             .isGreaterThan(BigDecimal.ZERO);
                     assertThat(tickData.getQuantity())
@@ -40,7 +40,7 @@ public class HubiWebsocketClientJavaTest {
                     assertThat(tickData.getCurrencyPair())
                             .isEqualTo(targetCurrencyPair);
                     assertThat(tickData.getExchangeVendor())
-                            .isEqualByComparingTo(ExchangeVendor.HUBI);
+                            .isEqualTo(ExchangeVendor.HUBI);
                     assertThat(tickData.getPrice())
                             .isGreaterThan(BigDecimal.ZERO);
                     assertThat(tickData.getQuantity())
@@ -64,7 +64,7 @@ public class HubiWebsocketClientJavaTest {
                     assertThat(orderBook.getCurrencyPair())
                             .isEqualTo(targetCurrencyPair);
                     assertThat(orderBook.getExchangeVendor())
-                            .isEqualByComparingTo(ExchangeVendor.HUBI);
+                            .isEqualTo(ExchangeVendor.HUBI);
                     assertThat(orderBook.getAsks())
                             .isNotEmpty();
                     assertThat(orderBook.getBids())
@@ -91,7 +91,7 @@ public class HubiWebsocketClientJavaTest {
                     assertThat(orderBook.getCurrencyPair())
                             .isEqualTo(targetCurrencyPair);
                     assertThat(orderBook.getExchangeVendor())
-                            .isEqualByComparingTo(ExchangeVendor.HUBI);
+                            .isEqualTo(ExchangeVendor.HUBI);
                     assertThat(orderBook.getAsks())
                             .isNotEmpty();
                     assertThat(orderBook.getBids())

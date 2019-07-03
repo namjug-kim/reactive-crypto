@@ -1,6 +1,7 @@
 package com.njkim.reactivecrypto.binance;
 
 import com.njkim.reactivecrypto.core.common.model.ExchangeVendor;
+import com.njkim.reactivecrypto.core.common.model.currency.Currency;
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair;
 import com.njkim.reactivecrypto.core.common.model.order.OrderBook;
 import com.njkim.reactivecrypto.core.common.model.order.TickData;
@@ -29,7 +30,7 @@ public class BinanceWebsocketClientJavaTest {
         assertThat(tickData.getCurrencyPair())
                 .isEqualTo(targetCurrencyPair);
         assertThat(tickData.getExchangeVendor())
-                .isEqualByComparingTo(ExchangeVendor.BINANCE);
+                .isEqualTo(ExchangeVendor.BINANCE);
         assertThat(tickData.getPrice())
                 .isGreaterThan(BigDecimal.ZERO);
         assertThat(tickData.getQuantity())
@@ -51,7 +52,7 @@ public class BinanceWebsocketClientJavaTest {
         assertThat(orderBook.getCurrencyPair())
                 .isEqualTo(targetCurrencyPair);
         assertThat(orderBook.getExchangeVendor())
-                .isEqualByComparingTo(ExchangeVendor.BINANCE);
+                .isEqualTo(ExchangeVendor.BINANCE);
         assertThat(orderBook.getAsks())
                 .isNotEmpty();
         assertThat(orderBook.getBids())

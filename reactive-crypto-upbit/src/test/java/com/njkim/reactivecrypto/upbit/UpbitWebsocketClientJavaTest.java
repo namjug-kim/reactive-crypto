@@ -29,7 +29,7 @@ public class UpbitWebsocketClientJavaTest {
         assertThat(tickData.getCurrencyPair())
                 .isEqualTo(targetCurrencyPair);
         assertThat(tickData.getExchangeVendor())
-                .isEqualByComparingTo(ExchangeVendor.UPBIT);
+                .isEqualTo(ExchangeVendor.UPBIT);
         assertThat(tickData.getPrice())
                 .isGreaterThan(BigDecimal.ZERO);
         assertThat(tickData.getQuantity())
@@ -51,7 +51,7 @@ public class UpbitWebsocketClientJavaTest {
         assertThat(orderBook.getCurrencyPair())
                 .isEqualTo(targetCurrencyPair);
         assertThat(orderBook.getExchangeVendor())
-                .isEqualByComparingTo(ExchangeVendor.UPBIT);
+                .isEqualTo(ExchangeVendor.UPBIT);
         assertThat(orderBook.getAsks())
                 .isNotEmpty();
         assertThat(orderBook.getBids())

@@ -45,7 +45,7 @@ public class HuobiJapanWebsocketClientJavaTest {
         assertThat(tickData.getCurrencyPair())
                 .isEqualTo(targetCurrencyPair);
         assertThat(tickData.getExchangeVendor())
-                .isEqualByComparingTo(ExchangeVendor.HUOBI_JAPAN);
+                .isEqualTo(ExchangeVendor.HUOBI_JAPAN);
         assertThat(tickData.getPrice())
                 .isGreaterThan(BigDecimal.ZERO);
         assertThat(tickData.getQuantity())
@@ -67,7 +67,7 @@ public class HuobiJapanWebsocketClientJavaTest {
         assertThat(orderBook.getCurrencyPair())
                 .isEqualTo(targetCurrencyPair);
         assertThat(orderBook.getExchangeVendor())
-                .isEqualByComparingTo(ExchangeVendor.HUOBI_JAPAN);
+                .isEqualTo(ExchangeVendor.HUOBI_JAPAN);
         assertThat(orderBook.getAsks())
                 .isNotEmpty();
         assertThat(orderBook.getBids())
