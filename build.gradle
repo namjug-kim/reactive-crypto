@@ -49,7 +49,7 @@ subprojects {
         }
         dependencies {
             // kotlin plugin
-            classpath group: 'org.jetbrains.kotlin', name: 'kotlin-gradle-plugin', version: '1.3.40'
+            classpath group: 'org.jetbrains.kotlin', name: 'kotlin-gradle-plugin', version: '1.3.41'
         }
     }
 
