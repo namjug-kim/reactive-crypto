@@ -18,6 +18,7 @@ package com.quantinel.remarketer.strategy.sdk.binance
 
 import com.fasterxml.jackson.module.kotlin.convertValue
 import com.njkim.reactivecrypto.binance.BinanceJsonObjectMapper
+import com.njkim.reactivecrypto.binance.http.raw.binanceErrorHandling
 import com.njkim.reactivecrypto.binance.model.BinanceOrderCancelResponse
 import com.njkim.reactivecrypto.binance.model.BinancePlaceOrderResponse
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
@@ -67,6 +68,7 @@ class BinanceRawTradeOperator internal constructor(private val webClient: WebCli
                     .build()
             }
             .retrieve()
+            .binanceErrorHandling()
             .bodyToMono()
     }
 
@@ -148,6 +150,7 @@ class BinanceRawTradeOperator internal constructor(private val webClient: WebCli
                     .build()
             }
             .retrieve()
+            .binanceErrorHandling()
             .bodyToMono()
     }
 }
