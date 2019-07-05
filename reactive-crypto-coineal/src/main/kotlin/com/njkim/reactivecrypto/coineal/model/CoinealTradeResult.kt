@@ -27,8 +27,6 @@ data class CoinealTradeResult(
     val volume: BigDecimal,
     @JsonProperty("price")
     val price: BigDecimal,
-    @JsonProperty("side")
-    var side: TradeSideType,
     @JsonProperty("fee")
     val fee: BigDecimal,
     @JsonProperty("ctime")
@@ -36,5 +34,7 @@ data class CoinealTradeResult(
     @JsonProperty("deal_price")
     val dealPrice: BigDecimal,
     @JsonProperty("id")
-    val id: Int
+    val id: Int,
+    @JsonProperty("type")
+    val typeChinese: String
 )
