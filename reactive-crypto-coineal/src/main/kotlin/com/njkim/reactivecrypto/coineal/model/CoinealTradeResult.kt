@@ -36,7 +36,5 @@ data class CoinealTradeResult(
     @JsonProperty("deal_price")
     val dealPrice: BigDecimal,
     @JsonProperty("id")
-    val id: Int,
-    @JsonProperty("type")
-    val type: OrderType
+    val id: Int
 )
