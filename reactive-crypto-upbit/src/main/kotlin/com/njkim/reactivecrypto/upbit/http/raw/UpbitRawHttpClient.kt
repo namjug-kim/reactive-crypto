@@ -14,9 +14,9 @@
  * under the License.
  */
 
-package com.njkim.reactivecrypto.binance.http.raw
+package com.njkim.reactivecrypto.upbit.http.raw
 
-import com.njkim.reactivecrypto.binance.BinanceJsonObjectMapper
+import com.njkim.reactivecrypto.upbit.UpbitJsonObjectMapper
 import org.springframework.http.client.reactive.ReactorClientHttpConnector
 import org.springframework.http.codec.json.Jackson2JsonDecoder
 import org.springframework.http.codec.json.Jackson2JsonEncoder
@@ -26,13 +26,13 @@ import org.springframework.web.reactive.function.client.WebClient
 import reactor.netty.http.client.HttpClient
 
 /**
- * @see [official document](https://github.com/binance-exchange/binance-official-api-docs/blob/master/rest-api.md)
+ * @see [official document](https://docs.upbit.com/reference)
  */
-class BinanceRawHttpClient(
-    private val baseUrl: String = "https://api.binance.com"
+class UpbitRawHttpClient(
+    private val baseUrl: String = "https://api.upbit.com"
 ) {
-    fun private(apiKey: String, secretKey: String): BinanceRawPrivateHttpClient {
-        return BinanceRawPrivateHttpClient(apiKey, secretKey, createDefaultWebClientBuilder())
+    fun private(apiKey: String, secretKey: String): UpbitRawPrivateHttpClient {
+        return UpbitRawPrivateHttpClient(apiKey, secretKey, createDefaultWebClientBuilder())
     }
 
     private fun createDefaultWebClientBuilder(): WebClient.Builder {
@@ -41,14 +41,14 @@ class BinanceRawHttpClient(
                 clientCodecConfigurer.defaultCodecs()
                     .jackson2JsonEncoder(
                         Jackson2JsonEncoder(
-                            BinanceJsonObjectMapper().objectMapper(),
+                            UpbitJsonObjectMapper().objectMapper(),
                             MimeTypeUtils.APPLICATION_JSON
                         )
                     )
                 clientCodecConfigurer.defaultCodecs()
                     .jackson2JsonDecoder(
                         Jackson2JsonDecoder(
-                            BinanceJsonObjectMapper().objectMapper(),
+                            UpbitJsonObjectMapper().objectMapper(),
                             MimeTypeUtils.APPLICATION_JSON
                         )
                     )

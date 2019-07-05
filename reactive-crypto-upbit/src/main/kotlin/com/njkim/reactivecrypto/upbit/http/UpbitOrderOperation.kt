@@ -16,22 +16,12 @@
 
 package com.njkim.reactivecrypto.upbit.http
 
-import com.fasterxml.jackson.module.kotlin.convertValue
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import com.njkim.reactivecrypto.core.common.model.order.*
 import com.njkim.reactivecrypto.core.common.model.paging.Page
 import com.njkim.reactivecrypto.core.common.model.paging.Pageable
-import com.njkim.reactivecrypto.core.common.util.toMultiValueMap
 import com.njkim.reactivecrypto.core.http.OrderOperation
-import com.njkim.reactivecrypto.upbit.UpbitJsonObjectMapper
-import com.njkim.reactivecrypto.upbit.http.raw.sign
-import com.njkim.reactivecrypto.upbit.http.raw.upbitErrorHandling
-import com.njkim.reactivecrypto.upbit.model.UpbitOrder
-import com.njkim.reactivecrypto.upbit.model.UpbitOrderStatus
-import com.njkim.reactivecrypto.upbit.model.UpbitOrderType
-import org.springframework.web.reactive.function.BodyInserters
-import org.springframework.web.reactive.function.client.WebClient
-import org.springframework.web.reactive.function.client.bodyToMono
+import com.njkim.reactivecrypto.upbit.http.raw.UpbitRawPrivateHttpClient
 import reactor.core.publisher.Mono
 import java.math.BigDecimal
 
@@ -41,32 +31,16 @@ import java.math.BigDecimal
 class UpbitOrderOperation(
     override val accessKey: String,
     override val secretKey: String,
-    private val privateWebClient: WebClient
+    private val upbitRawPrivateHttpClient: UpbitRawPrivateHttpClient
 ) : OrderOperation(accessKey, secretKey) {
     override fun orderStatus(orderId: String): Mono<OrderStatus> {
-        val marketRequest =
-            mapOf(
-                "uuid" to orderId
-            )
-
-        val upbitRequest = UpbitJsonObjectMapper.instance.convertValue<Map<String, Any>>(marketRequest)
-        val sign = sign(upbitRequest, accessKey, secretKey)
-
-        return privateWebClient
-            .post()
-            .uri {
-                it.path("/v1/order")
-                    .queryParams(upbitRequest.toMultiValueMap())
-                    .build()
-            }
-            .header("Authorization", "Bearer $sign")
-            .retrieve()
-            .upbitErrorHandling()
-            .bodyToMono<UpbitOrderStatus>()
+        return upbitRawPrivateHttpClient
+            .userData()
+            .order(orderId)
             .map {
                 OrderStatus(
                     it.uuid,
-                    it.orderStatusType,
+                    it.upbitOrderStatusType.toOrderStatusType(it.volume, it.executedVolume),
                     it.side,
                     it.currencyPair,
                     it.price,
@@ -90,29 +64,9 @@ class UpbitOrderOperation(
         price: BigDecimal,
         quantity: BigDecimal
     ): Mono<OrderPlaceResult> {
-        val limitRequest = mapOf(
-            "market" to pair,
-            "side" to tradeSideType,
-            "volume" to quantity,
-            "price" to price,
-            "ord_type" to UpbitOrderType.LIMIT
-        )
-
-        val upbitLimitRequest = UpbitJsonObjectMapper.instance.convertValue<Map<String, Any>>(limitRequest)
-        val sign = sign(upbitLimitRequest, accessKey, secretKey)
-
-        return privateWebClient
-            .post()
-            .uri {
-                it.path("/v1/orders")
-                    .queryParams(upbitLimitRequest.toMultiValueMap())
-                    .build()
-            }
-            .header("Authorization", "Bearer $sign")
-            .body(BodyInserters.fromObject(upbitLimitRequest))
-            .retrieve()
-            .upbitErrorHandling()
-            .bodyToMono<UpbitOrder>()
+        return upbitRawPrivateHttpClient
+            .trade()
+            .limitOrder(pair, tradeSideType, price, quantity)
             .map {
                 OrderPlaceResult(
                     it.uuid
@@ -125,40 +79,9 @@ class UpbitOrderOperation(
         tradeSideType: TradeSideType,
         quantity: BigDecimal
     ): Mono<OrderPlaceResult> {
-        val marketRequest = when (tradeSideType) {
-            TradeSideType.BUY -> {
-                mapOf(
-                    "market" to pair,
-                    "side" to tradeSideType,
-                    "price" to quantity,
-                    "ord_type" to UpbitOrderType.PRICE
-                )
-            }
-            else -> {
-                mapOf(
-                    "market" to pair,
-                    "side" to tradeSideType,
-                    "volume" to quantity,
-                    "ord_type" to UpbitOrderType.MARKET
-                )
-            }
-        }
-
-        val upbitMarketRequest = UpbitJsonObjectMapper.instance.convertValue<Map<String, Any>>(marketRequest)
-        val sign = sign(upbitMarketRequest, accessKey, secretKey)
-
-        return privateWebClient
-            .post()
-            .uri {
-                it.path("/v1/orders")
-                    .queryParams(upbitMarketRequest.toMultiValueMap())
-                    .build()
-            }
-            .header("Authorization", "Bearer $sign")
-            .body(BodyInserters.fromObject(upbitMarketRequest))
-            .retrieve()
-            .upbitErrorHandling()
-            .bodyToMono<UpbitOrder>()
+        return upbitRawPrivateHttpClient
+            .trade()
+            .marketOrder(pair, tradeSideType, quantity)
             .map {
                 OrderPlaceResult(
                     it.uuid

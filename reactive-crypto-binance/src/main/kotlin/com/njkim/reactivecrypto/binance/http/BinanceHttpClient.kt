@@ -16,10 +16,10 @@
 
 package com.njkim.reactivecrypto.binance.http
 
+import com.njkim.reactivecrypto.binance.http.raw.BinanceRawHttpClient
 import com.njkim.reactivecrypto.core.http.ExchangeHttpClient
 import com.njkim.reactivecrypto.core.http.PrivateHttpClient
 import com.njkim.reactivecrypto.core.http.PublicHttpClient
-import com.quantinel.remarketer.strategy.sdk.binance.BinanceRawHttpClient
 
 class BinanceHttpClient : ExchangeHttpClient() {
     override fun privateApi(accessKey: String, secretKey: String): PrivateHttpClient {

@@ -19,7 +19,6 @@ package com.njkim.reactivecrypto.binance.model
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.njkim.reactivecrypto.core.common.model.currency.Currency
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
-import com.njkim.reactivecrypto.core.common.model.order.OrderStatusType
 import com.njkim.reactivecrypto.core.common.model.order.OrderType
 import com.njkim.reactivecrypto.core.common.model.order.TradeSideType
 import java.math.BigDecimal
@@ -43,7 +42,7 @@ data class BinancePlaceOrderResponse(
     @JsonProperty("cummulativeQuoteQty")
     val cummulativeQuoteQty: BigDecimal,
     @JsonProperty("status")
-    val status: OrderStatusType,
+    val status: BinanceOrderStatusType,
     @JsonProperty("timeInForce")
     val timeInForce: String,
     @JsonProperty("type")

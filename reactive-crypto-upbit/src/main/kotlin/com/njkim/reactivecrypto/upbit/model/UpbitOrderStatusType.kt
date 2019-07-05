@@ -14,26 +14,28 @@
  * under the License.
  */
 
-package com.njkim.reactivecrypto.binance.model
+package com.njkim.reactivecrypto.upbit.model
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.njkim.reactivecrypto.core.common.model.order.OrderStatusType
+import java.math.BigDecimal
 
-enum class BinanceOrderStatusType {
-    NEW,
-    PARTIALLY_FILLED,
-    FILLED,
-    CANCELED,
-    REJECTED,
-    EXPIRED;
+enum class UpbitOrderStatusType {
+    @JsonProperty("wait")
+    WAIT,
+    @JsonProperty("done")
+    DONE,
+    @JsonProperty("cancel")
+    CANCEL;
 
-    fun toOrderStatusType(): OrderStatusType {
-        return when (this) {
-            NEW -> OrderStatusType.NEW
-            PARTIALLY_FILLED -> OrderStatusType.PARTIALLY_FILLED
-            FILLED -> OrderStatusType.FILLED
-            CANCELED -> OrderStatusType.CANCELED
-            REJECTED -> OrderStatusType.FILLED
-            EXPIRED -> OrderStatusType.FILLED
-        }
+    fun toOrderStatusType(orderAmount: BigDecimal?, filledAmount: BigDecimal): OrderStatusType {
+        return if (orderAmount == null || orderAmount == filledAmount) {
+            OrderStatusType.FILLED
+        } else
+            when (this) {
+                WAIT -> OrderStatusType.NEW
+                DONE -> OrderStatusType.FILLED
+                CANCEL -> OrderStatusType.CANCELED
+            }
     }
 }
