@@ -82,10 +82,11 @@ class CoinealJsonObjectMapper : ExchangeJsonObjectMapper {
         return object : JsonDeserializer<OrderStatusType>() {
             override fun deserialize(p: JsonParser, ctxt: DeserializationContext): OrderStatusType {
                 return when (p.valueAsInt) {
-                    0 -> OrderStatusType.WAIT
-                    1 -> OrderStatusType.WAIT
-                    2 -> OrderStatusType.DONE
-                    4 -> OrderStatusType.CANCEL
+                    0 -> OrderStatusType.NEW
+                    1 -> OrderStatusType.NEW
+                    2 -> OrderStatusType.FILLED
+                    3 -> OrderStatusType.PARTIALLY_FILLED
+                    4 -> OrderStatusType.CANCELED
                     else -> throw IllegalArgumentException()
                 }
             }

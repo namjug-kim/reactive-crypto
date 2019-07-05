@@ -18,11 +18,7 @@ package com.njkim.reactivecrypto.upbit.http
 
 import com.njkim.reactivecrypto.core.common.model.account.Balance
 import com.njkim.reactivecrypto.core.http.AccountOperation
-import com.njkim.reactivecrypto.upbit.http.raw.sign
-import com.njkim.reactivecrypto.upbit.http.raw.upbitErrorHandling
-import com.njkim.reactivecrypto.upbit.model.UpbitBalance
-import org.springframework.web.reactive.function.client.WebClient
-import org.springframework.web.reactive.function.client.bodyToMono
+import com.njkim.reactivecrypto.upbit.http.raw.UpbitRawPrivateHttpClient
 import reactor.core.publisher.Flux
 
 /**
@@ -31,28 +27,9 @@ import reactor.core.publisher.Flux
 class UpbitAccountOperation(
     override val accessKey: String,
     override val secretKey: String,
-    private val privateWebClient: WebClient
+    private val upbitRawPrivateHttpClient: UpbitRawPrivateHttpClient
 ) : AccountOperation(accessKey, secretKey) {
     override fun balance(): Flux<Balance> {
-        val sign = sign(emptyMap(), accessKey, secretKey)
-
-        return privateWebClient.get()
-            .uri {
-                it.path("/v1/accounts")
-                    .build()
-            }
-            .header("Authorization", "Bearer $sign")
-            .retrieve()
-            .upbitErrorHandling()
-            .bodyToMono<List<UpbitBalance>>()
-            .flatMapIterable { upbitBalances ->
-                upbitBalances.map {
-                    Balance(
-                        it.currency,
-                        it.balance,
-                        it.locked
-                    )
-                }
-            }
+        TODO("not implemented")
     }
 }

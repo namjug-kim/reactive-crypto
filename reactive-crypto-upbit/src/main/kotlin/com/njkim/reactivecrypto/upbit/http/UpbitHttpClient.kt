@@ -19,47 +19,16 @@ package com.njkim.reactivecrypto.upbit.http
 import com.njkim.reactivecrypto.core.http.ExchangeHttpClient
 import com.njkim.reactivecrypto.core.http.PrivateHttpClient
 import com.njkim.reactivecrypto.core.http.PublicHttpClient
-import com.njkim.reactivecrypto.upbit.UpbitJsonObjectMapper
-import org.springframework.http.codec.json.Jackson2JsonDecoder
-import org.springframework.http.codec.json.Jackson2JsonEncoder
-import org.springframework.util.MimeTypeUtils
-import org.springframework.web.reactive.function.client.ExchangeStrategies
-import org.springframework.web.reactive.function.client.WebClient
+import com.njkim.reactivecrypto.upbit.http.raw.UpbitRawHttpClient
 
 class UpbitHttpClient : ExchangeHttpClient() {
-    private val baseUrl = "https://api.upbit.com"
-
     override fun privateApi(accessKey: String, secretKey: String): PrivateHttpClient {
-        return UpbitPrivateHttpClient(accessKey, secretKey, defaultWebClient())
+        val upbitRawPrivateHttpClient = UpbitRawHttpClient()
+            .private(accessKey, secretKey)
+        return UpbitPrivateHttpClient(accessKey, secretKey, upbitRawPrivateHttpClient)
     }
 
     override fun publicApi(): PublicHttpClient {
         TODO("not implemented")
-    }
-
-    private fun defaultWebClient(): WebClient {
-        val strategies = ExchangeStrategies.builder()
-            .codecs { clientCodecConfigurer ->
-                clientCodecConfigurer.defaultCodecs()
-                    .jackson2JsonEncoder(
-                        Jackson2JsonEncoder(
-                            UpbitJsonObjectMapper().objectMapper(),
-                            MimeTypeUtils.APPLICATION_JSON
-                        )
-                    )
-                clientCodecConfigurer.defaultCodecs()
-                    .jackson2JsonDecoder(
-                        Jackson2JsonDecoder(
-                            UpbitJsonObjectMapper().objectMapper(),
-                            MimeTypeUtils.APPLICATION_JSON
-                        )
-                    )
-            }
-            .build()
-
-        return WebClient.builder()
-            .exchangeStrategies(strategies)
-            .baseUrl(baseUrl)
-            .build()
     }
 }

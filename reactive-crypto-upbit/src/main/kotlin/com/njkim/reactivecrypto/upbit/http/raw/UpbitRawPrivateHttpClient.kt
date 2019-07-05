@@ -14,26 +14,22 @@
  * under the License.
  */
 
-package com.njkim.reactivecrypto.core.common.model.order
+package com.njkim.reactivecrypto.upbit.http.raw
 
-import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
-import java.math.BigDecimal
-import java.time.ZonedDateTime
+import org.springframework.web.reactive.function.client.WebClient
 
-data class OrderStatus(
-    val uniqueId: String,
-    val orderStatusType: OrderStatusType,
+class UpbitRawPrivateHttpClient internal constructor(
+    private val accessKey: String,
+    private val secretKey: String,
+    webClientBuilder: WebClient.Builder
+) {
+    private val webClient = webClientBuilder.build()
 
-    val side: TradeSideType,
-    val currencyPair: CurrencyPair,
-    val price: BigDecimal,
-    val orderVolume: BigDecimal?,
-    val filledVolume: BigDecimal,
+    fun trade(): UpbitRawTradeOperator {
+        return UpbitRawTradeOperator(accessKey, secretKey, webClient)
+    }
 
-    val paidFee: BigDecimal? = null,
-    val reservedFee: BigDecimal? = null,
-    val remainingFee: BigDecimal? = null,
-
-    val createDateTime: ZonedDateTime
-
-)
+    fun userData(): UpbitRawUserDataOperator {
+        return UpbitRawUserDataOperator(accessKey, secretKey, webClient)
+    }
+}

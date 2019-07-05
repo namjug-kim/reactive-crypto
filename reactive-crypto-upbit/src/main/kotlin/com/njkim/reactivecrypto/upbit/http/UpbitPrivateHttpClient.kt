@@ -19,19 +19,19 @@ package com.njkim.reactivecrypto.upbit.http
 import com.njkim.reactivecrypto.core.http.AccountOperation
 import com.njkim.reactivecrypto.core.http.OrderOperation
 import com.njkim.reactivecrypto.core.http.PrivateHttpClient
-import org.springframework.web.reactive.function.client.WebClient
+import com.njkim.reactivecrypto.upbit.http.raw.UpbitRawPrivateHttpClient
 
 class UpbitPrivateHttpClient(
     override val accessKey: String,
     override val secretKey: String,
-    private val webClient: WebClient
+    private val upbitRawPrivateHttpClient: UpbitRawPrivateHttpClient
 ) : PrivateHttpClient(accessKey, secretKey) {
 
     override fun account(): AccountOperation {
-        return UpbitAccountOperation(accessKey, secretKey, webClient)
+        return UpbitAccountOperation(accessKey, secretKey, upbitRawPrivateHttpClient)
     }
 
     override fun order(): OrderOperation {
-        return UpbitOrderOperation(accessKey, secretKey, webClient)
+        return UpbitOrderOperation(accessKey, secretKey, upbitRawPrivateHttpClient)
     }
 }

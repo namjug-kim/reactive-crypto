@@ -16,6 +16,7 @@
 
 package com.njkim.reactivecrypto.binance.http
 
+import com.njkim.reactivecrypto.binance.http.raw.BinanceRawPrivateHttpClient
 import com.njkim.reactivecrypto.core.common.model.ExchangeVendor
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import com.njkim.reactivecrypto.core.common.model.order.*
@@ -24,7 +25,6 @@ import com.njkim.reactivecrypto.core.common.model.paging.FirstPageRequest
 import com.njkim.reactivecrypto.core.common.model.paging.Page
 import com.njkim.reactivecrypto.core.common.model.paging.Pageable
 import com.njkim.reactivecrypto.core.http.OrderOperation
-import com.quantinel.remarketer.strategy.sdk.binance.BinanceRawPrivateHttpClient
 import reactor.core.publisher.Mono
 import java.math.BigDecimal
 
@@ -34,9 +34,9 @@ class BinanceOrderOperation(
     private val binanceRawPrivateHttpClient: BinanceRawPrivateHttpClient
 ) : OrderOperation(accessKey, secretKey) {
     override fun orderStatus(orderId: String): Mono<OrderStatus> {
-        val splits = orderId.split("-")
-        val pair = CurrencyPair.parse(splits[0])
-        val binanceOrderId = splits[1].toLong()
+        val splits = orderId.split("-", limit = 2)
+        val binanceOrderId = splits[0].toLong()
+        val pair = CurrencyPair.parse(splits[1])
 
         return binanceRawPrivateHttpClient.userData()
             .order(pair, binanceOrderId)

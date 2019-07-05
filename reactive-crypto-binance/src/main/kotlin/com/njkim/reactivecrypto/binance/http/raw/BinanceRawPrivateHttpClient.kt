@@ -14,9 +14,8 @@
  * under the License.
  */
 
-package com.quantinel.remarketer.strategy.sdk.binance
+package com.njkim.reactivecrypto.binance.http.raw
 
-import com.njkim.reactivecrypto.binance.http.raw.BinanceRawUserDataOperator
 import com.njkim.reactivecrypto.core.common.util.CryptUtil
 import com.njkim.reactivecrypto.core.common.util.byteArrayToHex
 import org.springframework.web.reactive.function.client.ClientRequest

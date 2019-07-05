@@ -16,10 +16,10 @@
 
 package com.njkim.reactivecrypto.binance.http
 
+import com.njkim.reactivecrypto.binance.http.raw.BinanceRawPrivateHttpClient
 import com.njkim.reactivecrypto.core.http.AccountOperation
 import com.njkim.reactivecrypto.core.http.OrderOperation
 import com.njkim.reactivecrypto.core.http.PrivateHttpClient
-import com.quantinel.remarketer.strategy.sdk.binance.BinanceRawPrivateHttpClient
 
 class BinancePrivateHttpClient(
     accessKey: String,

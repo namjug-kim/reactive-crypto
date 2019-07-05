@@ -14,11 +14,10 @@
  * under the License.
  */
 
-package com.quantinel.remarketer.strategy.sdk.binance
+package com.njkim.reactivecrypto.binance.http.raw
 
 import com.fasterxml.jackson.module.kotlin.convertValue
 import com.njkim.reactivecrypto.binance.BinanceJsonObjectMapper
-import com.njkim.reactivecrypto.binance.http.raw.binanceErrorHandling
 import com.njkim.reactivecrypto.binance.model.BinanceOrderCancelResponse
 import com.njkim.reactivecrypto.binance.model.BinancePlaceOrderResponse
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair

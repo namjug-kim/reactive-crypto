@@ -18,14 +18,10 @@ package com.njkim.reactivecrypto.upbit.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
-import com.njkim.reactivecrypto.core.common.model.order.OrderStatusType
 import com.njkim.reactivecrypto.core.common.model.order.TradeSideType
 import java.math.BigDecimal
 import java.time.ZonedDateTime
 
-/**
- * @author traeper
- */
 data class UpbitOrderStatus(
 
     @get:JsonProperty("uuid")
@@ -41,7 +37,7 @@ data class UpbitOrderStatus(
     val price: BigDecimal,
 
     @get:JsonProperty("state")
-    val orderStatusType: OrderStatusType,
+    val upbitOrderStatusType: UpbitOrderStatusType,
 
     @get:JsonProperty("market")
     val currencyPair: CurrencyPair,
@@ -49,11 +45,13 @@ data class UpbitOrderStatus(
     @get:JsonProperty("created_at")
     val createdAt: ZonedDateTime,
 
+    // null if market order filled
     @get:JsonProperty("volume")
-    val volume: BigDecimal,
+    val volume: BigDecimal?,
 
+    // null if market order filled
     @get:JsonProperty("remaining_volume")
-    val remainingVolume: BigDecimal,
+    val remainingVolume: BigDecimal?,
 
     @get:JsonProperty("reserved_fee")
     val reservedFee: BigDecimal,

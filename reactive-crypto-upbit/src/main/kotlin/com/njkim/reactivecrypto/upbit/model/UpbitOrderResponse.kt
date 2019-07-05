@@ -21,10 +21,7 @@ import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import java.math.BigDecimal
 import java.time.ZonedDateTime
 
-/**
- * @author traeper
- */
-data class UpbitOrder(
+data class UpbitOrderResponse(
 
     @get:JsonProperty("uuid")
     val uuid: String,

@@ -16,9 +16,9 @@
 
 package com.njkim.reactivecrypto.binance.http
 
+import com.njkim.reactivecrypto.binance.http.raw.BinanceRawPrivateHttpClient
 import com.njkim.reactivecrypto.core.common.model.account.Balance
 import com.njkim.reactivecrypto.core.http.AccountOperation
-import com.quantinel.remarketer.strategy.sdk.binance.BinanceRawPrivateHttpClient
 import reactor.core.publisher.Flux
 
 class BinanceAccountOperation(
