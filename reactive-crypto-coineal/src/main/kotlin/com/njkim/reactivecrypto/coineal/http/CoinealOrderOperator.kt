@@ -125,7 +125,10 @@ class CoinealOrderOperator(
                             it.volume,
                             pair,
                             ExchangeVendor.COINEAL,
-                            it.side
+                            when (it.typeChinese) {
+                                "买入" -> TradeSideType.BUY
+                                else -> TradeSideType.SELL
+                            }
                         )
                     },
                     numberPageable.next()
