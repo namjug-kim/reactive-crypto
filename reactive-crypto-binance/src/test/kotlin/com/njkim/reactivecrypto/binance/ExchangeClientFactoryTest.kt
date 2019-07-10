@@ -31,13 +31,4 @@ class ExchangeClientFactoryTest {
         assertThat(exchangeWebsocketClient).isInstanceOf(ExchangeWebsocketClient::class.java)
         assertThat(exchangeWebsocketClient).isExactlyInstanceOf(BinanceWebsocketClient::class.java)
     }
-
-    @Test
-    fun `create binance websocket client using string`() {
-        val exchangeWebsocketClient = ExchangeClientFactory.websocket("BINANCE")
-
-        assertThat(exchangeWebsocketClient).isNotNull
-        assertThat(exchangeWebsocketClient).isInstanceOf(ExchangeWebsocketClient::class.java)
-        assertThat(exchangeWebsocketClient).isExactlyInstanceOf(BinanceWebsocketClient::class.java)
-    }
 }

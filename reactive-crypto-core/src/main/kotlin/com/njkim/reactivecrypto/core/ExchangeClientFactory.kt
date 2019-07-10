@@ -29,46 +29,44 @@ class ExchangeClientFactory {
             ExchangeVendor.values()
                 .forEach { exchangeVendor ->
                     ReactiveCryptoPlugins.customClientFactory
-                        .addHttpCustomFactory(exchangeVendor.name) { http(exchangeVendor) }
+                        .addHttpCustomFactory(exchangeVendor) { defaultHttpFactory(exchangeVendor) }
                     ReactiveCryptoPlugins.customClientFactory
-                        .addWsCustomFactory(exchangeVendor.name) { websocket(exchangeVendor) }
+                        .addWsCustomFactory(exchangeVendor) { defaultWsFactory(exchangeVendor) }
                 }
         }
 
         @JvmStatic
         fun websocket(exchangeVendor: ExchangeVendor): ExchangeWebsocketClient {
-            return websocket(exchangeVendor.websocketClientName)
-        }
-
-        @JvmStatic
-        fun websocket(exchangeVendor: String): ExchangeWebsocketClient {
             val customFactory: FactoryFunction<ExchangeWebsocketClient>? =
-                ReactiveCryptoPlugins.customClientFactory.customWsFactory()[exchangeVendor]
+                ReactiveCryptoPlugins.customClientFactory.getCustomWsFactory(exchangeVendor)
 
             return if (customFactory != null) {
                 customFactory(exchangeVendor)
             } else {
-                val websocketClientClass = Class.forName(exchangeVendor)?.kotlin
-                websocketClientClass?.createInstance() as ExchangeWebsocketClient
+                defaultWsFactory(exchangeVendor)
             }
+        }
+
+        private fun defaultWsFactory(exchangeVendor: ExchangeVendor): ExchangeWebsocketClient {
+            val websocketClientClass = Class.forName(exchangeVendor.websocketClientName)?.kotlin
+            return websocketClientClass?.createInstance() as ExchangeWebsocketClient
         }
 
         @JvmStatic
         fun http(exchangeVendor: ExchangeVendor): ExchangeHttpClient {
-            return http(exchangeVendor.httpClientName)
-        }
-
-        @JvmStatic
-        fun http(exchangeVendor: String): ExchangeHttpClient {
             val customFactory: FactoryFunction<ExchangeHttpClient>? =
-                ReactiveCryptoPlugins.customClientFactory.customHttpFactory()[exchangeVendor]
+                ReactiveCryptoPlugins.customClientFactory.getCustomHttpFactory(exchangeVendor)
 
             return if (customFactory != null) {
                 customFactory(exchangeVendor)
             } else {
-                val httpClientClass = Class.forName(exchangeVendor)?.kotlin
-                return httpClientClass?.createInstance() as ExchangeHttpClient
+                defaultHttpFactory(exchangeVendor)
             }
+        }
+
+        private fun defaultHttpFactory(exchangeVendor: ExchangeVendor): ExchangeHttpClient {
+            val httpClientClass = Class.forName(exchangeVendor.httpClientName)?.kotlin
+            return httpClientClass?.createInstance() as ExchangeHttpClient
         }
     }
 }
