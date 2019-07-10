@@ -16,28 +16,29 @@
 
 package com.njkim.reactivecrypto.core.plugin.strategy
 
+import com.njkim.reactivecrypto.core.common.model.ExchangeVendor
 import com.njkim.reactivecrypto.core.http.ExchangeHttpClient
 import com.njkim.reactivecrypto.core.websocket.ExchangeWebsocketClient
 
 class CustomClientFactory {
-    private val customWsFactory: MutableMap<String, FactoryFunction<ExchangeWebsocketClient>> = hashMapOf()
-    private val customHttpFactory: MutableMap<String, FactoryFunction<ExchangeHttpClient>> = hashMapOf()
+    private val customWsFactory: MutableMap<ExchangeVendor, FactoryFunction<ExchangeWebsocketClient>> = hashMapOf()
+    private val customHttpFactory: MutableMap<ExchangeVendor, FactoryFunction<ExchangeHttpClient>> = hashMapOf()
 
-    fun addWsCustomFactory(exchangeName: String, factory: FactoryFunction<ExchangeWebsocketClient>) {
-        customWsFactory[exchangeName] = factory
+    fun addWsCustomFactory(exchangeVendor: ExchangeVendor, factory: FactoryFunction<ExchangeWebsocketClient>) {
+        customWsFactory[exchangeVendor] = factory
     }
 
-    fun addHttpCustomFactory(exchangeName: String, factory: FactoryFunction<ExchangeHttpClient>) {
-        customHttpFactory[exchangeName] = factory
+    fun addHttpCustomFactory(exchangeVendor: ExchangeVendor, factory: FactoryFunction<ExchangeHttpClient>) {
+        customHttpFactory[exchangeVendor] = factory
     }
 
-    fun customWsFactory(): Map<String, FactoryFunction<ExchangeWebsocketClient>> {
-        return this.customWsFactory.toMap()
+    fun getCustomHttpFactory(exchangeVendor: ExchangeVendor): FactoryFunction<ExchangeHttpClient>? {
+        return this.customHttpFactory[exchangeVendor]
     }
 
-    fun customHttpFactory(): Map<String, FactoryFunction<ExchangeHttpClient>> {
-        return this.customHttpFactory.toMap()
+    fun getCustomWsFactory(exchangeVendor: ExchangeVendor): FactoryFunction<ExchangeWebsocketClient>? {
+        return this.customWsFactory[exchangeVendor]
     }
 }
 
-typealias FactoryFunction<T> = (String) -> T
+typealias FactoryFunction<T> = (ExchangeVendor) -> T

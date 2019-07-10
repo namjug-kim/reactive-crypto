@@ -15,6 +15,7 @@
  */
 package com.njkim.reactivecrypto.core.plugin.strategy
 
+import com.njkim.reactivecrypto.core.common.model.ExchangeVendor
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import com.njkim.reactivecrypto.core.common.model.order.OrderBook
 import com.njkim.reactivecrypto.core.common.model.order.TickData
@@ -38,16 +39,16 @@ class CustomClientFactoryTest {
         }
 
         val customClientFactory = CustomClientFactory()
-        val exchangeName = "TEST-EXCHANGE"
-        customClientFactory.addWsCustomFactory(exchangeName) { _ ->
+        val testExchangeVendor = ExchangeVendor("TEST-EXCHANGE")
+        customClientFactory.addWsCustomFactory(testExchangeVendor) { _ ->
             customExchangeWebsocketClient
         }
 
         // WHEN
-        val factoryFunction = customClientFactory.customWsFactory()[exchangeName]
+        val factoryFunction = customClientFactory.getCustomWsFactory(testExchangeVendor)
 
         // THEN
         assertThat(factoryFunction).isNotNull
-        assertThat(factoryFunction!!(exchangeName)).isEqualTo(customExchangeWebsocketClient)
+        assertThat(factoryFunction!!(testExchangeVendor)).isEqualTo(customExchangeWebsocketClient)
     }
 }

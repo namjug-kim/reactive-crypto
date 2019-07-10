@@ -17,18 +17,7 @@
 package com.njkim.reactivecrypto.core.plugin
 
 import com.njkim.reactivecrypto.core.plugin.strategy.CustomClientFactory
-import java.util.concurrent.atomic.AtomicReference
 
 object ReactiveCryptoPlugins {
-    private val customClientFactoryReference: AtomicReference<CustomClientFactory> = AtomicReference()
-    val customClientFactory: CustomClientFactory
-        get() {
-            val customClientFactory: CustomClientFactory? = customClientFactoryReference.get()
-
-            if (customClientFactory == null) {
-                this.customClientFactoryReference.compareAndSet(null, CustomClientFactory())
-            }
-
-            return this.customClientFactoryReference.get()
-        }
+    val customClientFactory = CustomClientFactory()
 }
