@@ -26,9 +26,9 @@ import com.njkim.reactivecrypto.core.common.model.order.TickData
 import com.njkim.reactivecrypto.core.common.util.toEpochMilli
 import com.njkim.reactivecrypto.core.netty.HeartBeatHandler
 import com.njkim.reactivecrypto.core.websocket.AbstractExchangeWebsocketClient
-import com.njkim.reactivecrypto.huobiglobal.model.HuobiTickDataWrapper
 import com.njkim.reactivecrypto.huobiglobal.model.HuobiOrderBook
 import com.njkim.reactivecrypto.huobiglobal.model.HuobiSubscribeResponse
+import com.njkim.reactivecrypto.huobiglobal.model.HuobiTickDataWrapper
 import io.netty.buffer.ByteBuf
 import io.netty.buffer.ByteBufInputStream
 import io.netty.channel.ChannelHandlerContext
@@ -74,7 +74,7 @@ open class HuobiGlobalWebsocketClient(
                         "heartBeat",
                         HeartBeatHandler(
                             false,
-                            2000,
+                            10500,
                             TimeUnit.MILLISECONDS,
                             1000
                         ) { "{\"ping\": ${ZonedDateTime.now().toEpochMilli()}}" }
@@ -119,7 +119,7 @@ open class HuobiGlobalWebsocketClient(
                         "heartBeat",
                         HeartBeatHandler(
                             false,
-                            2000,
+                            10500,
                             TimeUnit.MILLISECONDS,
                             1000
                         ) { "{\"ping\": ${ZonedDateTime.now().toEpochMilli()}}" }
