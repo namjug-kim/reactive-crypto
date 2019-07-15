@@ -19,6 +19,7 @@ package com.njkim.reactivecrypto.upbit.http.raw
 import com.fasterxml.jackson.module.kotlin.convertValue
 import com.njkim.reactivecrypto.core.common.util.toMultiValueMap
 import com.njkim.reactivecrypto.upbit.UpbitJsonObjectMapper
+import com.njkim.reactivecrypto.upbit.model.UpbitBalance
 import com.njkim.reactivecrypto.upbit.model.UpbitOrderStatus
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.bodyToMono
@@ -46,6 +47,21 @@ class UpbitRawUserDataOperator internal constructor(
             .uri {
                 it.path("/v1/order")
                     .queryParams(upbitRequest.toMultiValueMap())
+                    .build()
+            }
+            .header("Authorization", "Bearer $sign")
+            .retrieve()
+            .upbitErrorHandling()
+            .bodyToMono()
+    }
+
+    fun balance(): Mono<List<UpbitBalance>> {
+        val sign = sign(emptyMap(), accessKey, secretKey)
+
+        return webClient
+            .get()
+            .uri {
+                it.path("/v1/accounts")
                     .build()
             }
             .header("Authorization", "Bearer $sign")

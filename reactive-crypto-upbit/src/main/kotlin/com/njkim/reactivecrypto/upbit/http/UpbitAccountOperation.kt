@@ -30,6 +30,18 @@ class UpbitAccountOperation(
     private val upbitRawPrivateHttpClient: UpbitRawPrivateHttpClient
 ) : AccountOperation(accessKey, secretKey) {
     override fun balance(): Flux<Balance> {
-        TODO("not implemented")
+        return upbitRawPrivateHttpClient
+            .userData()
+            .balance()
+            .flatMapMany {
+                Flux.fromIterable(it)
+            }
+            .map {
+                Balance(
+                    it.currency,
+                    it.balance,
+                    it.locked
+                )
+            }
     }
 }

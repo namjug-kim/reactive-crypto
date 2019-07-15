@@ -37,11 +37,5 @@ data class UpbitBalance(
     val avgBuyPriceModified: Boolean,
 
     @get:JsonProperty("unit_currency")
-    val unitCurrency: String,
-
-    @get:JsonProperty("avg_krw_buy_price")
-    val avgKrwBuyPrice: BigDecimal,
-
-    @get:JsonProperty("modified")
-    val modified: Boolean
+    val unitCurrency: String
 )
