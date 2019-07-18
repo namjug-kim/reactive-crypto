@@ -20,11 +20,9 @@ apply plugin: 'org.jetbrains.kotlin.jvm'
 version '1.0-SNAPSHOT'
 
 dependencies {
-    compile project(':reactive-crypto-core')
+    compile project(':reactive-crypto-okex')
 
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-
-    compile group: 'org.apache.commons', name: 'commons-compress', version: '1.18'
 }
 
 compileKotlin {
