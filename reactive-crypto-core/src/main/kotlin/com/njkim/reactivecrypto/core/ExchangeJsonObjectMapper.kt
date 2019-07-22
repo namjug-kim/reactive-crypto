@@ -16,6 +16,8 @@
 
 package com.njkim.reactivecrypto.core
 
+import com.fasterxml.jackson.core.JsonParser
+import com.fasterxml.jackson.databind.DeserializationContext
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.JsonDeserializer
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -43,7 +45,11 @@ interface ExchangeJsonObjectMapper {
     }
 
     fun currencyDeserializer(): JsonDeserializer<Currency>? {
-        return null
+        return object : JsonDeserializer<Currency>() {
+            override fun deserialize(p: JsonParser, ctxt: DeserializationContext): Currency {
+                return Currency.getInstance(p.valueAsString)
+            }
+        }
     }
 
     fun bigDecimalDeserializer(): JsonDeserializer<BigDecimal>? {
