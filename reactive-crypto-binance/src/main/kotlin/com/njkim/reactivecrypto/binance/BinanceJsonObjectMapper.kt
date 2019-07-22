@@ -75,11 +75,7 @@ class BinanceJsonObjectMapper : ExchangeJsonObjectMapper {
         return object : JsonDeserializer<Currency>() {
             override fun deserialize(p: JsonParser, ctxt: DeserializationContext): Currency? {
                 val rawValue = p.valueAsString
-                return try {
-                    Currency.valueOf(rawValue)
-                } catch (e: IllegalArgumentException) {
-                    Currency.UNKNOWN
-                }
+                return Currency.getInstance(rawValue)
             }
         }
     }

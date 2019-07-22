@@ -69,11 +69,7 @@ class CoinealJsonObjectMapper : ExchangeJsonObjectMapper {
     override fun currencyDeserializer(): JsonDeserializer<Currency>? {
         return object : JsonDeserializer<Currency>() {
             override fun deserialize(p: JsonParser, ctxt: DeserializationContext): Currency {
-                return try {
-                    Currency.valueOf(p.valueAsString.toUpperCase())
-                } catch (e: Exception) {
-                    Currency.UNKNOWN
-                }
+                return Currency.getInstance(p.valueAsString.toUpperCase())
             }
         }
     }
