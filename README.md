@@ -40,6 +40,7 @@ Support public market feature (tickData, orderBook)
 | ![poloniex](https://user-images.githubusercontent.com/16334718/59551277-335a0900-8fb2-11e9-9d1e-4ab2a7574148.jpg)     | Poloniex    | POLONIEX       | *      | [ws](https://docs.poloniex.com/#websocket-api) |
 | ![bitstamp](https://user-images.githubusercontent.com/16334718/59565122-2c062e80-908a-11e9-8a38-6264c26aa3c2.jpg)     | Bitstamp    | BITSTAMP       | v2     | [ws](https://www.bitstamp.net/websocket/v2/) |
 | ![korbotex](https://user-images.githubusercontent.com/16334718/59919092-82e07f00-9461-11e9-869a-d801dce68b08.jpg)     | Korbot EX   | KOTBOTEX       | v3     | [ws](https://www.okex.com/docs/en/#spot_ws-all) |
+| ![coinall](https://user-images.githubusercontent.com/16334718/61628742-2077da00-acbe-11e9-95c3-27a4960616f7.png)      | Coinall     | COINALL        | v3     | [ws](https://www.okex.com/docs/en/#spot_ws-all) |
 
 ⚠️ : Uses endpoints that are used by the official web. This is not an official api and should be used with care.
 

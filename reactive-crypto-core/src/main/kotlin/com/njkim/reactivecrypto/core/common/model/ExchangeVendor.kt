@@ -55,6 +55,8 @@ data class ExchangeVendor(val name: String) {
         val BITSTAMP = ExchangeVendor("BITSTAMP")
         @JvmField
         val KORBOTEX = ExchangeVendor("KORBOTEX")
+        @JvmField
+        val COINALL = ExchangeVendor("COINALL")
 
         @JvmStatic
         fun getInstance(value: String): ExchangeVendor {
