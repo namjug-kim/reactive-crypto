@@ -61,7 +61,7 @@ class KrakenWebsocketClient : AbstractExchangeWebsocketClient() {
         val channelCurrencyPairMap: MutableMap<Int, CurrencyPair> = ConcurrentHashMap()
 
         val subscribeSymbols = subscribeTargets
-            .map { "${it.targetCurrency.name}/${it.baseCurrency.name}".toUpperCase() }
+            .map { "${it.targetCurrency.symbol}/${it.baseCurrency.symbol}".toUpperCase() }
             .map { "\"$it\"" }
             .joinToString(",", "[", "]")
 
@@ -159,7 +159,7 @@ class KrakenWebsocketClient : AbstractExchangeWebsocketClient() {
         val channelCurrencyPairMap: MutableMap<Int, CurrencyPair> = ConcurrentHashMap()
 
         val subscribeSymbols = subscribeTargets
-            .map { "${it.targetCurrency.name}/${it.baseCurrency.name}".toUpperCase() }
+            .map { "${it.targetCurrency.symbol}/${it.baseCurrency.symbol}".toUpperCase() }
             .map { "\"$it\"" }
             .joinToString(",", "[", "]")
 

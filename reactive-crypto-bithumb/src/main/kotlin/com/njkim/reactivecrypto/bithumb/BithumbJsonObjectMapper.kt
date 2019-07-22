@@ -80,7 +80,7 @@ class BithumbJsonObjectMapper : ExchangeJsonObjectMapper {
             @Throws(IOException::class, JsonProcessingException::class)
             override fun deserialize(p: JsonParser, ctxt: DeserializationContext): Currency? {
                 val rawValue = p.valueAsString
-                return Currency.valueOf(rawValue)
+                return Currency.getInstance(rawValue)
             }
         }
     }

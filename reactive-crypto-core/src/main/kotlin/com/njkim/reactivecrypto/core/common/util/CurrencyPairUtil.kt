@@ -26,7 +26,7 @@ object CurrencyPairUtil {
         Currency.values().forEach { targetCurrency ->
             Currency.FIAT_CURRENCIES.forEach { fiatCurrency ->
                 val currencyPair = CurrencyPair(targetCurrency, fiatCurrency)
-                currencyPairMap["${targetCurrency.name}${fiatCurrency.name}"] = currencyPair
+                currencyPairMap["${targetCurrency.symbol}${fiatCurrency.symbol}"] = currencyPair
             }
         }
     }

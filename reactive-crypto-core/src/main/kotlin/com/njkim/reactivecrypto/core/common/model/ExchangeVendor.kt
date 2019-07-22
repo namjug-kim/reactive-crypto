@@ -21,42 +21,44 @@ import com.njkim.reactivecrypto.core.common.util.toCarmelCase
 data class ExchangeVendor(val name: String) {
 
     companion object {
+        private val mapCache: MutableMap<String, ExchangeVendor> = HashMap()
+
         @JvmField
-        val UPBIT = ExchangeVendor("UPBIT")
+        val UPBIT = getInstance("UPBIT")
         @JvmField
-        val BINANCE = ExchangeVendor("BINANCE")
+        val BINANCE = getInstance("BINANCE")
         @JvmField
-        val HUOBI_GLOBAL = ExchangeVendor("HUOBI_GLOBAL")
+        val HUOBI_GLOBAL = getInstance("HUOBI_GLOBAL")
         @JvmField
-        val HUOBI_JAPAN = ExchangeVendor("HUOBI_JAPAN")
+        val HUOBI_JAPAN = getInstance("HUOBI_JAPAN")
         @JvmField
-        val HUOBI_KOREA = ExchangeVendor("HUOBI_KOREA")
+        val HUOBI_KOREA = getInstance("HUOBI_KOREA")
         @JvmField
-        val OKEX = ExchangeVendor("OKEX")
+        val OKEX = getInstance("OKEX")
         @JvmField
-        val OKEX_KOREA = ExchangeVendor("OKEX_KOREA")
+        val OKEX_KOREA = getInstance("OKEX_KOREA")
         @JvmField
-        val BITHUMB = ExchangeVendor("BITHUMB")
+        val BITHUMB = getInstance("BITHUMB")
         @JvmField
-        val HUBI = ExchangeVendor("HUBI")
+        val HUBI = getInstance("HUBI")
         @JvmField
-        val BITMEX = ExchangeVendor("BITMEX")
+        val BITMEX = getInstance("BITMEX")
         @JvmField
-        val KRAKEN = ExchangeVendor("KRAKEN")
+        val KRAKEN = getInstance("KRAKEN")
         @JvmField
-        val BITMAX = ExchangeVendor("BITMAX")
+        val BITMAX = getInstance("BITMAX")
         @JvmField
-        val IDAX = ExchangeVendor("IDAX")
+        val IDAX = getInstance("IDAX")
         @JvmField
-        val COINEAL = ExchangeVendor("COINEAL")
+        val COINEAL = getInstance("COINEAL")
         @JvmField
-        val POLONIEX = ExchangeVendor("POLONIEX")
+        val POLONIEX = getInstance("POLONIEX")
         @JvmField
-        val BITSTAMP = ExchangeVendor("BITSTAMP")
+        val BITSTAMP = getInstance("BITSTAMP")
         @JvmField
-        val KORBOTEX = ExchangeVendor("KORBOTEX")
+        val KORBOTEX = getInstance("KORBOTEX")
         @JvmField
-        val COINALL = ExchangeVendor("COINALL")
+        val COINALL = getInstance("COINALL")
 
         @JvmStatic
         fun getInstance(value: String): ExchangeVendor {
@@ -64,14 +66,9 @@ data class ExchangeVendor(val name: String) {
         }
 
         @JvmStatic
-        fun values(): List<ExchangeVendor> {
-            return listOf(
-                UPBIT, BINANCE, HUOBI_GLOBAL, HUOBI_JAPAN, HUOBI_KOREA, OKEX, OKEX_KOREA, BITHUMB, HUBI, BITMEX,
-                KRAKEN, BITMAX, IDAX, COINEAL, POLONIEX, BITSTAMP, KORBOTEX
-            )
+        fun values(): Collection<ExchangeVendor> {
+            return mapCache.values
         }
-
-        private val mapCache = values().map { it.name to it }.toMap().toMutableMap()
     }
 
     /**

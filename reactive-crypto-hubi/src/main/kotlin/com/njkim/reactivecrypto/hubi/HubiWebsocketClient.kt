@@ -50,7 +50,7 @@ class HubiWebsocketClient : AbstractExchangeWebsocketClient() {
 
     override fun createDepthSnapshot(subscribeTargets: List<CurrencyPair>): Flux<OrderBook> {
         val subscribeSymbols = subscribeTargets.joinToString(",") {
-            "${it.targetCurrency.name}${it.baseCurrency.name}".toLowerCase()
+            "${it.targetCurrency.symbol}${it.baseCurrency.symbol}".toLowerCase()
         }
 
         val subscribeMessage = "{" +
@@ -87,7 +87,7 @@ class HubiWebsocketClient : AbstractExchangeWebsocketClient() {
         val lastPublishedTimestamp: MutableMap<CurrencyPair, AtomicLong> = ConcurrentHashMap()
 
         val subscribeSymbols = subscribeTargets.joinToString(",") {
-            "${it.targetCurrency.name}${it.baseCurrency.name}".toLowerCase()
+            "${it.targetCurrency.symbol}${it.baseCurrency.symbol}".toLowerCase()
         }
 
         val subscribeMessage = "{" +

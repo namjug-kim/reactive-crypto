@@ -56,7 +56,7 @@ open class OkexWebsocketClient(
 
     override fun createDepthSnapshot(subscribeTargets: List<CurrencyPair>): Flux<OrderBook> {
         val subscribeMessages = subscribeTargets.stream()
-            .map { "${it.targetCurrency.name}-${it.baseCurrency.name}" }
+            .map { "${it.targetCurrency.symbol}-${it.baseCurrency.symbol}" }
             .map { "{\"op\": \"subscribe\", \"args\": [\"spot/depth:$it\"]}" }
             .toList()
 
@@ -146,7 +146,7 @@ open class OkexWebsocketClient(
 
     override fun createTradeWebsocket(subscribeTargets: List<CurrencyPair>): Flux<TickData> {
         val subscribeMessages = subscribeTargets.stream()
-            .map { "${it.targetCurrency.name}-${it.baseCurrency.name}" }
+            .map { "${it.targetCurrency.symbol}-${it.baseCurrency.symbol}" }
             .map { "{\"op\": \"subscribe\", \"args\": [\"spot/trade:$it\"]}" }
             .toList()
 

@@ -24,8 +24,8 @@ data class CurrencyPair(
         @JvmStatic
         fun parse(targetCurrency: String, baseCurrency: String): CurrencyPair {
             return CurrencyPair(
-                Currency.valueOf(targetCurrency.toUpperCase()),
-                Currency.valueOf(baseCurrency.toUpperCase())
+                Currency.getInstance(targetCurrency.toUpperCase()),
+                Currency.getInstance(baseCurrency.toUpperCase())
             )
         }
 
