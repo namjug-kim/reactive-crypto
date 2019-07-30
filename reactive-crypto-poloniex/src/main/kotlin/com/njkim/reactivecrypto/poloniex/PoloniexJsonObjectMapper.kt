@@ -79,13 +79,13 @@ class PoloniexJsonObjectMapper : ExchangeJsonObjectMapper {
                 val jsonNode: JsonNode = p.codec.readTree(p)
                 val channelId = jsonNode[0].asLong()
                 val sequenceNumber = jsonNode[1].asLong()
-                val events = (jsonNode[2] ?: emptyList()).map { event ->
+                val events = jsonNode[2]?.map { event ->
                     val eventType = PoloniexEventType.parse(event[0].asText())
                     PoloniexJsonObjectMapper.instance.convertValue(event, eventType.classType)
                 }
 
                 return PoloniexMessageFrame(
-                    channelId, sequenceNumber, events
+                    channelId, sequenceNumber, events ?: emptyList()
                 )
             }
         }
