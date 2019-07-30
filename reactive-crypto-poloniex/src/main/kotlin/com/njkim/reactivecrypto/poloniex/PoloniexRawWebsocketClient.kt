@@ -37,6 +37,7 @@ class PoloniexRawWebsocketClient {
                     .then()
                     .thenMany(inbound.receive().asString())
             }
+            .filter { !it.contains("{\"error\":\"") }
             .filter { it != "[1010]" } // ping message
             .map { PoloniexJsonObjectMapper.instance.readValue<PoloniexMessageFrame>(it) }
             // set currencyPair info for each channel
