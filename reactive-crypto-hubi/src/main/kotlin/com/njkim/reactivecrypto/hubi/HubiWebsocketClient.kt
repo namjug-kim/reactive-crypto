@@ -32,6 +32,7 @@ import com.njkim.reactivecrypto.hubi.model.HubiOrderBook
 import com.njkim.reactivecrypto.hubi.model.HubiTickDataWrapper
 import mu.KotlinLogging
 import reactor.core.publisher.Flux
+import reactor.core.publisher.toFlux
 import reactor.netty.http.client.HttpClient
 import java.time.ZonedDateTime
 import java.util.concurrent.ConcurrentHashMap
@@ -49,22 +50,23 @@ class HubiWebsocketClient : AbstractExchangeWebsocketClient() {
     }
 
     override fun createDepthSnapshot(subscribeTargets: List<CurrencyPair>): Flux<OrderBook> {
-        val subscribeSymbols = subscribeTargets.joinToString(",") {
-            "${it.targetCurrency.symbol}${it.baseCurrency.symbol}".toLowerCase()
-        }
-
-        val subscribeMessage = "{" +
-                "\"channel\": \"depth_all\"," +
-                "\"symbol\": \"$subscribeSymbols\"," +
-                "\"bourse\": \"01001\"" +
-                "}"
+        val subscribeRequests = subscribeTargets
+            .map { "${it.targetCurrency.symbol}${it.baseCurrency.symbol}".toLowerCase() }
+            .map { symbol ->
+                "{" +
+                        "\"channel\": \"depth_all\"," +
+                        "\"symbol\": \"$symbol\"," +
+                        "\"bourse\": \"01001\"" +
+                        "}"
+            }
+            .toFlux()
 
         return HttpClient.create()
             .wiretap(log.isDebugEnabled)
             .websocket()
             .uri(baseUri)
             .handle { inbound, outbound ->
-                outbound.sendString(Flux.just(subscribeMessage))
+                outbound.sendString(subscribeRequests)
                     .then()
                     .thenMany(inbound.aggregateFrames(65536).receive().asString())
             }
@@ -86,22 +88,23 @@ class HubiWebsocketClient : AbstractExchangeWebsocketClient() {
     override fun createTradeWebsocket(subscribeTargets: List<CurrencyPair>): Flux<TickData> {
         val lastPublishedTimestamp: MutableMap<CurrencyPair, AtomicLong> = ConcurrentHashMap()
 
-        val subscribeSymbols = subscribeTargets.joinToString(",") {
-            "${it.targetCurrency.symbol}${it.baseCurrency.symbol}".toLowerCase()
-        }
-
-        val subscribeMessage = "{" +
-                "\"channel\": \"trade_history\"," +
-                "\"symbol\": \"$subscribeSymbols\"," +
-                "\"bourse\": \"01001\"" +
-                "}"
+        val subscribeRequests = subscribeTargets
+            .map { "${it.targetCurrency.symbol}${it.baseCurrency.symbol}".toLowerCase() }
+            .map { symbol ->
+                "{" +
+                        "\"channel\": \"trade_history\"," +
+                        "\"symbol\": \"$symbol\"," +
+                        "\"bourse\": \"01001\"" +
+                        "}"
+            }
+            .toFlux()
 
         return HttpClient.create()
             .wiretap(log.isDebugEnabled)
             .websocket(65536)
             .uri(baseUri)
             .handle { inbound, outbound ->
-                outbound.sendString(Flux.just(subscribeMessage))
+                outbound.sendString(subscribeRequests)
                     .then()
                     .thenMany(inbound.aggregateFrames(65536).receive().asString())
             }
