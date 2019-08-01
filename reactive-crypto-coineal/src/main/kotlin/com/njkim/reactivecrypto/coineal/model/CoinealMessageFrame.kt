@@ -28,7 +28,7 @@ data class CoinealMessageFrame<T>(
 ) {
     val currencyPair: CurrencyPair
         get() {
-            val pattern = Pattern.compile("(market_)([a-z]+)(_.*)", Pattern.CASE_INSENSITIVE)
+            val pattern = Pattern.compile("(market_)([a-z0-9]+)(_.*)", Pattern.CASE_INSENSITIVE)
             val matcher = pattern.matcher(channel)
             if (matcher.matches()) {
                 val group = matcher.group(2)

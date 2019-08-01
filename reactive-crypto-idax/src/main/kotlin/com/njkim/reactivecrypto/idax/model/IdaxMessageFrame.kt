@@ -32,7 +32,7 @@ data class IdaxMessageFrame<T>(
 ) {
     val currencyPair: CurrencyPair
         get() {
-            val pattern = Pattern.compile("(idax_sub_)([a-z]+_[a-z]+)(_.*)", Pattern.CASE_INSENSITIVE)
+            val pattern = Pattern.compile("(idax_sub_)([a-z0-9]+_[a-z0-9]+)(_.*)", Pattern.CASE_INSENSITIVE)
             val matcher = pattern.matcher(channel)
             if (matcher.matches()) {
                 val group = matcher.group(2)

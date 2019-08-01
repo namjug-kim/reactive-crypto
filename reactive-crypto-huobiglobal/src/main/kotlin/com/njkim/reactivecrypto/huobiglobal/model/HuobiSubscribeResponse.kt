@@ -28,7 +28,7 @@ data class HuobiSubscribeResponse<T>(
 ) {
     val currencyPair: CurrencyPair
         get() {
-            val pattern = Pattern.compile("(market.)([a-z]+)(.*)", Pattern.CASE_INSENSITIVE)
+            val pattern = Pattern.compile("(market.)([a-z0-9]+)(.*)", Pattern.CASE_INSENSITIVE)
             val matcher = pattern.matcher(ch)
             if (matcher.matches()) {
                 val group = matcher.group(2)
