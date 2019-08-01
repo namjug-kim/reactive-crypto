@@ -32,6 +32,17 @@ object CurrencyPairUtil {
     }
 
     fun parse(rawValue: String): CurrencyPair? {
-        return currencyPairMap[rawValue.toUpperCase()]
+        val currencyPair = currencyPairMap[rawValue.toUpperCase()]
+        return if (currencyPair != null) {
+            currencyPair
+        } else {
+            Currency.FIAT_CURRENCIES
+                .filter { rawValue.endsWith(it.symbol) }
+                .map {
+                    val targetCurrency = Currency.getInstance(rawValue.replace(it.symbol, ""))
+                    CurrencyPair(targetCurrency, it)
+                }
+                .firstOrNull() ?: throw IllegalArgumentException("UNKNWON Currency Pair : rawValue")
+        }
     }
 }

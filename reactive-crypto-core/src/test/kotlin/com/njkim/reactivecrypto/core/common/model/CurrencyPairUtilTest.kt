@@ -26,5 +26,8 @@ class CurrencyPairUtilTest {
 
         assertThat(CurrencyPairUtil.parse("ETHBTC"))
             .isEqualTo(CurrencyPair(Currency.ETH, Currency.BTC))
+
+        assertThat(CurrencyPairUtil.parse("UNKCURRENCYBTC"))
+            .isEqualTo(CurrencyPair(Currency.getInstance("UNKCURRENCY"), Currency.BTC))
     }
 }
