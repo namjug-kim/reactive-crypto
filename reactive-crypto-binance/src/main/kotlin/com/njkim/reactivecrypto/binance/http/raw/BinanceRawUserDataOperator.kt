@@ -38,7 +38,7 @@ class BinanceRawUserDataOperator internal constructor(private val webClient: Web
     fun account(recvWindow: Long = 5000): Mono<BinanceAccountResponse> {
         val request = mapOf<String, Any>(
             "recvWindow" to recvWindow,
-            "timestamp" to Instant.now().toEpochMilli() - 1000
+            "timestamp" to Instant.now().toEpochMilli()
         )
 
         val convertedRequest = BinanceJsonObjectMapper.instance.convertValue<Map<String, Any>>(request)

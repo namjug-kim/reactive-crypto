@@ -51,7 +51,7 @@ class BinanceRawTradeOperator internal constructor(private val webClient: WebCli
         val request = mapOf(
             "symbol" to symbol,
             "recvWindow" to recvWindow,
-            "timestamp" to Instant.now().toEpochMilli() - 1000
+            "timestamp" to Instant.now().toEpochMilli()
         ).toMutableMap()
         orderId?.let { request["orderId"] = orderId }
         origClientOrderId?.let { request["origClientOrderId"] = origClientOrderId }
@@ -131,7 +131,7 @@ class BinanceRawTradeOperator internal constructor(private val webClient: WebCli
             "type" to type,
             "quantity" to quantity,
             "recvWindow" to recvWindow,
-            "timestamp" to Instant.now().toEpochMilli() - 1000
+            "timestamp" to Instant.now().toEpochMilli()
         ).toMutableMap()
         price?.let { request["price"] = price }
         stopPrice?.let { request["stopPrice"] = stopPrice }
