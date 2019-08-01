@@ -856,6 +856,36 @@ data class Currency(val symbol: String) {
         val FIN = getInstance("FIN")
         @JvmField
         val BNS = getInstance("BNS")
+        @JvmField
+        val MIN = getInstance("MIN")
+        @JvmField
+        val WIN = getInstance("WIN")
+        @JvmField
+        val LEVL = getInstance("LEVL")
+        @JvmField
+        val XSC = getInstance("XSC")
+        @JvmField
+        val FYS = getInstance("FYS")
+        @JvmField
+        val KGT = getInstance("KGT")
+        @JvmField
+        val XCON = getInstance("XCON")
+        @JvmField
+        val KBC = getInstance("KBC")
+        @JvmField
+        val GTP = getInstance("GTP")
+        @JvmField
+        val PDATA = getInstance("PDATA")
+        @JvmField
+        val KICKS = getInstance("KICKS")
+        @JvmField
+        val BOK = getInstance("BOK")
+        @JvmField
+        val DPH = getInstance("DPH")
+        @JvmField
+        val TOR = getInstance("TOR")
+        @JvmField
+        val AFDT = getInstance("AFDT")
 
         @JvmField
         val M19 = getInstance("M19")
