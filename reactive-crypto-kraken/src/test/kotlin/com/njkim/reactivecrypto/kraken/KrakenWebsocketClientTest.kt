@@ -31,11 +31,11 @@ class KrakenWebsocketClientTest {
     fun `kraken tick data subscribe`() {
         // given
         val targetCurrencyPair = CurrencyPair.parse("XBT", "USD")
-        val hubiTickDataFlux = KrakenWebsocketClient()
+        val tickDataFlux = KrakenWebsocketClient()
             .createTradeWebsocket(listOf(targetCurrencyPair))
 
         // when
-        StepVerifier.create(hubiTickDataFlux.limitRequest(3))
+        StepVerifier.create(tickDataFlux.limitRequest(3))
             .expectNextCount(1)
             // then
             .assertNext {
@@ -67,12 +67,12 @@ class KrakenWebsocketClientTest {
     fun `kraken orderBook subscribe`() {
         // given
         val targetCurrencyPair = CurrencyPair.parse("XBT", "USD")
-        val hubiOrderBookFlux = KrakenWebsocketClient()
+        val orderBookFlux = KrakenWebsocketClient()
             .createDepthSnapshot(listOf(targetCurrencyPair))
             .doOnNext { log.info { it } }
 
         // when
-        StepVerifier.create(hubiOrderBookFlux.limitRequest(3))
+        StepVerifier.create(orderBookFlux.limitRequest(3))
             .expectNextCount(1)
             // then
             .assertNext {
