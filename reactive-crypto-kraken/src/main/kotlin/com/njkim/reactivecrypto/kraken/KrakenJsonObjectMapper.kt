@@ -113,37 +113,37 @@ class KrakenJsonObjectMapper : ExchangeJsonObjectMapper {
                 val jsonNode: JsonNode = p.codec.readTree(p)
 
                 val channelId: Int = jsonNode.get(0).asInt()
-
-                val orderBookNode = jsonNode.get(1)
-                val krakenAsks: JsonNode? = when {
-                    orderBookNode.has("as") -> orderBookNode.get("as")
-                    else -> orderBookNode.get("a")
-                }
-                val asks = (krakenAsks?.toList() ?: listOf())
-                    .map {
-                        KrakenOrderBookUnit(
-                            instance.convertValue(it.get(0).asText()),
-                            instance.convertValue(it.get(1).asText()),
-                            Instant.ofEpochMilli((it.get(2).asDouble() * 1000).toLong())
-                                .plusNanos((it.get(2).asDouble() * 1000000 % 1000).toLong())
-                                .atZone(ZoneId.systemDefault())
-                        )
-                    }
-                val krakenBids = if (orderBookNode.has("bs")) orderBookNode.get("bs") else orderBookNode.get("b")
-                val bids = (krakenBids?.toList() ?: listOf())
-                    .toList()
-                    .map {
-                        KrakenOrderBookUnit(
-                            instance.convertValue(it.get(0).asText()),
-                            instance.convertValue(it.get(1).asText()),
-                            Instant.ofEpochMilli((it.get(2).asDouble() * 1000).toLong())
-                                .plusNanos((it.get(2).asDouble() * 1000000 % 1000).toLong())
-                                .atZone(ZoneId.systemDefault())
-                        )
-                    }
-
                 val updateOnly = jsonNode.has("as") && jsonNode.has("bs")
+
+                val asks = extractOrderBookUnit(jsonNode.get(1), "as", "a").toMutableList()
+                val bids = extractOrderBookUnit(jsonNode.get(1), "bs", "b").toMutableList()
+                if (updateOnly && jsonNode.get(2).isObject) {
+                    asks += extractOrderBookUnit(jsonNode.get(2), "as", "a")
+                    bids += extractOrderBookUnit(jsonNode.get(2), "bs", "b")
+                }
+
                 return KrakenOrderBook(channelId, asks, bids, updateOnly)
+            }
+
+            private fun extractOrderBookUnit(
+                orderBookNode: JsonNode,
+                snapshotField: String,
+                updateField: String
+            ): List<KrakenOrderBookUnit> {
+                val orderBookUnitsNode: JsonNode? = when {
+                    orderBookNode.has(snapshotField) -> orderBookNode.get(snapshotField)
+                    else -> orderBookNode.get(updateField)
+                }
+                return (orderBookUnitsNode?.toList() ?: listOf())
+                    .map {
+                        KrakenOrderBookUnit(
+                            instance.convertValue(it.get(0).asText()),
+                            instance.convertValue(it.get(1).asText()),
+                            Instant.ofEpochMilli((it.get(2).asDouble() * 1000).toLong())
+                                .plusNanos((it.get(2).asDouble() * 1000000 % 1000).toLong())
+                                .atZone(ZoneId.systemDefault())
+                        )
+                    }
             }
         }
 
