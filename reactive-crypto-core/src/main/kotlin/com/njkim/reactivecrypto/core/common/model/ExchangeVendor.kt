@@ -59,6 +59,8 @@ data class ExchangeVendor(val name: String) {
         val KORBOTEX = getInstance("KORBOTEX")
         @JvmField
         val COINALL = getInstance("COINALL")
+        @JvmField
+        val BHEX = getInstance("BHEX")
 
         @JvmStatic
         fun getInstance(value: String): ExchangeVendor {

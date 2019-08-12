@@ -41,6 +41,7 @@ Support public market feature (tickData, orderBook)
 | ![bitstamp](https://user-images.githubusercontent.com/16334718/59565122-2c062e80-908a-11e9-8a38-6264c26aa3c2.jpg)     | Bitstamp    | BITSTAMP       | v2     | [ws](https://www.bitstamp.net/websocket/v2/) |
 | ![korbotex](https://user-images.githubusercontent.com/16334718/59919092-82e07f00-9461-11e9-869a-d801dce68b08.jpg)     | Korbot EX   | KOTBOTEX       | v3     | [ws](https://www.okex.com/docs/en/#spot_ws-all) |
 | ![coinall](https://user-images.githubusercontent.com/16334718/61628742-2077da00-acbe-11e9-95c3-27a4960616f7.png)      | Coinall     | COINALL        | v3     | [ws](https://www.okex.com/docs/en/#spot_ws-all) |
+| ![bhex](https://user-images.githubusercontent.com/16334718/62872727-0c714680-bd59-11e9-99e8-cf1008422446.png)         | Bhex        | BHEX           | v1     | [ws](https://github.com/bhexopen/BHEX-OpenApi/blob/master/doc/web-socket-streams.md) |
 
 ⚠️ : Uses endpoints that are used by the official web. This is not an official api and should be used with care.
 
