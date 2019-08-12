@@ -886,6 +886,18 @@ data class Currency(val symbol: String) {
         val TOR = getInstance("TOR")
         @JvmField
         val AFDT = getInstance("AFDT")
+        @JvmField
+        val BHT = getInstance("BHT")
+        @JvmField
+        val CXC = getInstance("CXC")
+        @JvmField
+        val DRINK = getInstance("DRINK")
+        @JvmField
+        val GRIN = getInstance("GRIN")
+        @JvmField
+        val LAMBS = getInstance("LAMBS")
+        @JvmField
+        val YANT = getInstance("YANT")
 
         @JvmField
         val M19 = getInstance("M19")
