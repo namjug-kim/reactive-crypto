@@ -34,7 +34,7 @@ class BinanceOrderOperation(
     private val binanceRawPrivateHttpClient: BinanceRawPrivateHttpClient
 ) : OrderOperation(accessKey, secretKey) {
     override fun getOrder(orderId: String): Mono<Order> {
-        val splits = orderId.split("-", limit = 2)
+        val splits = orderId.split("/", limit = 2)
         val pair = CurrencyPair.parse(splits[0])
         val binanceOrderId = splits[1].toLong()
 
@@ -90,7 +90,7 @@ class BinanceOrderOperation(
      * @param orderId $currencyPair-$originOrderId
      */
     override fun cancelOrder(orderId: String): Mono<OrderCancelResult> {
-        val splits = orderId.split("-")
+        val splits = orderId.split("/")
         val pair = CurrencyPair.parse(splits[0])
         val binanceOrderId = splits[1].toLong()
 
@@ -164,6 +164,6 @@ class BinanceOrderOperation(
     }
 
     private fun createOrderId(pair: CurrencyPair, orderId: Long): String {
-        return "$pair-$orderId"
+        return "$orderId/$pair"
     }
 }
