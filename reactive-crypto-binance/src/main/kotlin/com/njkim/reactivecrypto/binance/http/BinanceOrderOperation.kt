@@ -35,8 +35,8 @@ class BinanceOrderOperation(
 ) : OrderOperation(accessKey, secretKey) {
     override fun getOrder(orderId: String): Mono<Order> {
         val splits = orderId.split("-", limit = 2)
-        val binanceOrderId = splits[0].toLong()
-        val pair = CurrencyPair.parse(splits[1])
+        val pair = CurrencyPair.parse(splits[0])
+        val binanceOrderId = splits[1].toLong()
 
         return binanceRawPrivateHttpClient.userData()
             .order(pair, binanceOrderId)
@@ -73,7 +73,7 @@ class BinanceOrderOperation(
     ): Mono<OrderPlaceResult> {
         return binanceRawPrivateHttpClient.trade()
             .limitOrder(pair, tradeSideType, quantity, TimeInForceType.GTC, price)
-            .map { OrderPlaceResult("${it.orderId}") }
+            .map { OrderPlaceResult(createOrderId(it.symbol, it.orderId)) }
     }
 
     override fun marketOrder(
