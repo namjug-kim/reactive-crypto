@@ -22,7 +22,7 @@ import com.njkim.reactivecrypto.core.common.model.order.TradeSideType
 import java.math.BigDecimal
 import java.time.ZonedDateTime
 
-data class UpbitOrderStatus(
+data class UpbitOrder(
 
     @get:JsonProperty("uuid")
     val uuid: String,
@@ -69,5 +69,8 @@ data class UpbitOrderStatus(
     val executedVolume: BigDecimal,
 
     @get:JsonProperty("trades_count")
-    val tradesCount: Int
+    val tradesCount: Int,
+
+    @get:JsonProperty("trades")
+    val trades: List<UpbitTradeData>
 )

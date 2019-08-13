@@ -14,26 +14,29 @@
  * under the License.
  */
 
-package com.njkim.reactivecrypto.core.common.model.order
+package com.njkim.reactivecrypto.upbit.model
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
+import com.njkim.reactivecrypto.core.common.model.order.TradeSideType
 import java.math.BigDecimal
-import java.time.ZonedDateTime
 
-data class OrderStatus(
-    val uniqueId: String,
-    val orderStatusType: OrderStatusType,
+data class UpbitTradeData(
+    @get:JsonProperty("market")
+    val market: CurrencyPair,
 
-    val side: TradeSideType,
-    val currencyPair: CurrencyPair,
+    @get:JsonProperty("uuid")
+    val uuid: String,
+
+    @get:JsonProperty("price")
     val price: BigDecimal,
-    val orderVolume: BigDecimal?,
-    val filledVolume: BigDecimal,
 
-    val paidFee: BigDecimal? = null,
-    val reservedFee: BigDecimal? = null,
-    val remainingFee: BigDecimal? = null,
+    @get:JsonProperty("volume")
+    val volume: BigDecimal,
 
-    val createDateTime: ZonedDateTime
+    @get:JsonProperty("funds")
+    val funds: BigDecimal,
 
+    @get:JsonProperty("side")
+    val side: TradeSideType
 )

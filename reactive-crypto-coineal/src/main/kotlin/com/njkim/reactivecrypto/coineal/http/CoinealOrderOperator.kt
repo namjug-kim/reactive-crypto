@@ -21,7 +21,7 @@ import com.njkim.reactivecrypto.core.common.model.ExchangeVendor
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import com.njkim.reactivecrypto.core.common.model.order.OrderCancelResult
 import com.njkim.reactivecrypto.core.common.model.order.OrderPlaceResult
-import com.njkim.reactivecrypto.core.common.model.order.OrderStatus
+import com.njkim.reactivecrypto.core.common.model.order.Order
 import com.njkim.reactivecrypto.core.common.model.order.TickData
 import com.njkim.reactivecrypto.core.common.model.order.TradeSideType
 import com.njkim.reactivecrypto.core.common.model.paging.FirstPageRequest
@@ -37,7 +37,7 @@ class CoinealOrderOperator(
     secretKey: String,
     private val coinealRawOrderOperation: CoinealRawOrderOperation
 ) : OrderOperation(accessKey, secretKey) {
-    override fun orderStatus(orderId: String): Mono<OrderStatus> {
+    override fun getOrder(orderId: String): Mono<Order> {
         TODO("not implemented")
     }
 
@@ -78,7 +78,7 @@ class CoinealOrderOperator(
             .map { OrderCancelResult() }
     }
 
-    override fun openOrders(pair: CurrencyPair, pageable: Pageable): Mono<Page<OrderStatus>> {
+    override fun openOrders(pair: CurrencyPair, pageable: Pageable): Mono<Page<Order>> {
         val numberPageable = when (pageable) {
             is FirstPageRequest -> pageable.toNumberPageable()
             is NumberPageable -> pageable
@@ -90,12 +90,13 @@ class CoinealOrderOperator(
             .map { pageWrapper ->
                 Page(
                     pageWrapper.resultList.map {
-                        OrderStatus(
+                        Order(
                             uniqueId = "${it.id}",
                             orderStatusType = it.status,
                             side = it.side,
                             currencyPair = pair,
-                            price = it.price,
+                            orderPrice = it.price,
+                            averageTradePrice = null, // TODO calculate average trade price
                             orderVolume = it.volume,
                             filledVolume = it.dealVolume,
                             createDateTime = it.createdAt

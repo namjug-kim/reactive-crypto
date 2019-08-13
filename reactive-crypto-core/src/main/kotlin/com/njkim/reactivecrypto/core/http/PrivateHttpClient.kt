@@ -20,7 +20,7 @@ import com.njkim.reactivecrypto.core.common.model.account.Balance
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import com.njkim.reactivecrypto.core.common.model.order.OrderCancelResult
 import com.njkim.reactivecrypto.core.common.model.order.OrderPlaceResult
-import com.njkim.reactivecrypto.core.common.model.order.OrderStatus
+import com.njkim.reactivecrypto.core.common.model.order.Order
 import com.njkim.reactivecrypto.core.common.model.order.TickData
 import com.njkim.reactivecrypto.core.common.model.order.TradeSideType
 import com.njkim.reactivecrypto.core.common.model.paging.Page
@@ -66,9 +66,9 @@ abstract class OrderOperation(
 
     abstract fun cancelOrder(orderId: String): Mono<OrderCancelResult>
 
-    abstract fun openOrders(pair: CurrencyPair, pageable: Pageable): Mono<Page<OrderStatus>>
+    abstract fun openOrders(pair: CurrencyPair, pageable: Pageable): Mono<Page<Order>>
 
     abstract fun tradeHistory(pair: CurrencyPair, pageable: Pageable): Mono<Page<TickData>>
 
-    abstract fun orderStatus(orderId: String): Mono<OrderStatus>
+    abstract fun getOrder(orderId: String): Mono<Order>
 }

@@ -20,7 +20,7 @@ import com.fasterxml.jackson.module.kotlin.convertValue
 import com.njkim.reactivecrypto.core.common.util.toMultiValueMap
 import com.njkim.reactivecrypto.upbit.UpbitJsonObjectMapper
 import com.njkim.reactivecrypto.upbit.model.UpbitBalance
-import com.njkim.reactivecrypto.upbit.model.UpbitOrderStatus
+import com.njkim.reactivecrypto.upbit.model.UpbitOrder
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.bodyToMono
 import reactor.core.publisher.Mono
@@ -33,7 +33,7 @@ class UpbitRawUserDataOperator internal constructor(
 
     fun order(
         orderId: String
-    ): Mono<UpbitOrderStatus> {
+    ): Mono<UpbitOrder> {
         val request =
             mapOf(
                 "uuid" to orderId
