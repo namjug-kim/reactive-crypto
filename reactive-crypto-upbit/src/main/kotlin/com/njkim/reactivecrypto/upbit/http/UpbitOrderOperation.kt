@@ -33,17 +33,37 @@ class UpbitOrderOperation(
     override val secretKey: String,
     private val upbitRawPrivateHttpClient: UpbitRawPrivateHttpClient
 ) : OrderOperation(accessKey, secretKey) {
-    override fun orderStatus(orderId: String): Mono<OrderStatus> {
+    override fun getOrder(orderId: String): Mono<Order> {
         return upbitRawPrivateHttpClient
             .userData()
             .order(orderId)
             .map {
-                OrderStatus(
+                val averageTradePrice = when {
+                    it.trades.isEmpty() -> null
+                    else -> {
+                        val totalFunds = it.trades.stream()
+                            .map { trade -> trade.funds }
+                            .reduce(BigDecimal.ZERO) { left, right -> left + right }
+
+                        val totalVolume = it.trades.stream()
+                            .map { trade -> trade.volume }
+                            .reduce(BigDecimal.ZERO) { left, right -> left + right }
+
+                        if (totalFunds > BigDecimal.ZERO) {
+                            totalFunds / totalVolume
+                        } else {
+                            null
+                        }
+                    }
+                }
+
+                Order(
                     it.uuid,
                     it.upbitOrderStatusType.toOrderStatusType(it.volume, it.executedVolume),
                     it.side,
                     it.currencyPair,
                     it.price,
+                    averageTradePrice,
                     it.volume,
                     it.executedVolume,
                     it.paidFee,
@@ -93,7 +113,7 @@ class UpbitOrderOperation(
         TODO("not implemented")
     }
 
-    override fun openOrders(pair: CurrencyPair, pageable: Pageable): Mono<Page<OrderStatus>> {
+    override fun openOrders(pair: CurrencyPair, pageable: Pageable): Mono<Page<Order>> {
         TODO("not implemented")
     }
 }

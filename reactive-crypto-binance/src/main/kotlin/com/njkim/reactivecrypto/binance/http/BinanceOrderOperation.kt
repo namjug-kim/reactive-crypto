@@ -33,7 +33,7 @@ class BinanceOrderOperation(
     secretKey: String,
     private val binanceRawPrivateHttpClient: BinanceRawPrivateHttpClient
 ) : OrderOperation(accessKey, secretKey) {
-    override fun orderStatus(orderId: String): Mono<OrderStatus> {
+    override fun getOrder(orderId: String): Mono<Order> {
         val splits = orderId.split("-", limit = 2)
         val binanceOrderId = splits[0].toLong()
         val pair = CurrencyPair.parse(splits[1])
@@ -41,14 +41,25 @@ class BinanceOrderOperation(
         return binanceRawPrivateHttpClient.userData()
             .order(pair, binanceOrderId)
             .map {
-                OrderStatus(
-                    createOrderId(it.symbol, it.orderId),
-                    it.status.toOrderStatusType(),
-                    if (it.side == TradeSideType.BUY) TradeSideType.BUY else TradeSideType.SELL,
-                    it.symbol,
-                    it.price,
-                    it.origQty,
-                    it.executedQty,
+                val averageTradePrice = if (it.executedQty > BigDecimal.ZERO) {
+                    it.cummulativeQuoteQty / it.executedQty
+                } else {
+                    null
+                }
+
+                Order(
+                    uniqueId = createOrderId(it.symbol, it.orderId),
+                    orderStatusType = it.status.toOrderStatusType(),
+
+                    side = if (it.side == TradeSideType.BUY) TradeSideType.BUY else TradeSideType.SELL,
+                    currencyPair = it.symbol,
+
+                    orderPrice = it.price,
+                    averageTradePrice = averageTradePrice,
+
+                    orderVolume = it.origQty,
+                    filledVolume = it.executedQty,
+
                     createDateTime = it.time
                 )
             }
@@ -88,17 +99,24 @@ class BinanceOrderOperation(
             .map { OrderCancelResult() }
     }
 
-    override fun openOrders(pair: CurrencyPair, pageable: Pageable): Mono<Page<OrderStatus>> {
+    override fun openOrders(pair: CurrencyPair, pageable: Pageable): Mono<Page<Order>> {
         return binanceRawPrivateHttpClient
             .userData()
             .openOrders(pair)
             .map {
-                OrderStatus(
+                val averageTradePrice = if (it.executedQty > BigDecimal.ZERO) {
+                    it.cummulativeQuoteQty / it.executedQty
+                } else {
+                    null
+                }
+
+                Order(
                     createOrderId(it.symbol, it.orderId),
                     it.status.toOrderStatusType(),
                     if (it.side == TradeSideType.BUY) TradeSideType.BUY else TradeSideType.SELL,
                     it.symbol,
                     it.price,
+                    averageTradePrice,
                     it.origQty,
                     it.executedQty,
                     createDateTime = it.time
