@@ -164,6 +164,6 @@ class BinanceOrderOperation(
     }
 
     private fun createOrderId(pair: CurrencyPair, orderId: Long): String {
-        return "$orderId/$pair"
+        return "$pair/$orderId"
     }
 }
