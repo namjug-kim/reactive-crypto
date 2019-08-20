@@ -37,6 +37,9 @@ import reactor.core.publisher.toFlux
 import reactor.netty.http.client.HttpClient
 import java.time.ZonedDateTime
 
+/**
+ * @deprecated blocked by Bithumb
+ */
 class BithumbWebsocketClient : AbstractExchangeWebsocketClient() {
     private val log = KotlinLogging.logger {}
 

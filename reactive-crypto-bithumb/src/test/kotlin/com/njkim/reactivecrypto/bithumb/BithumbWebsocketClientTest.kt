@@ -4,10 +4,15 @@ import com.njkim.reactivecrypto.core.common.model.ExchangeVendor
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import mu.KotlinLogging
 import org.assertj.core.api.Assertions
+import org.junit.Ignore
 import org.junit.Test
 import reactor.test.StepVerifier
 import java.math.BigDecimal
 
+/**
+ * @deprecated blocked by Bithumb
+ */
+@Ignore
 class BithumbWebsocketClientTest {
     private val log = KotlinLogging.logger {}
 

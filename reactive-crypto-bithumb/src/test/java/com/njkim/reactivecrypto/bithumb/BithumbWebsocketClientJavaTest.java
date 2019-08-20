@@ -4,6 +4,7 @@ import com.njkim.reactivecrypto.core.common.model.ExchangeVendor;
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair;
 import com.njkim.reactivecrypto.core.common.model.order.OrderBook;
 import com.njkim.reactivecrypto.core.common.model.order.TickData;
+import org.junit.Ignore;
 import org.junit.Test;
 import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
@@ -13,6 +14,10 @@ import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * @deprecated blocked by Bithumb
+ */
+@Ignore
 public class BithumbWebsocketClientJavaTest {
     @Test
     public void bithumb_tick_data_subscribe() {

@@ -30,7 +30,7 @@ Support public market feature (tickData, orderBook)
 | ![huobi_japan](https://user-images.githubusercontent.com/16334718/59976909-caa00b80-9605-11e9-9c5f-8b11aea70944.jpg)  | Huobi Japan | HUOBI_JAPAN    | *      | [ws](https://api-doc.huobi.co.jp/#websocket) | 
 | ![okex](https://user-images.githubusercontent.com/16334718/57195022-90f93f80-6f88-11e9-8aaa-f6a515d300ae.jpg)         | Okex        | OKEX           | v3     | [ws](https://www.okex.com/docs/en/#spot_ws-all) | 
 | ![okex_korea](https://user-images.githubusercontent.com/16334718/57195022-90f93f80-6f88-11e9-8aaa-f6a515d300ae.jpg)   | Okex Korea  | OKEX_KOREA     | v3     | [ws](https://www.okex.com/docs/en/#spot_ws-all) | 
-| ![bithumb](https://user-images.githubusercontent.com/16334718/57194948-e54fef80-6f87-11e9-90d8-41f108789c77.jpg)      | Bithumb     | BITHUMB        | ⚠️     | ⚠️ |
+| ![bithumb](https://user-images.githubusercontent.com/16334718/57194948-e54fef80-6f87-11e9-90d8-41f108789c77.jpg)      | ~~Bithumb~~ | ~~BITHUMB~~    | deprecated | ⚠️ |
 | ![hubi](https://user-images.githubusercontent.com/16334718/57194945-e4b75900-6f87-11e9-8fea-889fc93a7ba4.jpg)         | Hubi        | HUBI           | *      | [ws](https://www.hubi.com/docs/index-en.pdf) |
 | ![bitmex](https://user-images.githubusercontent.com/16334718/57194950-e54fef80-6f87-11e9-8b54-3f2192012306.jpg)       | Bitmex      | BITMEX         | *      | [ws](https://www.bitmex.com/app/wsAPI) |
 | ![kraken](https://user-images.githubusercontent.com/16334718/57220400-2dc5e680-7036-11e9-803c-18b14e82921a.jpg)       | Kraken      | KRAKEN         | 0.1.1  | [ws](https://www.kraken.com/features/websocket-api) |
