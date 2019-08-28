@@ -8,7 +8,7 @@ dependencies {
 
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 
-    compile group: 'org.apache.commons', name: 'commons-compress', version: '1.18'
+    compile group: 'org.apache.commons', name: 'commons-compress', version: '1.19'
 }
 
 compileKotlin {
