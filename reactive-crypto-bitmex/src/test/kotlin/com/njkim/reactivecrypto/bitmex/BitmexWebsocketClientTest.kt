@@ -31,11 +31,11 @@ class BitmexWebsocketClientTest {
     fun `bitmex tick data subscribe`() {
         // given
         val targetCurrencyPair = CurrencyPair.parse("XBT", "USD")
-        val hubiTickDataFlux = BitmexWebsocketClient()
+        val tickDataFlux = BitmexWebsocketClient()
             .createTradeWebsocket(listOf(targetCurrencyPair))
 
         // when
-        StepVerifier.create(hubiTickDataFlux.limitRequest(5))
+        StepVerifier.create(tickDataFlux.limitRequest(5))
             .expectNextCount(3)
             // then
             .assertNext {
@@ -67,12 +67,12 @@ class BitmexWebsocketClientTest {
     fun `bitmex orderBook subscribe`() {
         // given
         val targetCurrencyPair = CurrencyPair.parse("XBT", "USD")
-        val hubiOrderBookFlux = BitmexWebsocketClient()
+        val orderBookFlux = BitmexWebsocketClient()
             .createDepthSnapshot(listOf(targetCurrencyPair))
             .doOnNext { log.info { it } }
 
         // when
-        StepVerifier.create(hubiOrderBookFlux.limitRequest(5))
+        StepVerifier.create(orderBookFlux.limitRequest(5))
             .expectNextCount(3)
             // then
             .assertNext {

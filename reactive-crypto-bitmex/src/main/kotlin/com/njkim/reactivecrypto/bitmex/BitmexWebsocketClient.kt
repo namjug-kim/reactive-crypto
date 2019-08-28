@@ -21,16 +21,17 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import com.njkim.reactivecrypto.bitmex.model.BitmexMessageFrame
 import com.njkim.reactivecrypto.bitmex.model.BitmexOrderBook
 import com.njkim.reactivecrypto.bitmex.model.BitmexTickData
-import com.njkim.reactivecrypto.core.websocket.AbstractExchangeWebsocketClient
 import com.njkim.reactivecrypto.core.ExchangeJsonObjectMapper
 import com.njkim.reactivecrypto.core.common.model.ExchangeVendor
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import com.njkim.reactivecrypto.core.common.model.order.OrderBook
 import com.njkim.reactivecrypto.core.common.model.order.TickData
 import com.njkim.reactivecrypto.core.common.util.toEpochMilli
+import com.njkim.reactivecrypto.core.websocket.AbstractExchangeWebsocketClient
 import mu.KotlinLogging
 import reactor.core.publisher.Flux
 import reactor.netty.http.client.HttpClient
+import java.time.Duration
 
 class BitmexWebsocketClient : AbstractExchangeWebsocketClient() {
     private val log = KotlinLogging.logger {}
@@ -51,6 +52,14 @@ class BitmexWebsocketClient : AbstractExchangeWebsocketClient() {
 
         return HttpClient.create()
             .wiretap(log.isDebugEnabled)
+            .tcpConfiguration { tcp ->
+                tcp.doOnConnected { connection ->
+                    connection.addHandler(
+                        "heartBeat",
+                        BitmexHeartbetsHandler(Duration.ofMillis(5000))
+                    )
+                }
+            }
             .websocket()
             .uri(baseUri)
             .handle { inbound, outbound ->
@@ -83,6 +92,14 @@ class BitmexWebsocketClient : AbstractExchangeWebsocketClient() {
 
         return HttpClient.create()
             .wiretap(log.isDebugEnabled)
+            .tcpConfiguration { tcp ->
+                tcp.doOnConnected { connection ->
+                    connection.addHandler(
+                        "heartBeat",
+                        BitmexHeartbetsHandler(Duration.ofMillis(5000))
+                    )
+                }
+            }
             .websocket()
             .uri(baseUri)
             .handle { inbound, outbound ->
