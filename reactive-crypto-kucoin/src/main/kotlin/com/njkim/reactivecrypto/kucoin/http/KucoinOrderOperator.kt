@@ -50,13 +50,14 @@ class KucoinOrderOperator internal constructor(
             .map {
                 val orderStatusType = if (it.dealSize <= BigDecimal.ZERO) {
                     OrderStatusType.NEW
-                } else if (it.dealSize < it.size) {
+                } else if (it.dealSize < it.size && it.isActive) {
                     OrderStatusType.PARTIALLY_FILLED
-                } else if (!it.isActive) {
+                } else if (it.dealSize < it.size && !it.isActive) {
                     OrderStatusType.CANCELED
                 } else {
                     OrderStatusType.FILLED
                 }
+                
                 Order(
                     it.id,
                     orderStatusType,
