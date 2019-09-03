@@ -63,6 +63,8 @@ data class ExchangeVendor(val name: String) {
         val BHEX = getInstance("BHEX")
         @JvmField
         val BITZ = getInstance("BITZ")
+        @JvmField
+        val KUCOIN = getInstance("KUCOIN")
 
         @JvmStatic
         fun getInstance(value: String): ExchangeVendor {
