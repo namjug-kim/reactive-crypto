@@ -6,7 +6,7 @@ version '1.0-SNAPSHOT'
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     // netty
-    compile group: 'io.projectreactor.netty', name: 'reactor-netty', version: '0.8.10.RELEASE'
+    compile group: 'io.projectreactor.netty', name: 'reactor-netty', version: '0.8.11.RELEASE'
 
     // spring5 WebClient
     compile 'org.springframework:spring-webflux:5.1.9.RELEASE'
