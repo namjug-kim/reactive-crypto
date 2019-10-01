@@ -42,7 +42,7 @@ object CurrencyPairUtil {
                     val targetCurrency = Currency.getInstance(rawValue.replace(it.symbol, ""))
                     CurrencyPair(targetCurrency, it)
                 }
-                .firstOrNull() ?: throw IllegalArgumentException("UNKNWON Currency Pair : rawValue")
+                .firstOrNull() ?: throw IllegalArgumentException("UNKNWON Currency Pair : $rawValue")
         }
     }
 }
