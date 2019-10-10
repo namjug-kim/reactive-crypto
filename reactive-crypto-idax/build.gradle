@@ -24,7 +24,7 @@ dependencies {
 
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 
-    compile 'io.vavr:vavr-kotlin:0.10.0'
+    compile 'io.vavr:vavr-kotlin:0.10.2'
 }
 
 compileKotlin {
