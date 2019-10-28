@@ -79,7 +79,7 @@ subprojects {
 
         // test
         testCompile group: 'junit', name: 'junit', version: '4.12'
-        testCompile group: 'org.assertj', name: 'assertj-core', version: '3.13.2'
+        testCompile group: 'org.assertj', name: 'assertj-core', version: '3.14.0'
         testCompile group: 'io.projectreactor', name: 'reactor-test', version: "${reactorVersion}"
 
         testRuntimeOnly group: 'org.apache.logging.log4j', name: 'log4j-api', version: "${log4j2Version}"
