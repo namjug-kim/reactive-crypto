@@ -26,12 +26,6 @@ data class HubiTickDataWrapper(
     @get:JsonProperty("curentExchangePrice")
     val curentExchangePrice: BigDecimal,
 
-    @get:JsonProperty("up")
-    val up: Boolean,
-
-    @get:JsonProperty("summary24hour")
-    val summary24hour: HubiOhlcv,
-
     @get:JsonProperty("trades")
     val trades: List<HubiTickData>
 )

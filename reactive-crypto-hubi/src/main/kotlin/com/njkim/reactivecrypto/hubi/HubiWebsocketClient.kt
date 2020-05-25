@@ -41,7 +41,7 @@ import java.util.concurrent.atomic.AtomicLong
 class HubiWebsocketClient : AbstractExchangeWebsocketClient() {
     private val log = KotlinLogging.logger {}
 
-    private val baseUri = "wss://www.hubi.com/was"
+    private val baseUri = "wss://api.hubi.com/ws/connect/v1"
 
     private val objectMapper: ObjectMapper = createJsonObjectMapper().objectMapper()
 
@@ -53,22 +53,20 @@ class HubiWebsocketClient : AbstractExchangeWebsocketClient() {
         val subscribeRequests = subscribeTargets
             .map { "${it.targetCurrency.symbol}${it.baseCurrency.symbol}".toLowerCase() }
             .map { symbol ->
-                "{" +
-                        "\"channel\": \"depth_all\"," +
-                        "\"symbol\": \"$symbol\"," +
-                        "\"bourse\": \"01001\"" +
-                        "}"
+                """
+                    {"channel":"depth_all","symbol":"$symbol"}
+                """.trimIndent()
             }
             .toFlux()
 
         return HttpClient.create()
             .wiretap(log.isDebugEnabled)
-            .websocket()
+            .websocket(262144)
             .uri(baseUri)
             .handle { inbound, outbound ->
                 outbound.sendString(subscribeRequests)
                     .then()
-                    .thenMany(inbound.aggregateFrames(65536).receive().asString())
+                    .thenMany(inbound.aggregateFrames().receive().asString())
             }
             .filter { it.contains("\"dataType\":\"depth_all\"") }
             .map { objectMapper.readValue<HubiMessageFrame<HubiOrderBook>>(it) }
@@ -80,7 +78,7 @@ class HubiWebsocketClient : AbstractExchangeWebsocketClient() {
                     eventTime,
                     ExchangeVendor.HUBI,
                     messageFrame.data.bids.map { OrderBookUnit(it.price, it.amount, TradeSideType.BUY, null) },
-                    messageFrame.data.asks.map { OrderBookUnit(it.price, it.amount, TradeSideType.SELL, null) }
+                    messageFrame.data.asks.map { OrderBookUnit(it.price, it.amount, TradeSideType.SELL, null) }.sortedBy { it.price }
                 )
             }
     }
@@ -91,11 +89,9 @@ class HubiWebsocketClient : AbstractExchangeWebsocketClient() {
         val subscribeRequests = subscribeTargets
             .map { "${it.targetCurrency.symbol}${it.baseCurrency.symbol}".toLowerCase() }
             .map { symbol ->
-                "{" +
-                        "\"channel\": \"trade_history\"," +
-                        "\"symbol\": \"$symbol\"," +
-                        "\"bourse\": \"01001\"" +
-                        "}"
+                """
+                    {"channel":"trade_history","symbol":"$symbol"}
+                """.trimIndent()
             }
             .toFlux()
 

@@ -23,7 +23,6 @@ import com.fasterxml.jackson.databind.JsonDeserializer
 import com.njkim.reactivecrypto.core.ExchangeJsonObjectMapper
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import com.njkim.reactivecrypto.core.common.model.order.TradeSideType
-import com.njkim.reactivecrypto.core.common.util.CurrencyPairUtil
 import java.io.IOException
 import java.math.BigDecimal
 import java.time.Instant
@@ -41,12 +40,12 @@ class HubiJsonObjectMapper : ExchangeJsonObjectMapper {
         }
     }
 
-    override fun currencyPairDeserializer(): JsonDeserializer<CurrencyPair>? {
+    override fun currencyPairDeserializer(): JsonDeserializer<CurrencyPair> {
         return object : JsonDeserializer<CurrencyPair>() {
             @Throws(IOException::class, JsonProcessingException::class)
             override fun deserialize(p: JsonParser, ctxt: DeserializationContext): CurrencyPair {
-                val parse = CurrencyPairUtil.parse(p.valueAsString)
-                return checkNotNull(parse)
+                val splitCurrencyPair = p.valueAsString.split("_")
+                return CurrencyPair.parse(splitCurrencyPair[0], splitCurrencyPair[1])
             }
         }
     }
