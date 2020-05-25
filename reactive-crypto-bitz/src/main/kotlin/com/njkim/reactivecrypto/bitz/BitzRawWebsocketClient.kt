@@ -31,12 +31,12 @@ import java.time.Instant
 import java.util.concurrent.TimeUnit
 
 class BitzRawWebsocketClient(
-    host: String = "wsapi.bitz.top",
+    host: String = "ws.ahighapi.com",
     private val cdid: String = "100002"
 ) {
     private val log = KotlinLogging.logger {}
 
-    private val uri: String = "wss://$host/"
+    private val uri: String = "wss://$host/wss"
 
     companion object {
         val objectMapper: ObjectMapper = BitzJsonObjectMapper().objectMapper()

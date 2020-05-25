@@ -13,7 +13,7 @@ import java.math.BigDecimal
 import java.util.concurrent.ConcurrentHashMap
 
 class BitzWebsocketClient(
-    host: String = "wsapi.bitz.top",
+    host: String = "ws.ahighapi.com",
     cdid: String = "100002"
 ) : ExchangeWebsocketClient {
     private val bitzRawWebsocketClient = BitzRawWebsocketClient(host, cdid)
