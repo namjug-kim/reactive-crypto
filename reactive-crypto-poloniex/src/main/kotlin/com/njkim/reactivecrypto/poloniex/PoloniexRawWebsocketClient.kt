@@ -6,7 +6,7 @@ import com.njkim.reactivecrypto.poloniex.model.PoloniexEventType
 import com.njkim.reactivecrypto.poloniex.model.PoloniexMessageFrame
 import com.njkim.reactivecrypto.poloniex.model.PoloniexOrderBookSnapshotEvent
 import reactor.core.publisher.Flux
-import reactor.core.publisher.toFlux
+import reactor.kotlin.core.publisher.toFlux
 import reactor.netty.http.client.HttpClient
 
 class PoloniexRawWebsocketClient {

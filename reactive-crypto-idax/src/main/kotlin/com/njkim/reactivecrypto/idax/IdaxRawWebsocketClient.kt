@@ -25,7 +25,7 @@ import com.njkim.reactivecrypto.idax.model.IdaxOrderBook
 import com.njkim.reactivecrypto.idax.model.IdaxTickData
 import mu.KotlinLogging
 import reactor.core.publisher.Flux
-import reactor.core.publisher.toFlux
+import reactor.kotlin.core.publisher.toFlux
 import reactor.netty.http.client.HttpClient
 import java.util.concurrent.TimeUnit
 

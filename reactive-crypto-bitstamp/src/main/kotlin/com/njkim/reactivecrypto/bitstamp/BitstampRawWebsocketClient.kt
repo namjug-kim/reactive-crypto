@@ -20,7 +20,7 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import com.njkim.reactivecrypto.bitstamp.model.*
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import reactor.core.publisher.Flux
-import reactor.core.publisher.toFlux
+import reactor.kotlin.core.publisher.toFlux
 import reactor.netty.http.client.HttpClient
 
 /**

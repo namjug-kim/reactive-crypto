@@ -38,20 +38,9 @@ public class CoinealWebsocketClientJavaTest {
                 .createTradeWebsocket(Collections.singletonList(targetCurrencyPair));
 
         // when
-        StepVerifier.create(tickDataFlux.limitRequest(5))
-                .expectNextCount(3)
+        StepVerifier.create(tickDataFlux.limitRequest(3))
+                .expectNextCount(2)
                 // then
-                .assertNext(tickData -> {
-                    assertThat(tickData).isNotNull();
-                    assertThat(tickData.getCurrencyPair())
-                            .isEqualTo(targetCurrencyPair);
-                    assertThat(tickData.getExchangeVendor())
-                            .isEqualTo(ExchangeVendor.COINEAL);
-                    assertThat(tickData.getPrice())
-                            .isGreaterThan(BigDecimal.ZERO);
-                    assertThat(tickData.getQuantity())
-                            .isGreaterThan(BigDecimal.ZERO);
-                })
                 .assertNext(tickData -> {
                     assertThat(tickData).isNotNull();
                     assertThat(tickData.getCurrencyPair())
@@ -74,36 +63,9 @@ public class CoinealWebsocketClientJavaTest {
                 .createDepthSnapshot(Collections.singletonList(targetCurrencyPair));
 
         // when
-        StepVerifier.create(orderBookFlux.limitRequest(5))
-                .expectNextCount(3)
+        StepVerifier.create(orderBookFlux.limitRequest(3))
+                .expectNextCount(2)
                 // then
-                .assertNext(orderBook -> {
-                    assertThat(orderBook).isNotNull();
-                    assertThat(orderBook.getCurrencyPair())
-                            .isEqualTo(targetCurrencyPair);
-                    assertThat(orderBook.getExchangeVendor())
-                            .isEqualTo(ExchangeVendor.COINEAL);
-                    assertThat(orderBook.getAsks())
-                            .isNotEmpty();
-                    assertThat(orderBook.getBids())
-                            .isNotEmpty();
-
-                    assertThat(orderBook.getAsks().get(0).getQuantity())
-                            .isGreaterThan(BigDecimal.ZERO);
-                    assertThat(orderBook.getBids().get(0).getQuantity())
-                            .isGreaterThan(BigDecimal.ZERO);
-
-                    assertThat(orderBook.getAsks().get(0).getPrice())
-                            .withFailMessage("ask price must be bigger than bid price")
-                            .isGreaterThanOrEqualTo(orderBook.getBids().get(0).getPrice());
-
-                    assertThat(orderBook.getAsks().get(0).getPrice())
-                            .withFailMessage("asks must be sorted by price asc")
-                            .isLessThan(orderBook.getAsks().get(1).getPrice());
-                    assertThat(orderBook.getBids().get(0).getPrice())
-                            .withFailMessage("bids must be sorted by price desc")
-                            .isGreaterThan(orderBook.getBids().get(1).getPrice());
-                })
                 .assertNext(orderBook -> {
                     assertThat(orderBook).isNotNull();
                     assertThat(orderBook.getCurrencyPair())

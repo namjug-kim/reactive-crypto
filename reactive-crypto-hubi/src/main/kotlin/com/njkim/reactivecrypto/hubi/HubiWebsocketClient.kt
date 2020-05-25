@@ -32,7 +32,7 @@ import com.njkim.reactivecrypto.hubi.model.HubiOrderBook
 import com.njkim.reactivecrypto.hubi.model.HubiTickDataWrapper
 import mu.KotlinLogging
 import reactor.core.publisher.Flux
-import reactor.core.publisher.toFlux
+import reactor.kotlin.core.publisher.toFlux
 import reactor.netty.http.client.HttpClient
 import java.time.ZonedDateTime
 import java.util.concurrent.ConcurrentHashMap

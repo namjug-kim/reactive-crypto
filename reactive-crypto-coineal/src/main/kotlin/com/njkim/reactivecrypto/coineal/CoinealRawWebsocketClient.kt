@@ -36,7 +36,7 @@ import org.apache.commons.codec.Charsets
 import org.apache.commons.lang3.StringUtils
 import org.springframework.util.StreamUtils
 import reactor.core.publisher.Flux
-import reactor.core.publisher.toFlux
+import reactor.kotlin.core.publisher.toFlux
 import reactor.netty.http.client.HttpClient
 import java.time.ZonedDateTime
 import java.util.concurrent.TimeUnit
@@ -70,9 +70,9 @@ class CoinealRawWebsocketClient(
                         "heartBeat",
                         HeartBeatHandler(
                             false,
-                            10,
+                            20,
                             TimeUnit.SECONDS,
-                            5
+                            10
                         ) { "{\"ping\": ${ZonedDateTime.now().toEpochMilli()}}" }
                     )
                 }

@@ -25,7 +25,7 @@ import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import com.njkim.reactivecrypto.core.netty.HeartBeatHandler
 import mu.KotlinLogging
 import reactor.core.publisher.Flux
-import reactor.core.publisher.toFlux
+import reactor.kotlin.core.publisher.toFlux
 import reactor.netty.http.client.HttpClient
 import java.time.Instant
 import java.util.concurrent.TimeUnit

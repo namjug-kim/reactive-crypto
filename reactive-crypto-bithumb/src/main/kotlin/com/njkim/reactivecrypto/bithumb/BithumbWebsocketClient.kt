@@ -33,7 +33,7 @@ import com.njkim.reactivecrypto.core.common.util.toEpochMilli
 import com.njkim.reactivecrypto.core.websocket.AbstractExchangeWebsocketClient
 import mu.KotlinLogging
 import reactor.core.publisher.Flux
-import reactor.core.publisher.toFlux
+import reactor.kotlin.core.publisher.toFlux
 import reactor.netty.http.client.HttpClient
 import java.time.ZonedDateTime
 
