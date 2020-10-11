@@ -102,6 +102,7 @@ fun websocketTickDataExample() {
     
     websocketClient.createTradeWebsocket(listOf(CurrencyPair(BTC, USDT)))
                    .doOnNext { log.info { "new tick data $it" } }
+		   .groupBy { ticker -> ticker.uniqueId }
                    .subscribe()
 }
 
