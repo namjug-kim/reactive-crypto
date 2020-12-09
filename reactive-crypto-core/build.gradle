@@ -9,7 +9,7 @@ dependencies {
     compile group: 'io.projectreactor.netty', name: 'reactor-netty', version: '0.9.2.RELEASE'
 
     // spring5 WebClient
-    compile 'org.springframework:spring-webflux:5.2.2.RELEASE'
+    compile 'org.springframework:spring-webflux:5.3.2'
 
     // jwt
     compile 'com.auth0:java-jwt:3.4.0'
