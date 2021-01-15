@@ -900,6 +900,24 @@ data class Currency(val symbol: String) {
         val YANT = getInstance("YANT")
         @JvmField
         val BIX = getInstance("BIX")
+        @JvmField
+        val UIP = getInstance("UIP")
+        @JvmField
+        val JST = getInstance("JST")
+        @JvmField
+        val SSX = getInstance("SSX")
+        @JvmField
+        val PLA = getInstance("PLA")
+        @JvmField
+        val HBAR = getInstance("HBAR")
+        @JvmField
+        val SXP = getInstance("SXP")
+        @JvmField
+        val BORA = getInstance("BORA")
+        @JvmField
+        val KABA = getInstance("KABA")
+        @JvmField
+        val AQT = getInstance("AQT")
 
         @JvmField
         val M19 = getInstance("M19")
