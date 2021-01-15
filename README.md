@@ -29,13 +29,11 @@ Support public market feature (tickData, orderBook)
 | ![huobi korea](https://user-images.githubusercontent.com/16334718/57194946-e4b75900-6f87-11e9-940a-08ceb98193e4.jpg)  | Huobi Korea | HUOBI_KOREA    | *      | [ws](https://github.com/alphaex-api/BAPI_Docs_ko/wiki) | 
 | ![huobi_japan](https://user-images.githubusercontent.com/16334718/59976909-caa00b80-9605-11e9-9c5f-8b11aea70944.jpg)  | Huobi Japan | HUOBI_JAPAN    | *      | [ws](https://api-doc.huobi.co.jp/#websocket) | 
 | ![okex](https://user-images.githubusercontent.com/16334718/57195022-90f93f80-6f88-11e9-8aaa-f6a515d300ae.jpg)         | Okex        | OKEX           | v3     | [ws](https://www.okex.com/docs/en/#spot_ws-all) | 
-| ![okex_korea](https://user-images.githubusercontent.com/16334718/57195022-90f93f80-6f88-11e9-8aaa-f6a515d300ae.jpg)   | Okex Korea  | OKEX_KOREA     | v3     | [ws](https://www.okex.com/docs/en/#spot_ws-all) | 
-| ![bithumb](https://user-images.githubusercontent.com/16334718/57194948-e54fef80-6f87-11e9-90d8-41f108789c77.jpg)      | ~~Bithumb~~ | ~~BITHUMB~~    | deprecated | ⚠️ |
+| ![okex_korea](https://user-images.githubusercontent.com/16334718/57195022-90f93f80-6f88-11e9-8aaa-f6a515d300ae.jpg)   | Okex Korea  | OKEX_KOREA     | v3     | [ws](https://www.okex.com/docs/en/#spot_ws-all) |
 | ![hubi](https://user-images.githubusercontent.com/16334718/57194945-e4b75900-6f87-11e9-8fea-889fc93a7ba4.jpg)         | Hubi        | HUBI           | *      | [ws](https://www.hubi.com/docs/index-en.pdf) |
 | ![bitmex](https://user-images.githubusercontent.com/16334718/57194950-e54fef80-6f87-11e9-8b54-3f2192012306.jpg)       | Bitmex      | BITMEX         | *      | [ws](https://www.bitmex.com/app/wsAPI) |
 | ![kraken](https://user-images.githubusercontent.com/16334718/57220400-2dc5e680-7036-11e9-803c-18b14e82921a.jpg)       | Kraken      | KRAKEN         | 0.1.1  | [ws](https://www.kraken.com/features/websocket-api) |
 | ![bitmax](https://user-images.githubusercontent.com/16334718/57548356-b082d480-739b-11e9-9539-b27c60877fb6.jpg)       | Bitmax      | BITMAX         | v1.2   | [ws](https://github.com/bitmax-exchange/api-doc/blob/master/bitmax-api-doc-v1.2.md) |
-| ![idax](https://user-images.githubusercontent.com/16334718/58029691-128bc880-7b58-11e9-9aaa-a331f394c8bd.jpg)         | Idax        | IDAX           | *      | [ws](https://github.com/idax-exchange/idax-official-api-docs/blob/master/open-ws_en.md) |
 | ![coineal](https://user-images.githubusercontent.com/16334718/58037062-7d90cb80-7b67-11e9-9278-e8b03c5ddd86.jpg)      | Coineal     | COINEAL        | ⚠️     | ⚠️ |
 | ![poloniex](https://user-images.githubusercontent.com/16334718/59551277-335a0900-8fb2-11e9-9d1e-4ab2a7574148.jpg)     | Poloniex    | POLONIEX       | *      | [ws](https://docs.poloniex.com/#websocket-api) |
 | ![bitstamp](https://user-images.githubusercontent.com/16334718/59565122-2c062e80-908a-11e9-8a38-6264c26aa3c2.jpg)     | Bitstamp    | BITSTAMP       | v2     | [ws](https://www.bitstamp.net/websocket/v2/) |
@@ -43,6 +41,8 @@ Support public market feature (tickData, orderBook)
 | ![coinall](https://user-images.githubusercontent.com/16334718/61628742-2077da00-acbe-11e9-95c3-27a4960616f7.png)      | Coinall     | COINALL        | v3     | [ws](https://www.okex.com/docs/en/#spot_ws-all) |
 | ![bhex](https://user-images.githubusercontent.com/16334718/62872727-0c714680-bd59-11e9-99e8-cf1008422446.png)         | Bhex        | BHEX           | v1     | [ws](https://github.com/bhexopen/BHEX-OpenApi/blob/master/doc/web-socket-streams.md) |
 | ![bitz](https://user-images.githubusercontent.com/16334718/62945785-6259f300-be1a-11e9-92cb-0b2ccb8e2c19.png)         | Bit-Z       | BITZ           | *      | [ws](https://apidoc.bit-z.com/en/wss/wss.html) |
+| ![idax](https://user-images.githubusercontent.com/16334718/58029691-128bc880-7b58-11e9-9aaa-a331f394c8bd.jpg)         | ~~Idax~~    | ~~IDAX~~       | closed | [ws](https://github.com/idax-exchange/idax-official-api-docs/blob/master/open-ws_en.md) |
+| ![bithumb](https://user-images.githubusercontent.com/16334718/57194948-e54fef80-6f87-11e9-90d8-41f108789c77.jpg)      | ~~Bithumb~~ | ~~BITHUMB~~    | deprecated | ⚠️ |
 
 ⚠️ : Uses endpoints that are used by the official web. This is not an official api and should be used with care.
 
