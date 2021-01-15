@@ -23,19 +23,26 @@ import com.fasterxml.jackson.databind.JsonDeserializer
 import com.njkim.reactivecrypto.core.ExchangeJsonObjectMapper
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import com.njkim.reactivecrypto.core.common.model.order.TradeSideType
+import com.njkim.reactivecrypto.core.common.util.CurrencyPairUtil
 import java.io.IOException
 import java.math.BigDecimal
-import java.time.Instant
-import java.time.ZoneId
+import java.time.ZoneOffset
 import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatterBuilder
+import java.util.*
 
 class HubiJsonObjectMapper : ExchangeJsonObjectMapper {
 
     override fun zonedDateTimeDeserializer(): JsonDeserializer<ZonedDateTime>? {
+        val dateTimeFormatter = DateTimeFormatterBuilder()
+            .parseCaseInsensitive()
+            .appendPattern("MMM dd, yyyy hh:mm:ss a")
+            .toFormatter(Locale.ENGLISH)
+
         return object : JsonDeserializer<ZonedDateTime>() {
             @Throws(IOException::class, JsonProcessingException::class)
             override fun deserialize(p: JsonParser, ctxt: DeserializationContext): ZonedDateTime {
-                return Instant.ofEpochMilli(p.valueAsLong).atZone(ZoneId.systemDefault())
+                return ZonedDateTime.parse(p.valueAsString, dateTimeFormatter.withZone(ZoneOffset.UTC))
             }
         }
     }
@@ -44,8 +51,8 @@ class HubiJsonObjectMapper : ExchangeJsonObjectMapper {
         return object : JsonDeserializer<CurrencyPair>() {
             @Throws(IOException::class, JsonProcessingException::class)
             override fun deserialize(p: JsonParser, ctxt: DeserializationContext): CurrencyPair {
-                val splitCurrencyPair = p.valueAsString.split("_")
-                return CurrencyPair.parse(splitCurrencyPair[0], splitCurrencyPair[1])
+                val rawCurrencyPair = p.valueAsString
+                return CurrencyPairUtil.parse(rawCurrencyPair) ?: error("can't find currencyPair : $rawCurrencyPair")
             }
         }
     }

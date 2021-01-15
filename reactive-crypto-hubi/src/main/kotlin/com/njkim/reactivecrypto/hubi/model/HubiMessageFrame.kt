@@ -24,11 +24,11 @@ data class HubiMessageFrame<T>(
     @get:JsonProperty("timestamp")
     val timestamp: ZonedDateTime?,
 
-    @get:JsonProperty("symbol")
-    val symbol: CurrencyPair,
+    @get:JsonProperty("key")
+    val key: CurrencyPair,
 
-    @get:JsonProperty("dataType")
-    val dataType: String,
+    @get:JsonProperty("event")
+    val event: String,
 
     @get:JsonProperty("data")
     val data: T

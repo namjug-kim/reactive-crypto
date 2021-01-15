@@ -27,13 +27,12 @@ import com.njkim.reactivecrypto.core.common.model.order.TickData
 import com.njkim.reactivecrypto.core.common.model.order.TradeSideType
 import com.njkim.reactivecrypto.core.common.util.toEpochMilli
 import com.njkim.reactivecrypto.core.websocket.AbstractExchangeWebsocketClient
-import com.njkim.reactivecrypto.hubi.model.HubiMessageFrame
-import com.njkim.reactivecrypto.hubi.model.HubiOrderBook
-import com.njkim.reactivecrypto.hubi.model.HubiTickDataWrapper
+import com.njkim.reactivecrypto.hubi.model.HubiDepthResponse
 import mu.KotlinLogging
 import reactor.core.publisher.Flux
 import reactor.kotlin.core.publisher.toFlux
 import reactor.netty.http.client.HttpClient
+import java.math.BigDecimal
 import java.time.ZonedDateTime
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicLong
@@ -41,7 +40,7 @@ import java.util.concurrent.atomic.AtomicLong
 class HubiWebsocketClient : AbstractExchangeWebsocketClient() {
     private val log = KotlinLogging.logger {}
 
-    private val baseUri = "wss://api.hubi.com/ws/connect/v1"
+    private val baseUri = "wss://api.hubi.com/ws/futures/public/market"
 
     private val objectMapper: ObjectMapper = createJsonObjectMapper().objectMapper()
 
@@ -50,12 +49,12 @@ class HubiWebsocketClient : AbstractExchangeWebsocketClient() {
     }
 
     override fun createDepthSnapshot(subscribeTargets: List<CurrencyPair>): Flux<OrderBook> {
-        val subscribeRequests = subscribeTargets
-            .map { "${it.baseCurrency.symbol}${it.quoteCurrency.symbol}".toLowerCase() }
+        val currentOrderBookMap: MutableMap<CurrencyPair, OrderBook> = ConcurrentHashMap()
+
+        val subscribeRequests = subscribeTargets.asSequence()
+            .map { "${it.baseCurrency.symbol}${it.quoteCurrency.symbol}".toUpperCase() }
             .map { symbol ->
-                """
-                    {"channel":"depth_all","symbol":"$symbol"}
-                """.trimIndent()
+                """{"op":"subscribe", "channel":"/api/depth/depth", "key":"$symbol"}"""
             }
             .toFlux()
 
@@ -68,66 +67,119 @@ class HubiWebsocketClient : AbstractExchangeWebsocketClient() {
                     .then()
                     .thenMany(inbound.aggregateFrames().receive().asString())
             }
-            .filter { it.contains("\"dataType\":\"depth_all\"") }
-            .map { objectMapper.readValue<HubiMessageFrame<HubiOrderBook>>(it) }
+            .filter { it.contains(""""event":"/api/depth/depth"""") }
+            .map { objectMapper.readValue<HubiDepthResponse>(it) }
             .map { messageFrame ->
                 val eventTime = ZonedDateTime.now()
                 OrderBook(
-                    "${messageFrame.symbol}${eventTime.toEpochMilli()}",
-                    messageFrame.symbol,
+                    "${messageFrame.key}${eventTime.toEpochMilli()}",
+                    messageFrame.key,
                     eventTime,
                     ExchangeVendor.HUBI,
-                    messageFrame.data.bids.map { OrderBookUnit(it.price, it.amount, TradeSideType.BUY, null) },
-                    messageFrame.data.asks.map { OrderBookUnit(it.price, it.amount, TradeSideType.SELL, null) }.sortedBy { it.price }
+                    messageFrame.buyDepth.map { OrderBookUnit(it.price, it.qty, TradeSideType.BUY, it.count) },
+                    messageFrame.sellDepth.map { OrderBookUnit(it.price, it.qty, TradeSideType.SELL, it.count) }
+                        .sortedBy { it.price }
                 )
             }
+            .map { orderBook ->
+                if (!currentOrderBookMap.containsKey(orderBook.currencyPair)) {
+                    val filteredOrderBook = orderBook.copy(
+                        bids = orderBook.bids.filter { it.quantity > BigDecimal.ZERO },
+                        asks = orderBook.asks.filter { it.quantity > BigDecimal.ZERO }
+                    )
+                    currentOrderBookMap[orderBook.currencyPair] = filteredOrderBook
+                    return@map filteredOrderBook
+                }
+
+                val prevOrderBook = currentOrderBookMap[orderBook.currencyPair]!!
+
+                val askMap: MutableMap<BigDecimal, OrderBookUnit> = prevOrderBook.asks
+                    .associateBy { it.price.stripTrailingZeros() }
+                    .toMutableMap()
+
+                orderBook.asks.forEach { updatedAsk ->
+                    askMap.compute(updatedAsk.price.stripTrailingZeros()) { _, oldValue ->
+                        when {
+                            updatedAsk.quantity <= BigDecimal.ZERO -> null
+                            oldValue == null -> updatedAsk
+                            else -> oldValue.copy(
+                                quantity = updatedAsk.quantity,
+                                orderNumbers = updatedAsk.orderNumbers
+                            )
+                        }
+                    }
+                }
+
+                val bidMap: MutableMap<BigDecimal, OrderBookUnit> = prevOrderBook.bids
+                    .associateBy { it.price.stripTrailingZeros() }
+                    .toMutableMap()
+
+                orderBook.bids.forEach { updatedBid ->
+                    bidMap.compute(updatedBid.price.stripTrailingZeros()) { _, oldValue ->
+                        when {
+                            updatedBid.quantity <= BigDecimal.ZERO -> null
+                            oldValue == null -> updatedBid
+                            else -> oldValue.copy(
+                                quantity = updatedBid.quantity,
+                                orderNumbers = updatedBid.orderNumbers
+                            )
+                        }
+                    }
+                }
+
+                val currentOrderBook = prevOrderBook.copy(
+                    eventTime = orderBook.eventTime,
+                    asks = askMap.values.sortedBy { orderBookUnit -> orderBookUnit.price },
+                    bids = bidMap.values.sortedByDescending { orderBookUnit -> orderBookUnit.price }
+                )
+                currentOrderBookMap[currentOrderBook.currencyPair] = currentOrderBook
+                currentOrderBook
+            }
+            .doFinally { currentOrderBookMap.clear() } // cleanup memory limit orderBook when disconnected
     }
 
     override fun createTradeWebsocket(subscribeTargets: List<CurrencyPair>): Flux<TickData> {
         val lastPublishedTimestamp: MutableMap<CurrencyPair, AtomicLong> = ConcurrentHashMap()
 
-        val subscribeRequests = subscribeTargets
-            .map { "${it.baseCurrency.symbol}${it.quoteCurrency.symbol}".toLowerCase() }
+        val subscribeRequests = subscribeTargets.asSequence()
+            .map { "${it.baseCurrency.symbol}${it.quoteCurrency.symbol}".toUpperCase() }
             .map { symbol ->
-                """
-                    {"channel":"trade_history","symbol":"$symbol"}
-                """.trimIndent()
+                """{"op":"subscribe", "channel":"/api/depth/depth", "key":"$symbol"}"""
             }
             .toFlux()
 
         return HttpClient.create()
             .wiretap(log.isDebugEnabled)
-            .websocket(65536)
+            .websocket(262144)
             .uri(baseUri)
             .handle { inbound, outbound ->
                 outbound.sendString(subscribeRequests)
                     .then()
-                    .thenMany(inbound.aggregateFrames(65536).receive().asString())
+                    .thenMany(inbound.aggregateFrames().receive().asString())
             }
-            .filter { it.contains("\"dataType\":\"trade_history\"") }
-            .map { objectMapper.readValue<HubiMessageFrame<HubiTickDataWrapper>>(it) }
-            .map { it.data }
+            .filter { it.contains(""""event":"/api/depth/depth"""") }
+            .map { objectMapper.readValue<HubiDepthResponse>(it) }
             .flatMapIterable {
                 it.trades
                     .takeWhile { hubiTickData ->
                         // hubi trade history response contain history data
                         val lastTradeEpochMilli =
                             lastPublishedTimestamp.computeIfAbsent(hubiTickData.symbol) { AtomicLong() }
-                        val isNew = hubiTickData.time.toEpochMilli() > lastTradeEpochMilli.toLong()
+                        val isNew = hubiTickData.timestamp.toEpochMilli() > lastTradeEpochMilli.toLong()
                         if (isNew) {
-                            lastTradeEpochMilli.set(hubiTickData.time.toEpochMilli())
+                            lastTradeEpochMilli.set(hubiTickData.timestamp.toEpochMilli())
                         }
                         isNew
                     }
                     .map { hubiTickData ->
                         TickData(
-                            "${hubiTickData.symbol}${hubiTickData.time}",
-                            hubiTickData.time,
+                            "${hubiTickData.symbol}${hubiTickData.timestamp}",
+                            hubiTickData.timestamp,
                             hubiTickData.price,
-                            hubiTickData.amount,
+                            hubiTickData.qty,
                             hubiTickData.symbol,
                             ExchangeVendor.HUBI,
-                            hubiTickData.type
+                            if (hubiTickData.buyActive) TradeSideType.BUY else TradeSideType.SELL
                         )
                     }
                     .reversed()

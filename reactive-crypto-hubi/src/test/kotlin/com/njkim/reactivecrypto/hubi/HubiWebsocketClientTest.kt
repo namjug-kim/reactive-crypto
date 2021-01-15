@@ -14,7 +14,7 @@ class HubiWebsocketClientTest {
     @Test
     fun `hubi tick data subscribe`() {
         // given
-        val targetCurrencyPair = CurrencyPair.parse("BTC", "USDT")
+        val targetCurrencyPair = CurrencyPair.parse("XBTC", "USD")
         val hubiTickDataFlux = HubiWebsocketClient()
             .createTradeWebsocket(listOf(targetCurrencyPair))
 
@@ -50,13 +50,13 @@ class HubiWebsocketClientTest {
     @Test
     fun `hubi orderBook subscribe`() {
         // given
-        val targetCurrencyPair = CurrencyPair.parse("BTC", "USDT")
+        val targetCurrencyPair = CurrencyPair.parse("XBTC", "USD")
         val hubiOrderBookFlux = HubiWebsocketClient()
             .createDepthSnapshot(listOf(targetCurrencyPair))
 
         // when
-        StepVerifier.create(hubiOrderBookFlux.limitRequest(3))
-            .expectNextCount(1)
+        StepVerifier.create(hubiOrderBookFlux.limitRequest(5))
+            .expectNextCount(3)
             // then
             .assertNext {
                 Assertions.assertThat(it).isNotNull

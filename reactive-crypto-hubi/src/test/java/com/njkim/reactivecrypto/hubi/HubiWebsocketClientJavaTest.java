@@ -17,7 +17,7 @@ public class HubiWebsocketClientJavaTest {
     @Test
     public void hubi_tick_data_subscribe() {
         // given
-        CurrencyPair targetCurrencyPair = CurrencyPair.parse("BTC", "USDT");
+        CurrencyPair targetCurrencyPair = CurrencyPair.parse("XBTC", "USD");
         Flux<TickData> tickDataFlux = new HubiWebsocketClient()
                 .createTradeWebsocket(Collections.singletonList(targetCurrencyPair));
 
@@ -52,12 +52,14 @@ public class HubiWebsocketClientJavaTest {
     @Test
     public void hubi_orderBook_subscribe() {
         // given
-        CurrencyPair targetCurrencyPair = CurrencyPair.parse("BTC", "USDT");
+        CurrencyPair targetCurrencyPair = CurrencyPair.parse("XBTC", "USD");
         Flux<OrderBook> orderBookFlux = new HubiWebsocketClient()
                 .createDepthSnapshot(Collections.singletonList(targetCurrencyPair));
 
         // when
-        StepVerifier.create(orderBookFlux.limitRequest(2))
+        StepVerifier.create(orderBookFlux.limitRequest(5))
+                // skip first 3 request
+                .expectNextCount(3)
                 // then
                 .assertNext(orderBook -> {
                     assertThat(orderBook).isNotNull();
