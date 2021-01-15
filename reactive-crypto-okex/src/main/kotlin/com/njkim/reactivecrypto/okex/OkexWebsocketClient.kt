@@ -36,6 +36,7 @@ import mu.KotlinLogging
 import org.apache.commons.compress.compressors.deflate64.Deflate64CompressorInputStream
 import org.springframework.util.StreamUtils
 import reactor.core.publisher.Flux
+import reactor.kotlin.core.publisher.toFlux
 import reactor.netty.http.client.HttpClient
 import java.math.BigDecimal
 import java.nio.charset.Charset
@@ -44,7 +45,7 @@ import java.util.concurrent.ConcurrentHashMap
 import kotlin.streams.toList
 
 open class OkexWebsocketClient(
-    private val baseUri: String = "wss://real.okex.com:10442/ws/v3"
+    private val baseUri: String = "wss://real.okex.com:8443/ws/v3"
 ) : AbstractExchangeWebsocketClient() {
     private val log = KotlinLogging.logger {}
 
@@ -148,7 +149,7 @@ open class OkexWebsocketClient(
         val subscribeMessages = subscribeTargets.stream()
             .map { "${it.baseCurrency.symbol}-${it.quoteCurrency.symbol}" }
             .map { "{\"op\": \"subscribe\", \"args\": [\"spot/trade:$it\"]}" }
-            .toList()
+            .toFlux()
 
         return HttpClient.create()
             .wiretap(log.isDebugEnabled)
@@ -160,7 +161,7 @@ open class OkexWebsocketClient(
             .websocket()
             .uri(baseUri)
             .handle { inbound, outbound ->
-                outbound.sendString(Flux.fromIterable<String>(subscribeMessages))
+                outbound.sendString(subscribeMessages)
                     .then()
                     .thenMany(inbound.receive().asString())
             }
