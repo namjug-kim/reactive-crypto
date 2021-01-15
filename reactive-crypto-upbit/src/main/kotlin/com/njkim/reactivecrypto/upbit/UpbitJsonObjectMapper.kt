@@ -92,7 +92,7 @@ class UpbitJsonObjectMapper : ExchangeJsonObjectMapper {
     override fun customConfiguration(simpleModule: SimpleModule) {
         val currencyPairSerializer = object : JsonSerializer<CurrencyPair>() {
             override fun serialize(value: CurrencyPair, gen: JsonGenerator, serializers: SerializerProvider) {
-                val pair = "${value.baseCurrency}-${value.targetCurrency}"
+                val pair = "${value.quoteCurrency}-${value.baseCurrency}"
                 return gen.writeString(pair)
             }
         }

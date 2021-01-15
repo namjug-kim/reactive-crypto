@@ -49,7 +49,7 @@ class BinanceWebsocketClient : AbstractExchangeWebsocketClient() {
 
     override fun createTradeWebsocket(subscribeTargets: List<CurrencyPair>): Flux<TickData> {
         val streams = subscribeTargets.stream()
-            .map { "${it.targetCurrency}${it.baseCurrency}" }
+            .map { "${it.baseCurrency}${it.quoteCurrency}" }
             .map { it.toLowerCase() + "@trade" }
             .collect(Collectors.joining("/"))
 
@@ -75,7 +75,7 @@ class BinanceWebsocketClient : AbstractExchangeWebsocketClient() {
 
     override fun createDepthSnapshot(subscribeTargets: List<CurrencyPair>): Flux<OrderBook> {
         val streams = subscribeTargets.stream()
-            .map { "${it.targetCurrency}${it.baseCurrency}" }
+            .map { "${it.baseCurrency}${it.quoteCurrency}" }
             .map { it.toLowerCase() + "@depth20" }
             .collect(Collectors.joining("/"))
 

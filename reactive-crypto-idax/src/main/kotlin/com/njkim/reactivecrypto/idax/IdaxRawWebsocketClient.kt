@@ -51,7 +51,7 @@ class IdaxRawWebsocketClient(
      *
      */
     fun createTradeDataFlux(symbols: List<CurrencyPair>): Flux<IdaxMessageFrame<List<IdaxTickData>>> {
-        val subscribeStrings = symbols.map { "${it.targetCurrency}_${it.baseCurrency}".toLowerCase() }
+        val subscribeStrings = symbols.map { "${it.baseCurrency}_${it.quoteCurrency}".toLowerCase() }
             .map { "{'event':'addChannel','channel':'idax_sub_${it}_trades'}" }
             .toFlux()
 
@@ -87,7 +87,7 @@ class IdaxRawWebsocketClient(
      * Modification (same price, different quantity) Increase (price does not exist)
      */
     fun createOrderBookChangeFlux(symbols: List<CurrencyPair>): Flux<IdaxMessageFrame<List<IdaxOrderBook>>> {
-        val subscribeStrings = symbols.map { "${it.targetCurrency}_${it.baseCurrency}".toLowerCase() }
+        val subscribeStrings = symbols.map { "${it.baseCurrency}_${it.quoteCurrency}".toLowerCase() }
             .map { "{'event':'addChannel','channel':'idax_sub_${it}_depth'}" }
             .toFlux()
 
@@ -124,7 +124,7 @@ class IdaxRawWebsocketClient(
         symbols: List<CurrencyPair>,
         depth: Int
     ): Flux<IdaxMessageFrame<List<IdaxOrderBook>>> {
-        val subscribeStrings = symbols.map { "${it.targetCurrency}_${it.baseCurrency}".toLowerCase() }
+        val subscribeStrings = symbols.map { "${it.baseCurrency}_${it.quoteCurrency}".toLowerCase() }
             .map { "{'event':'addChannel','channel':'idax_sub_${it}_depth_$depth'}" }
             .toFlux()
 

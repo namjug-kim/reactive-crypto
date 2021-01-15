@@ -52,7 +52,7 @@ class CoinealRawWebsocketClient(
     }
 
     fun createTradeDataFlux(symbols: List<CurrencyPair>): Flux<CoinealMessageFrame<CoinealTickDataWrapper>> {
-        val subscribeStrings = symbols.map { "${it.targetCurrency}${it.baseCurrency}".toLowerCase() }
+        val subscribeStrings = symbols.map { "${it.baseCurrency}${it.quoteCurrency}".toLowerCase() }
             .map { "{\"event\":\"sub\",\"params\":{\"channel\":\"market_${it}_trade_ticker\",\"cb_id\":\"$it\"}}" }
             .toFlux()
 
@@ -92,7 +92,7 @@ class CoinealRawWebsocketClient(
      * generally 1 times, 10 times, 100 times the precision
      */
     fun createOrderBookFlux(symbols: List<CurrencyPair>, type: String): Flux<CoinealMessageFrame<CoinealOrderBook>> {
-        val subscribeStrings = symbols.map { "${it.targetCurrency}${it.baseCurrency}".toLowerCase() }
+        val subscribeStrings = symbols.map { "${it.baseCurrency}${it.quoteCurrency}".toLowerCase() }
             .map { "{\"event\":\"sub\",\"params\":{\"channel\":\"market_${it}_depth_$type\",\"cb_id\":\"${it}\"}}" }
             .toFlux()
 

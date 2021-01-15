@@ -53,7 +53,7 @@ class UpbitWebsocketClient : AbstractExchangeWebsocketClient() {
     override fun createTradeWebsocket(subscribeTargets: List<CurrencyPair>): Flux<TickData> {
         // CoinSymbol: {rightCurrency}-{leftCurrency}
         val coinSymbols = subscribeTargets.stream()
-            .map<String> { currencyPair -> "\"${currencyPair.baseCurrency}-${currencyPair.targetCurrency}\"" }
+            .map<String> { currencyPair -> "\"${currencyPair.quoteCurrency}-${currencyPair.baseCurrency}\"" }
             .collect(Collectors.joining(","))
 
         return HttpClient.create()
@@ -82,7 +82,7 @@ class UpbitWebsocketClient : AbstractExchangeWebsocketClient() {
     override fun createDepthSnapshot(subscribeTargets: List<CurrencyPair>): Flux<OrderBook> {
         // CoinSymbol: {targetCurrency}-{baseCurrency}
         val coinSymbols = subscribeTargets.stream()
-            .map<String> { currencyPair -> "\"${currencyPair.baseCurrency}-${currencyPair.targetCurrency}\"" }
+            .map<String> { currencyPair -> "\"${currencyPair.quoteCurrency}-${currencyPair.baseCurrency}\"" }
             .collect(Collectors.joining(","))
 
         return HttpClient.create()

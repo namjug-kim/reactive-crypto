@@ -60,7 +60,7 @@ open class HuobiGlobalWebsocketClient(
 
     override fun createDepthSnapshot(subscribeTargets: List<CurrencyPair>): Flux<OrderBook> {
         val subscribeMessages = subscribeTargets.stream()
-            .map { "${it.targetCurrency.symbol.toLowerCase()}${it.baseCurrency.symbol.toLowerCase()}" }
+            .map { "${it.baseCurrency.symbol.toLowerCase()}${it.quoteCurrency.symbol.toLowerCase()}" }
             .map { "{\"sub\": \"market.$it.depth.step0\",\"id\": \"$it\"}" }
             .toList()
 
@@ -105,7 +105,7 @@ open class HuobiGlobalWebsocketClient(
 
     override fun createTradeWebsocket(subscribeTargets: List<CurrencyPair>): Flux<TickData> {
         val subscribeMessages = subscribeTargets.stream()
-            .map { "${it.targetCurrency.symbol.toLowerCase()}${it.baseCurrency.symbol.toLowerCase()}" }
+            .map { "${it.baseCurrency.symbol.toLowerCase()}${it.quoteCurrency.symbol.toLowerCase()}" }
             .map { "{\"sub\": \"market.$it.trade.detail\",\"id\": \"$it\"}" }
             .toList()
 

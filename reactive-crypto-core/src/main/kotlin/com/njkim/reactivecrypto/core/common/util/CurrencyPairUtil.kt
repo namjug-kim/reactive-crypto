@@ -23,10 +23,10 @@ object CurrencyPairUtil {
     private val currencyPairMap: MutableMap<String, CurrencyPair> = HashMap()
 
     init {
-        Currency.values().forEach { targetCurrency ->
-            Currency.FIAT_CURRENCIES.forEach { fiatCurrency ->
-                val currencyPair = CurrencyPair(targetCurrency, fiatCurrency)
-                currencyPairMap["${targetCurrency.symbol}${fiatCurrency.symbol}"] = currencyPair
+        Currency.values().forEach { baseCurrency ->
+            Currency.FIAT_CURRENCIES.forEach { quoteCurrency ->
+                val currencyPair = CurrencyPair(baseCurrency, quoteCurrency)
+                currencyPairMap["${baseCurrency.symbol}${quoteCurrency.symbol}"] = currencyPair
             }
         }
     }

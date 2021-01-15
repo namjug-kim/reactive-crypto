@@ -39,7 +39,7 @@ class BitmaxRawWebsocketClient {
      * @param recentTradeMaxCount max number of recent trades to be included in the first market trades message
      */
     fun createTradeDataFlux(symbol: CurrencyPair, recentTradeMaxCount: Int): Flux<BitmaxTickDataWrapper> {
-        val targetUri: String = "$baseUri/api/public/${symbol.targetCurrency}-${symbol.baseCurrency}"
+        val targetUri: String = "$baseUri/api/public/${symbol.baseCurrency}-${symbol.quoteCurrency}"
         val subscribeMessage: String =
             "{\"messageType\":\"subscribe\",\"marketDepthLevel\":0,\"recentTradeMaxCount\": $recentTradeMaxCount,\"skipSummary\":true,\"skipBars\":true}"
 
@@ -60,7 +60,7 @@ class BitmaxRawWebsocketClient {
      * @param marketDepthLevel max number of price levels on each side to be included in the first market depth message
      */
     fun createOrderBookFlux(symbol: CurrencyPair, marketDepthLevel: Int): Flux<BitmaxOrderBookWrapper> {
-        val targetUri: String = "$baseUri/api/public/${symbol.targetCurrency}-${symbol.baseCurrency}"
+        val targetUri: String = "$baseUri/api/public/${symbol.baseCurrency}-${symbol.quoteCurrency}"
         val subscribeMessage: String =
             "{\"messageType\":\"subscribe\",\"marketDepthLevel\":$marketDepthLevel,\"recentTradeMaxCount\": 0,\"skipSummary\":true,\"skipBars\":true}"
 

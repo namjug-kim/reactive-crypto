@@ -54,10 +54,10 @@ class BithumbWebsocketClient : AbstractExchangeWebsocketClient() {
     override fun createTradeWebsocket(subscribeTargets: List<CurrencyPair>): Flux<TickData> {
         val subscribeRequests = subscribeTargets.stream()
             .map {
-                if (it.baseCurrency == Currency.KRW) {
-                    "${it.targetCurrency}"
+                if (it.quoteCurrency == Currency.KRW) {
+                    "${it.baseCurrency}"
                 } else {
-                    "${it.targetCurrency}${it.baseCurrency}"
+                    "${it.baseCurrency}${it.quoteCurrency}"
                 }
             }
             .map { "{\"currency\":\"$it\",\"tickDuration\":\"24H\",\"service\":\"transaction\"}" }
@@ -94,10 +94,10 @@ class BithumbWebsocketClient : AbstractExchangeWebsocketClient() {
     override fun createDepthSnapshot(subscribeTargets: List<CurrencyPair>): Flux<OrderBook> {
         val subscribeRequests = subscribeTargets.stream()
             .map {
-                if (it.baseCurrency == Currency.KRW) {
-                    "${it.targetCurrency}"
+                if (it.quoteCurrency == Currency.KRW) {
+                    "${it.baseCurrency}"
                 } else {
-                    "${it.targetCurrency}${it.baseCurrency}"
+                    "${it.baseCurrency}${it.quoteCurrency}"
                 }
             }
             .map { "{\"currency\":\"$it\",\"tickDuration\":\"24H\",\"service\":\"orderbook\"}" }

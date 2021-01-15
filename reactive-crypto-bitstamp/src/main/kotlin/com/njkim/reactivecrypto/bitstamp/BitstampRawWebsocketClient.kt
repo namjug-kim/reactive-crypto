@@ -82,7 +82,7 @@ class BitstampRawWebsocketClient {
 
     private fun createSubscribeMessage(currencyPair: CurrencyPair, event: BitstampEventType): String {
         val channel =
-            "${event.subscribeMessage}_${currencyPair.targetCurrency}${currencyPair.baseCurrency}".toLowerCase()
+            "${event.subscribeMessage}_${currencyPair.baseCurrency}${currencyPair.quoteCurrency}".toLowerCase()
         return "{" +
                 "\"event\": \"bts:subscribe\"," +
                 "\"data\": {" +

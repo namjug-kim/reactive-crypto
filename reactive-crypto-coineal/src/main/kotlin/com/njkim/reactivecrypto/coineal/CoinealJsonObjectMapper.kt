@@ -130,7 +130,7 @@ class CoinealJsonObjectMapper : ExchangeJsonObjectMapper {
 
         val currencyPairSerializer = object : JsonSerializer<CurrencyPair>() {
             override fun serialize(value: CurrencyPair, gen: JsonGenerator, serializers: SerializerProvider) {
-                val pair = "${value.targetCurrency}${value.baseCurrency}".toLowerCase()
+                val pair = "${value.baseCurrency}${value.quoteCurrency}".toLowerCase()
                 return gen.writeString(pair)
             }
         }

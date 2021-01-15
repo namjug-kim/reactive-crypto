@@ -24,7 +24,7 @@ class PoloniexRawWebsocketClient {
 
         // { "command": "subscribe", "channel": "<channel id>" }
         val subscribeChannels = currencyPairs
-            .map { "${it.baseCurrency}_${it.targetCurrency}" }
+            .map { "${it.quoteCurrency}_${it.baseCurrency}" }
             .map { "{ \"command\": \"subscribe\", \"channel\": \"$it\" }" }
             .toFlux()
 

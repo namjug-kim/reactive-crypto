@@ -65,7 +65,7 @@ class BitzRawWebsocketClient(
      * }
      */
     fun createDepthFlux(symbols: List<CurrencyPair>): Flux<BitzMessageFrame<BitzOrderBook>> {
-        val subscribeMessage = symbols.map { "${it.targetCurrency}_${it.baseCurrency}".toLowerCase() }
+        val subscribeMessage = symbols.map { "${it.baseCurrency}_${it.quoteCurrency}".toLowerCase() }
             .toFlux()
             .map { "{\"action\":\"Topic.sub\",\"data\":{\"symbol\":\"$it\",\"type\":\"depth\",\"_CDID\":\"$cdid\"},\"msg_id\":${Instant.now().toEpochMilli()}}" }
 
@@ -105,7 +105,7 @@ class BitzRawWebsocketClient(
     }
 
     fun createTradeFlux(symbols: List<CurrencyPair>): Flux<BitzMessageFrame<List<BitzTradeData>>> {
-        val subscribeMessage = symbols.map { "${it.targetCurrency}_${it.baseCurrency}".toLowerCase() }
+        val subscribeMessage = symbols.map { "${it.baseCurrency}_${it.quoteCurrency}".toLowerCase() }
             .toFlux()
             .map { "{\"action\":\"Topic.sub\",\"data\":{\"symbol\":\"$it\",\"type\":\"order\",\"_CDID\":\"$cdid\"},\"msg_id\":${Instant.now().toEpochMilli()}}" }
 

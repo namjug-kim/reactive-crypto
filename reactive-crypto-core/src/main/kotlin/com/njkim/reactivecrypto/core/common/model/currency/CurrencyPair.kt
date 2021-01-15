@@ -17,8 +17,8 @@
 package com.njkim.reactivecrypto.core.common.model.currency
 
 data class CurrencyPair(
-    val targetCurrency: Currency,
-    val baseCurrency: Currency
+    val baseCurrency: Currency,
+    val quoteCurrency: Currency
 ) {
     companion object {
         @JvmStatic
@@ -37,6 +37,6 @@ data class CurrencyPair(
     }
 
     override fun toString(): String {
-        return "$targetCurrency-$baseCurrency"
+        return "$baseCurrency-$quoteCurrency"
     }
 }

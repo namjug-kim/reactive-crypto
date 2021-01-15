@@ -83,7 +83,7 @@ class BinanceJsonObjectMapper : ExchangeJsonObjectMapper {
     override fun customConfiguration(simpleModule: SimpleModule) {
         val currencyPairSerializer = object : JsonSerializer<CurrencyPair>() {
             override fun serialize(value: CurrencyPair, gen: JsonGenerator, serializers: SerializerProvider?) {
-                gen.writeString("${value.targetCurrency}${value.baseCurrency}")
+                gen.writeString("${value.baseCurrency}${value.quoteCurrency}")
             }
         }
 

@@ -45,7 +45,7 @@ class BitmexWebsocketClient : AbstractExchangeWebsocketClient() {
     }
 
     override fun createDepthSnapshot(subscribeTargets: List<CurrencyPair>): Flux<OrderBook> {
-        val args = subscribeTargets.map { "\"orderBook10:${it.targetCurrency}${it.baseCurrency}\"" }
+        val args = subscribeTargets.map { "\"orderBook10:${it.baseCurrency}${it.quoteCurrency}\"" }
             .joinToString(",", "[", "]")
 
         val subscribeMessage = "{\"op\": \"subscribe\", \"args\": $args}"
@@ -85,7 +85,7 @@ class BitmexWebsocketClient : AbstractExchangeWebsocketClient() {
     }
 
     override fun createTradeWebsocket(subscribeTargets: List<CurrencyPair>): Flux<TickData> {
-        val args = subscribeTargets.map { "\"trade:${it.targetCurrency}${it.baseCurrency}\"" }
+        val args = subscribeTargets.map { "\"trade:${it.baseCurrency}${it.quoteCurrency}\"" }
             .joinToString(",", "[", "]")
 
         val subscribeMessage = "{\"op\": \"subscribe\", \"args\": $args}"

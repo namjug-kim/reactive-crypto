@@ -50,7 +50,7 @@ class BhexRawWebsocketClient(
      *    - order is finished
      */
     fun createDepthFlux(symbols: List<CurrencyPair>): Flux<BhexMessageFrame<List<BhexOrderBook>>> {
-        val subscribeSymbols = symbols.joinToString(",") { "${it.targetCurrency}${it.baseCurrency}" }
+        val subscribeSymbols = symbols.joinToString(",") { "${it.baseCurrency}${it.quoteCurrency}" }
         val topic = "depth"
 
         val subscribeMessage = "{" +
@@ -89,7 +89,7 @@ class BhexRawWebsocketClient(
      * 24hr Ticker statistics for a symbol that changed in an array.
      */
     fun createTickersFlux(symbols: List<CurrencyPair>): Flux<BhexMessageFrame<List<BhexTicker>>> {
-        val subscribeSymbols = symbols.joinToString(",") { "${it.targetCurrency}${it.baseCurrency}" }
+        val subscribeSymbols = symbols.joinToString(",") { "${it.baseCurrency}${it.quoteCurrency}" }
         val topic = "realtimes"
 
         val subscribeMessage = "{" +
@@ -132,7 +132,7 @@ class BhexRawWebsocketClient(
      * ("v" will be increasing, but not in a continuous sense, namely v(n + 1) might not be v(n) + 1, and v(n + 1) > v(n) for sure)
      */
     fun createTradeFlux(symbols: List<CurrencyPair>): Flux<BhexMessageFrame<List<BhexTickData>>> {
-        val subscribeSymbols = symbols.joinToString(",") { "${it.targetCurrency}${it.baseCurrency}" }
+        val subscribeSymbols = symbols.joinToString(",") { "${it.baseCurrency}${it.quoteCurrency}" }
         val topic = "trade"
 
         val subscribeMessage = "{" +
