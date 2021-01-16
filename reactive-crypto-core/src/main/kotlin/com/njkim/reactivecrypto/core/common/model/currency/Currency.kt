@@ -918,6 +918,50 @@ data class Currency(val symbol: String) {
         val KABA = getInstance("KABA")
         @JvmField
         val AQT = getInstance("AQT")
+        @JvmField
+        val AAVE = getInstance("AAVE")
+        @JvmField
+        val SUSHI = getInstance("SUSHI")
+        @JvmField
+        val TFI = getInstance("TFI")
+        @JvmField
+        val GRT = getInstance("GRT")
+        @JvmField
+        val CRV = getInstance("CRV")
+        @JvmField
+        val SNX = getInstance("SNX")
+        @JvmField
+        val BAND = getInstance("BAND")
+        @JvmField
+        val XTZ = getInstance("XTZ")
+        @JvmField
+        val UNI = getInstance("UNI")
+        @JvmField
+        val YFI = getInstance("YFI")
+        @JvmField
+        val KAVA = getInstance("KAVA")
+        @JvmField
+        val EGLD = getInstance("EGLD")
+        @JvmField
+        val TRB = getInstance("TRB")
+        @JvmField
+        val COCOS = getInstance("COCOS")
+        @JvmField
+        val AVAX = getInstance("AVAX")
+        @JvmField
+        val REEF = getInstance("REEF")
+        @JvmField
+        val SRM = getInstance("SRM")
+        @JvmField
+        val BTCST = getInstance("BTCST")
+        @JvmField
+        val NEAR = getInstance("NEAR")
+        @JvmField
+        val MKR = getInstance("MKR")
+        @JvmField
+        val RUNE = getInstance("RUNE")
+        @JvmField
+        val COMP = getInstance("COMP")
 
         @JvmField
         val M19 = getInstance("M19")
@@ -941,6 +985,8 @@ data class Currency(val symbol: String) {
         val USDSB = getInstance("USDSB")
         @JvmField
         val USDS = getInstance("USDS")
+        @JvmField
+        val BUSD = getInstance("BUSD")
 
         val FIAT_CURRENCIES: List<Currency> = listOf(
             KRW,
@@ -949,6 +995,7 @@ data class Currency(val symbol: String) {
             USDC,
             USDSB,
             TUSD,
+            BUSD,
             PAX,
             BTC,
             ETH,
