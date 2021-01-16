@@ -962,6 +962,108 @@ data class Currency(val symbol: String) {
         val RUNE = getInstance("RUNE")
         @JvmField
         val COMP = getInstance("COMP")
+        @JvmField
+        val EUR = getInstance("EUR")
+        @JvmField
+        val GBP = getInstance("GBP")
+        @JvmField
+        val KP3R = getInstance("KP3R")
+        @JvmField
+        val AUD = getInstance("AUD")
+        @JvmField
+        val CREAM = getInstance("CREAM")
+        @JvmField
+        val SOL = getInstance("SOL")
+        @JvmField
+        val COVER = getInstance("COVER")
+        @JvmField
+        val RSR = getInstance("RSR")
+        @JvmField
+        val ALPHA = getInstance("ALPHA")
+        @JvmField
+        val OCEAN = getInstance("OCEAN")
+        @JvmField
+        val KSM = getInstance("KSM")
+        @JvmField
+        val INJ = getInstance("INJ")
+        @JvmField
+        val DIA = getInstance("DIA")
+        @JvmField
+        val UNFI = getInstance("UNFI")
+        @JvmField
+        val ROSE = getInstance("ROSE")
+        @JvmField
+        val SWRV = getInstance("SWRV")
+        @JvmField
+        val CAKE = getInstance("CAKE")
+        @JvmField
+        val TOMO = getInstance("TOMO")
+        @JvmField
+        val FRONT = getInstance("FRONT")
+        @JvmField
+        val LUNA = getInstance("LUNA")
+        @JvmField
+        val AVA = getInstance("AVA")
+        @JvmField
+        val YFII = getInstance("YFII")
+        @JvmField
+        val FOR = getInstance("FOR")
+        @JvmField
+        val CTSI = getInstance("CTSI")
+        @JvmField
+        val XVS = getInstance("XVS")
+        @JvmField
+        val VIDT = getInstance("VIDT")
+        @JvmField
+        val BCHA = getInstance("BCHA")
+        @JvmField
+        val BZRX = getInstance("BZRX")
+        @JvmField
+        val SKL = getInstance("SKL")
+        @JvmField
+        val FIL = getInstance("FIL")
+        @JvmField
+        val HEGIC = getInstance("HEGIC")
+        @JvmField
+        val BAL = getInstance("BAL")
+        @JvmField
+        val DF = getInstance("DF")
+        @JvmField
+        val CTK = getInstance("CTK")
+        @JvmField
+        val AXS = getInstance("AXS")
+        @JvmField
+        val SAND = getInstance("SAND")
+        @JvmField
+        val BEL = getInstance("BEL")
+        @JvmField
+        val FROM = getInstance("FROM")
+        @JvmField
+        val FLM = getInstance("FLM")
+        @JvmField
+        val STRAX = getInstance("STRAX")
+        @JvmField
+        val AUDIO = getInstance("AUDIO")
+        @JvmField
+        val WRX = getInstance("WRX")
+        @JvmField
+        val GHST = getInstance("GHST")
+        @JvmField
+        val HAND = getInstance("HAND")
+        @JvmField
+        val BOT = getInstance("BOT")
+        @JvmField
+        val IDEX = getInstance("IDEX")
+        @JvmField
+        val WING = getInstance("WING")
+        @JvmField
+        val FIO = getInstance("FIO")
+        @JvmField
+        val JUV = getInstance("JUV")
+        @JvmField
+        val CVP = getInstance("CVP")
+        @JvmField
+        val PSG = getInstance("PSG")
 
         @JvmField
         val M19 = getInstance("M19")
