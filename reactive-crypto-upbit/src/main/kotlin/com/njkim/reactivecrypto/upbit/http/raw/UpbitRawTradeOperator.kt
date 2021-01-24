@@ -97,7 +97,7 @@ class UpbitRawTradeOperator internal constructor(
                     .build()
             }
             .header("Authorization", "Bearer $sign")
-            .body(BodyInserters.fromObject(upbitRequest))
+            .body(BodyInserters.fromValue(upbitRequest))
             .retrieve()
             .upbitErrorHandling()
             .bodyToMono()

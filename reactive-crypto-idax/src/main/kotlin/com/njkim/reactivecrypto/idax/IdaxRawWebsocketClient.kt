@@ -56,13 +56,11 @@ class IdaxRawWebsocketClient(
             .toFlux()
 
         return HttpClient.create()
-            .tcpConfiguration { tcp ->
-                tcp.doOnConnected {
-                    it.addHandlerFirst(
-                        "heartBeat",
-                        HeartBeatHandler(false, 2, TimeUnit.SECONDS, 1) { "{\"event\":\"ping\"}" }
-                    )
-                }
+            .doOnConnected {
+                it.addHandlerFirst(
+                    "heartBeat",
+                    HeartBeatHandler(false, 2, TimeUnit.SECONDS, 1) { "{\"event\":\"ping\"}" }
+                )
             }
             .websocket()
             .uri(baseUri)
@@ -92,13 +90,11 @@ class IdaxRawWebsocketClient(
             .toFlux()
 
         return HttpClient.create()
-            .tcpConfiguration { tcp ->
-                tcp.doOnConnected {
-                    it.addHandlerFirst(
-                        "heartBeat",
-                        HeartBeatHandler(false, 2, TimeUnit.SECONDS, 1) { "{\"event\":\"ping\"}" }
-                    )
-                }
+            .doOnConnected {
+                it.addHandlerFirst(
+                    "heartBeat",
+                    HeartBeatHandler(false, 2, TimeUnit.SECONDS, 1) { "{\"event\":\"ping\"}" }
+                )
             }
             .websocket()
             .uri(baseUri)

@@ -57,7 +57,7 @@ class UpbitWebsocketClient : AbstractExchangeWebsocketClient() {
             .collect(Collectors.joining(","))
 
         return HttpClient.create()
-            .tcpConfiguration { t -> t.doOnConnected { it.addHandlerLast(JsonObjectDecoder()) } }
+            .doOnConnected { it.addHandlerLast(JsonObjectDecoder()) }
             .websocket()
             .uri(baseUri)
             .handle { inbound, outbound ->
@@ -86,7 +86,6 @@ class UpbitWebsocketClient : AbstractExchangeWebsocketClient() {
             .collect(Collectors.joining(","))
 
         return HttpClient.create()
-            .tcpConfiguration { tcp -> tcp.doOnConnected { } }
             .websocket()
             .uri(baseUri)
             .handle { inbound, outbound ->

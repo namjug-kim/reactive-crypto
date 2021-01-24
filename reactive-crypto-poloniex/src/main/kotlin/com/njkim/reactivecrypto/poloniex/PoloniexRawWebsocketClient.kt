@@ -8,6 +8,7 @@ import com.njkim.reactivecrypto.poloniex.model.PoloniexOrderBookSnapshotEvent
 import reactor.core.publisher.Flux
 import reactor.kotlin.core.publisher.toFlux
 import reactor.netty.http.client.HttpClient
+import reactor.netty.http.client.WebsocketClientSpec
 
 class PoloniexRawWebsocketClient {
     private val baseUrl: String = "wss://api2.poloniex.com"
@@ -30,7 +31,7 @@ class PoloniexRawWebsocketClient {
 
         // TODO heartbeat check
         return HttpClient.create()
-            .websocket(655360)
+            .websocket(WebsocketClientSpec.builder().maxFramePayloadLength(655360).build())
             .uri(baseUrl)
             .handle { inbound, outbound ->
                 outbound.sendString(subscribeChannels)

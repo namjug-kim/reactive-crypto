@@ -52,13 +52,11 @@ class BitmexWebsocketClient : AbstractExchangeWebsocketClient() {
 
         return HttpClient.create()
             .wiretap(log.isDebugEnabled)
-            .tcpConfiguration { tcp ->
-                tcp.doOnConnected { connection ->
-                    connection.addHandler(
-                        "heartBeat",
-                        BitmexHeartbetsHandler(Duration.ofMillis(5000))
-                    )
-                }
+            .doOnConnected { connection ->
+                connection.addHandler(
+                    "heartBeat",
+                    BitmexHeartbetsHandler(Duration.ofMillis(5000))
+                )
             }
             .websocket()
             .uri(baseUri)
@@ -92,13 +90,11 @@ class BitmexWebsocketClient : AbstractExchangeWebsocketClient() {
 
         return HttpClient.create()
             .wiretap(log.isDebugEnabled)
-            .tcpConfiguration { tcp ->
-                tcp.doOnConnected { connection ->
-                    connection.addHandler(
-                        "heartBeat",
-                        BitmexHeartbetsHandler(Duration.ofMillis(5000))
-                    )
-                }
+            .doOnConnected { connection ->
+                connection.addHandler(
+                    "heartBeat",
+                    BitmexHeartbetsHandler(Duration.ofMillis(5000))
+                )
             }
             .websocket()
             .uri(baseUri)

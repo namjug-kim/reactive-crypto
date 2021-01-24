@@ -32,6 +32,7 @@ import mu.KotlinLogging
 import reactor.core.publisher.Flux
 import reactor.kotlin.core.publisher.toFlux
 import reactor.netty.http.client.HttpClient
+import reactor.netty.http.client.WebsocketClientSpec
 import java.math.BigDecimal
 import java.time.ZonedDateTime
 import java.util.concurrent.ConcurrentHashMap
@@ -60,7 +61,7 @@ class HubiWebsocketClient : AbstractExchangeWebsocketClient() {
 
         return HttpClient.create()
             .wiretap(log.isDebugEnabled)
-            .websocket(262144)
+            .websocket(WebsocketClientSpec.builder().maxFramePayloadLength(262144).build())
             .uri(baseUri)
             .handle { inbound, outbound ->
                 outbound.sendString(subscribeRequests)
@@ -150,7 +151,7 @@ class HubiWebsocketClient : AbstractExchangeWebsocketClient() {
 
         return HttpClient.create()
             .wiretap(log.isDebugEnabled)
-            .websocket(262144)
+            .websocket(WebsocketClientSpec.builder().maxFramePayloadLength(262144).build())
             .uri(baseUri)
             .handle { inbound, outbound ->
                 outbound.sendString(subscribeRequests)

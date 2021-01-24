@@ -65,7 +65,7 @@ open class OkexWebsocketClient(
 
         return HttpClient.create()
             .wiretap(log.isDebugEnabled)
-            .tcpConfiguration { tcp -> tcp.doOnConnected { connection -> connection.addHandler(Deflat64Decoder()) } }
+            .doOnConnected { connection -> connection.addHandler(Deflat64Decoder()) }
             .websocket()
             .uri(baseUri)
             .handle { inbound, outbound ->
@@ -153,11 +153,7 @@ open class OkexWebsocketClient(
 
         return HttpClient.create()
             .wiretap(log.isDebugEnabled)
-            .tcpConfiguration { tcp ->
-                tcp.doOnConnected { connection ->
-                    connection.addHandler(Deflat64Decoder())
-                }
-            }
+            .doOnConnected { connection -> connection.addHandler(Deflat64Decoder()) }
             .websocket()
             .uri(baseUri)
             .handle { inbound, outbound ->

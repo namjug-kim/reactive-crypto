@@ -62,20 +62,18 @@ class CoinealRawWebsocketClient(
 
     private fun createSubscribeRequest(subscribeStrings: Flux<String>): Flux<String> {
         return HttpClient.create()
-            .tcpConfiguration { tcp ->
-                tcp.doOnConnected { connection ->
-                    connection.addHandler(JdkZlibDecoder(ZlibWrapper.GZIP, true))
-                    connection.addHandler(PingPongHandler())
-                    connection.addHandler(
-                        "heartBeat",
-                        HeartBeatHandler(
-                            false,
-                            20,
-                            TimeUnit.SECONDS,
-                            10
-                        ) { "{\"ping\": ${ZonedDateTime.now().toEpochMilli()}}" }
-                    )
-                }
+            .doOnConnected { connection ->
+                connection.addHandler(JdkZlibDecoder(ZlibWrapper.GZIP, true))
+                connection.addHandler(PingPongHandler())
+                connection.addHandler(
+                    "heartBeat",
+                    HeartBeatHandler(
+                        false,
+                        20,
+                        TimeUnit.SECONDS,
+                        10
+                    ) { "{\"ping\": ${ZonedDateTime.now().toEpochMilli()}}" }
+                )
             }
             .websocket()
             .uri(baseUri)

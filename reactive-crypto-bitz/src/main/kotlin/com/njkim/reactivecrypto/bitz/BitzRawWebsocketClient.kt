@@ -71,18 +71,16 @@ class BitzRawWebsocketClient(
 
         return HttpClient.create()
             .wiretap(log.isDebugEnabled)
-            .tcpConfiguration { tcp ->
-                tcp.doOnConnected { connection ->
-                    connection.addHandler(
-                        "heartBeat",
-                        HeartBeatHandler(
-                            false,
-                            5000,
-                            TimeUnit.MILLISECONDS,
-                            1000
-                        ) { "ping" }
-                    )
-                }
+            .doOnConnected { connection ->
+                connection.addHandler(
+                    "heartBeat",
+                    HeartBeatHandler(
+                        false,
+                        5000,
+                        TimeUnit.MILLISECONDS,
+                        1000
+                    ) { "ping" }
+                )
             }
             .websocket()
             .uri(uri)
@@ -111,18 +109,16 @@ class BitzRawWebsocketClient(
 
         return HttpClient.create()
             .wiretap(log.isDebugEnabled)
-            .tcpConfiguration { tcp ->
-                tcp.doOnConnected { connection ->
-                    connection.addHandler(
-                        "heartBeat",
-                        HeartBeatHandler(
-                            false,
-                            5000,
-                            TimeUnit.MILLISECONDS,
-                            1000
-                        ) { "ping" }
-                    )
-                }
+            .doOnConnected { connection ->
+                connection.addHandler(
+                    "heartBeat",
+                    HeartBeatHandler(
+                        false,
+                        5000,
+                        TimeUnit.MILLISECONDS,
+                        1000
+                    ) { "ping" }
+                )
             }
             .websocket()
             .uri(uri)

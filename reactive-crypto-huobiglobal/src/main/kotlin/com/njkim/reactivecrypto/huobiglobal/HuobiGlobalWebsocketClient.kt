@@ -66,20 +66,18 @@ open class HuobiGlobalWebsocketClient(
 
         return HttpClient.create()
             .wiretap(log.isDebugEnabled)
-            .tcpConfiguration { tcp ->
-                tcp.doOnConnected { connection ->
-                    connection.addHandler(JdkZlibDecoder(ZlibWrapper.GZIP, true))
-                    connection.addHandler(PingPongHandler())
-                    connection.addHandler(
-                        "heartBeat",
-                        HeartBeatHandler(
-                            false,
-                            10500,
-                            TimeUnit.MILLISECONDS,
-                            1000
-                        ) { "{\"ping\": ${ZonedDateTime.now().toEpochMilli()}}" }
-                    )
-                }
+            .doOnConnected { connection ->
+                connection.addHandler(JdkZlibDecoder(ZlibWrapper.GZIP, true))
+                connection.addHandler(PingPongHandler())
+                connection.addHandler(
+                    "heartBeat",
+                    HeartBeatHandler(
+                        false,
+                        10500,
+                        TimeUnit.MILLISECONDS,
+                        1000
+                    ) { "{\"ping\": ${ZonedDateTime.now().toEpochMilli()}}" }
+                )
             }
             .websocket()
             .uri(baseUri)
@@ -111,20 +109,18 @@ open class HuobiGlobalWebsocketClient(
 
         return HttpClient.create()
             .wiretap(log.isDebugEnabled)
-            .tcpConfiguration { tcp ->
-                tcp.doOnConnected { connection ->
-                    connection.addHandler(JdkZlibDecoder(ZlibWrapper.GZIP, true))
-                    connection.addHandler(PingPongHandler())
-                    connection.addHandler(
-                        "heartBeat",
-                        HeartBeatHandler(
-                            false,
-                            10500,
-                            TimeUnit.MILLISECONDS,
-                            1000
-                        ) { "{\"ping\": ${ZonedDateTime.now().toEpochMilli()}}" }
-                    )
-                }
+            .doOnConnected { connection ->
+                connection.addHandler(JdkZlibDecoder(ZlibWrapper.GZIP, true))
+                connection.addHandler(PingPongHandler())
+                connection.addHandler(
+                    "heartBeat",
+                    HeartBeatHandler(
+                        false,
+                        10500,
+                        TimeUnit.MILLISECONDS,
+                        1000
+                    ) { "{\"ping\": ${ZonedDateTime.now().toEpochMilli()}}" }
+                )
             }
             .websocket()
             .uri(baseUri)
