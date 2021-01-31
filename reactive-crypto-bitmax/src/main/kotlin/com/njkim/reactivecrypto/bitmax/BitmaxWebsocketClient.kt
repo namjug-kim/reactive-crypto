@@ -22,7 +22,7 @@ import com.njkim.reactivecrypto.core.common.model.order.OrderBook
 import com.njkim.reactivecrypto.core.common.model.order.OrderBookUnit
 import com.njkim.reactivecrypto.core.common.model.order.TickData
 import com.njkim.reactivecrypto.core.common.model.order.TradeSideType
-import com.njkim.reactivecrypto.core.websocket.ExchangeWebsocketClient
+import com.njkim.reactivecrypto.core.websocket.ExchangePublicWebsocketClient
 import mu.KotlinLogging
 import reactor.core.publisher.Flux
 import reactor.core.scheduler.Schedulers
@@ -33,7 +33,7 @@ import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicLong
 
-class BitmaxWebsocketClient : ExchangeWebsocketClient {
+class BitmaxWebsocketClient : ExchangePublicWebsocketClient {
     private val log = KotlinLogging.logger {}
 
     private val bitmaxRawWebsocketClient: BitmaxRawWebsocketClient = BitmaxRawWebsocketClient()

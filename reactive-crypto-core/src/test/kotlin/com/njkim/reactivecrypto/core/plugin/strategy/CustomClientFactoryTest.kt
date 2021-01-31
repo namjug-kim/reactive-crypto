@@ -19,7 +19,7 @@ import com.njkim.reactivecrypto.core.common.model.ExchangeVendor
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import com.njkim.reactivecrypto.core.common.model.order.OrderBook
 import com.njkim.reactivecrypto.core.common.model.order.TickData
-import com.njkim.reactivecrypto.core.websocket.ExchangeWebsocketClient
+import com.njkim.reactivecrypto.core.websocket.ExchangePublicWebsocketClient
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import reactor.core.publisher.Flux
@@ -28,7 +28,7 @@ class CustomClientFactoryTest {
     @Test
     fun `add custom factory`() {
         // GIVEN
-        val customExchangeWebsocketClient = object : ExchangeWebsocketClient {
+        val customExchangeWebsocketClient = object : ExchangePublicWebsocketClient {
             override fun createTradeWebsocket(subscribeTargets: List<CurrencyPair>): Flux<TickData> {
                 return Flux.empty()
             }
@@ -40,15 +40,15 @@ class CustomClientFactoryTest {
 
         val customClientFactory = CustomClientFactory()
         val testExchangeVendor = ExchangeVendor("TEST-EXCHANGE")
-        customClientFactory.addWsCustomFactory(testExchangeVendor) { _ ->
+        customClientFactory.addPublicWsCustomFactory(testExchangeVendor) {
             customExchangeWebsocketClient
         }
 
         // WHEN
-        val factoryFunction = customClientFactory.getCustomWsFactory(testExchangeVendor)
+        val factoryFunction = customClientFactory.getCustomPublicWsFactory(testExchangeVendor)
 
         // THEN
-        assertThat(factoryFunction).isNotNull
-        assertThat(factoryFunction!!(testExchangeVendor)).isEqualTo(customExchangeWebsocketClient)
+        assertThat(factoryFunction != null).isTrue()
+        assertThat(factoryFunction!!()).isEqualTo(customExchangeWebsocketClient)
     }
 }

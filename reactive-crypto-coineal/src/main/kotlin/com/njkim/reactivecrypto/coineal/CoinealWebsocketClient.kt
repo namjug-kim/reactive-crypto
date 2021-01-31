@@ -21,13 +21,13 @@ import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import com.njkim.reactivecrypto.core.common.model.order.OrderBook
 import com.njkim.reactivecrypto.core.common.model.order.TickData
 import com.njkim.reactivecrypto.core.common.util.toEpochMilli
-import com.njkim.reactivecrypto.core.websocket.ExchangeWebsocketClient
+import com.njkim.reactivecrypto.core.websocket.ExchangePublicWebsocketClient
 import mu.KotlinLogging
 import reactor.core.publisher.Flux
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicLong
 
-class CoinealWebsocketClient : ExchangeWebsocketClient {
+class CoinealWebsocketClient : ExchangePublicWebsocketClient {
     private val log = KotlinLogging.logger {}
 
     private val coinealRawWebsocketClient: CoinealRawWebsocketClient =

@@ -18,7 +18,7 @@ package com.njkim.reactivecrypto.kobotex;
 
 import com.njkim.reactivecrypto.core.ExchangeClientFactory;
 import com.njkim.reactivecrypto.core.common.model.ExchangeVendor;
-import com.njkim.reactivecrypto.core.websocket.ExchangeWebsocketClient;
+import com.njkim.reactivecrypto.core.websocket.ExchangePublicWebsocketClient;
 import com.njkim.reactivecrypto.korbotex.KorbotexWebsocketClient;
 import org.junit.Test;
 
@@ -27,10 +27,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ExchangeClientFactoryJavaTest {
     @Test
     public void websocket_client() {
-        ExchangeWebsocketClient exchangeWebsocketClient = ExchangeClientFactory.websocket(ExchangeVendor.KORBOTEX);
+        ExchangePublicWebsocketClient exchangeWebsocketClient = ExchangeClientFactory.publicWebsocket(ExchangeVendor.KORBOTEX);
 
         assertThat(exchangeWebsocketClient).isNotNull();
-        assertThat(exchangeWebsocketClient).isInstanceOf(ExchangeWebsocketClient.class);
+        assertThat(exchangeWebsocketClient).isInstanceOf(ExchangePublicWebsocketClient.class);
         assertThat(exchangeWebsocketClient).isExactlyInstanceOf(KorbotexWebsocketClient.class);
     }
 }

@@ -22,7 +22,7 @@ import com.njkim.reactivecrypto.core.common.model.order.OrderBook
 import com.njkim.reactivecrypto.core.common.model.order.OrderBookUnit
 import com.njkim.reactivecrypto.core.common.model.order.TickData
 import com.njkim.reactivecrypto.core.common.util.toEpochMilli
-import com.njkim.reactivecrypto.core.websocket.ExchangeWebsocketClient
+import com.njkim.reactivecrypto.core.websocket.ExchangePublicWebsocketClient
 import mu.KotlinLogging
 import reactor.core.publisher.Flux
 import java.math.BigDecimal
@@ -31,7 +31,7 @@ import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicLong
 
-class IdaxWebsocketClient : ExchangeWebsocketClient {
+class IdaxWebsocketClient : ExchangePublicWebsocketClient {
     private val log = KotlinLogging.logger {}
 
     private val idaxRawWebsocketClient: IdaxRawWebsocketClient =

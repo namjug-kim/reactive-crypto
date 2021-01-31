@@ -16,12 +16,10 @@
 
 package com.njkim.reactivecrypto.core.websocket
 
-import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
-import com.njkim.reactivecrypto.core.common.model.order.OrderBook
-import com.njkim.reactivecrypto.core.common.model.order.TickData
+import com.njkim.reactivecrypto.core.common.model.order.EventMessage
+import com.njkim.reactivecrypto.core.common.model.order.OrderEvent
 import reactor.core.publisher.Flux
 
-interface ExchangeWebsocketClient {
-    fun createTradeWebsocket(subscribeTargets: List<CurrencyPair>): Flux<TickData>
-    fun createDepthSnapshot(subscribeTargets: List<CurrencyPair>): Flux<OrderBook>
+abstract class ExchangePrivateWebsocketClient(protected val accessKey: String, protected val secretKey: String) {
+    abstract fun orderEvent(): Flux<EventMessage<OrderEvent>>
 }

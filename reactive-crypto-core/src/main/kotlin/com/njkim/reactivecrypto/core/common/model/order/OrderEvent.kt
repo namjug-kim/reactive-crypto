@@ -20,15 +20,17 @@ import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import java.math.BigDecimal
 import java.time.ZonedDateTime
 
-data class Order(
+data class OrderEvent(
     val uniqueId: String,
     val orderStatusType: OrderStatusType,
 
     val side: TradeSideType,
     val currencyPair: CurrencyPair,
-    val orderPrice: BigDecimal,
+    val orderPrice: BigDecimal?,
+    val tradePrice: BigDecimal?,
     val averageTradePrice: BigDecimal?,
     val orderVolume: BigDecimal?,
+    val tradeVolume: BigDecimal,
     val filledVolume: BigDecimal,
 
     val paidFee: BigDecimal? = null,
