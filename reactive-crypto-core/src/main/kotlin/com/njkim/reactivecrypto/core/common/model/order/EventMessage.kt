@@ -14,10 +14,13 @@
  * under the License.
  */
 
-package com.njkim.reactivecrypto.core.websocket
+package com.njkim.reactivecrypto.core.common.model.order
 
-import com.njkim.reactivecrypto.core.ExchangeJsonObjectMapper
+import java.time.ZonedDateTime
 
-abstract class AbstractExchangeWebsocketClient : ExchangePublicWebsocketClient {
-    protected abstract fun createJsonObjectMapper(): ExchangeJsonObjectMapper
-}
+data class EventMessage<T>(
+    val eventId: String,
+    val timestamp: ZonedDateTime,
+    val eventType: EventType,
+    val data: T
+)

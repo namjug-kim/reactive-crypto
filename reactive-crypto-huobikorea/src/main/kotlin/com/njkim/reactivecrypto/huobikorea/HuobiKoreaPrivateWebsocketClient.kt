@@ -14,10 +14,12 @@
  * under the License.
  */
 
-package com.njkim.reactivecrypto.core.websocket
+package com.njkim.reactivecrypto.huobikorea
 
-import com.njkim.reactivecrypto.core.ExchangeJsonObjectMapper
+import com.njkim.reactivecrypto.huobiglobal.HuobiGlobalPrivateWebsocketClient
 
-abstract class AbstractExchangeWebsocketClient : ExchangePublicWebsocketClient {
-    protected abstract fun createJsonObjectMapper(): ExchangeJsonObjectMapper
-}
+@Suppress("IMPLICIT_CAST_TO_ANY")
+class HuobiKoreaPrivateWebsocketClient(
+    accessKey: String,
+    secretKey: String
+) : HuobiGlobalPrivateWebsocketClient(accessKey, secretKey)

@@ -19,54 +19,67 @@ package com.njkim.reactivecrypto.core
 import com.njkim.reactivecrypto.core.common.model.ExchangeVendor
 import com.njkim.reactivecrypto.core.http.ExchangeHttpClient
 import com.njkim.reactivecrypto.core.plugin.ReactiveCryptoPlugins
-import com.njkim.reactivecrypto.core.plugin.strategy.FactoryFunction
-import com.njkim.reactivecrypto.core.websocket.ExchangeWebsocketClient
+import com.njkim.reactivecrypto.core.websocket.ExchangePrivateWebsocketClient
+import com.njkim.reactivecrypto.core.websocket.ExchangePublicWebsocketClient
 import kotlin.reflect.full.createInstance
+import kotlin.reflect.full.primaryConstructor
 
-class ExchangeClientFactory {
-    companion object {
-        init {
-            ExchangeVendor.values()
-                .forEach { exchangeVendor ->
-                    ReactiveCryptoPlugins.customClientFactory
-                        .addHttpCustomFactory(exchangeVendor) { defaultHttpFactory(exchangeVendor) }
-                    ReactiveCryptoPlugins.customClientFactory
-                        .addWsCustomFactory(exchangeVendor) { defaultWsFactory(exchangeVendor) }
-                }
-        }
-
-        @JvmStatic
-        fun websocket(exchangeVendor: ExchangeVendor): ExchangeWebsocketClient {
-            val customFactory: FactoryFunction<ExchangeWebsocketClient>? =
-                ReactiveCryptoPlugins.customClientFactory.getCustomWsFactory(exchangeVendor)
-
-            return if (customFactory != null) {
-                customFactory(exchangeVendor)
-            } else {
-                defaultWsFactory(exchangeVendor)
+object ExchangeClientFactory {
+    init {
+        ExchangeVendor.values()
+            .forEach { exchangeVendor ->
+                ReactiveCryptoPlugins.customClientFactory
+                    .addHttpCustomFactory(exchangeVendor, defaultHttpFactory(exchangeVendor))
+                ReactiveCryptoPlugins.customClientFactory
+                    .addPublicWsCustomFactory(exchangeVendor, defaultPublicWsFactory(exchangeVendor))
+                ReactiveCryptoPlugins.customClientFactory
+                    .addPrivateWsCustomFactory(exchangeVendor, defaultPrivateWsFactory(exchangeVendor))
             }
+    }
+
+    @JvmStatic
+    fun publicWebsocket(exchangeVendor: ExchangeVendor): ExchangePublicWebsocketClient {
+        return ReactiveCryptoPlugins.customClientFactory.getCustomPublicWsFactory(exchangeVendor)
+            ?.let { it() }
+            ?: defaultPublicWsFactory(exchangeVendor)()
+    }
+
+    @JvmStatic
+    fun privateWebsocket(exchangeVendor: ExchangeVendor, accessKey: String, secretKey: String): ExchangePrivateWebsocketClient {
+        return ReactiveCryptoPlugins.customClientFactory.getCustomPrivateWsFactory(exchangeVendor)
+            ?.let { it(accessKey, secretKey) }
+            ?: defaultPrivateWsFactory(exchangeVendor)(accessKey, secretKey)
+    }
+
+    @JvmStatic
+    fun http(exchangeVendor: ExchangeVendor): ExchangeHttpClient {
+        return ReactiveCryptoPlugins.customClientFactory.getCustomHttpFactory(exchangeVendor)
+            ?.let { it() }
+            ?: defaultHttpFactory(exchangeVendor)()
+    }
+
+    private fun defaultPublicWsFactory(exchangeVendor: ExchangeVendor): PublicFactoryFunction<ExchangePublicWebsocketClient> {
+        return {
+            val websocketClientClass = Class.forName(exchangeVendor.publicWebsocketClientName).kotlin
+            websocketClientClass.createInstance() as ExchangePublicWebsocketClient
         }
+    }
 
-        private fun defaultWsFactory(exchangeVendor: ExchangeVendor): ExchangeWebsocketClient {
-            val websocketClientClass = Class.forName(exchangeVendor.websocketClientName)?.kotlin
-            return websocketClientClass?.createInstance() as ExchangeWebsocketClient
+    private fun defaultPrivateWsFactory(exchangeVendor: ExchangeVendor): PrivateFactoryFunction<ExchangePrivateWebsocketClient> {
+        return { accessKey: String, secretKey: String ->
+            val websocketClientClass = Class.forName(exchangeVendor.privateWebsocketClientName).kotlin
+            val primaryConstructor = websocketClientClass.primaryConstructor ?: error("primary construct empty")
+            primaryConstructor.call(accessKey, secretKey) as ExchangePrivateWebsocketClient
         }
+    }
 
-        @JvmStatic
-        fun http(exchangeVendor: ExchangeVendor): ExchangeHttpClient {
-            val customFactory: FactoryFunction<ExchangeHttpClient>? =
-                ReactiveCryptoPlugins.customClientFactory.getCustomHttpFactory(exchangeVendor)
-
-            return if (customFactory != null) {
-                customFactory(exchangeVendor)
-            } else {
-                defaultHttpFactory(exchangeVendor)
-            }
-        }
-
-        private fun defaultHttpFactory(exchangeVendor: ExchangeVendor): ExchangeHttpClient {
-            val httpClientClass = Class.forName(exchangeVendor.httpClientName)?.kotlin
-            return httpClientClass?.createInstance() as ExchangeHttpClient
+    private fun defaultHttpFactory(exchangeVendor: ExchangeVendor): PublicFactoryFunction<ExchangeHttpClient> {
+        return {
+            val httpClientClass = Class.forName(exchangeVendor.httpClientName).kotlin
+            httpClientClass.createInstance() as ExchangeHttpClient
         }
     }
 }
+
+typealias PublicFactoryFunction<T> = () -> T
+typealias PrivateFactoryFunction<T> = (accessKey: String, secretKey: String) -> T

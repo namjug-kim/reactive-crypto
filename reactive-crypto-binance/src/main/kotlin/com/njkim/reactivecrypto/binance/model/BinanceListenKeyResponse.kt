@@ -14,14 +14,11 @@
  * under the License.
  */
 
-package com.njkim.reactivecrypto.core.websocket
+package com.njkim.reactivecrypto.binance.model
 
-import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
-import com.njkim.reactivecrypto.core.common.model.order.OrderBook
-import com.njkim.reactivecrypto.core.common.model.order.TickData
-import reactor.core.publisher.Flux
+import com.fasterxml.jackson.annotation.JsonProperty
 
-interface ExchangeWebsocketClient {
-    fun createTradeWebsocket(subscribeTargets: List<CurrencyPair>): Flux<TickData>
-    fun createDepthSnapshot(subscribeTargets: List<CurrencyPair>): Flux<OrderBook>
-}
+data class BinanceListenKeyResponse(
+    @JsonProperty("listenKey")
+    val listenKey: String
+)

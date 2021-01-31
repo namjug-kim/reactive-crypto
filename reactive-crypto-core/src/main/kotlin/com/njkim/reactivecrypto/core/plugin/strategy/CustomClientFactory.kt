@@ -18,27 +18,38 @@ package com.njkim.reactivecrypto.core.plugin.strategy
 
 import com.njkim.reactivecrypto.core.common.model.ExchangeVendor
 import com.njkim.reactivecrypto.core.http.ExchangeHttpClient
-import com.njkim.reactivecrypto.core.websocket.ExchangeWebsocketClient
+import com.njkim.reactivecrypto.core.websocket.ExchangePrivateWebsocketClient
+import com.njkim.reactivecrypto.core.websocket.ExchangePublicWebsocketClient
 
 class CustomClientFactory {
-    private val customWsFactory: MutableMap<ExchangeVendor, FactoryFunction<ExchangeWebsocketClient>> = hashMapOf()
-    private val customHttpFactory: MutableMap<ExchangeVendor, FactoryFunction<ExchangeHttpClient>> = hashMapOf()
+    private val customPublicWsFactory: MutableMap<ExchangeVendor, PublicFactoryFunction<ExchangePublicWebsocketClient>> = hashMapOf()
+    private val customPrivateWsFactory: MutableMap<ExchangeVendor, PrivateFactoryFunction<ExchangePrivateWebsocketClient>> = hashMapOf()
+    private val customHttpFactory: MutableMap<ExchangeVendor, PublicFactoryFunction<ExchangeHttpClient>> = hashMapOf()
 
-    fun addWsCustomFactory(exchangeVendor: ExchangeVendor, factory: FactoryFunction<ExchangeWebsocketClient>) {
-        customWsFactory[exchangeVendor] = factory
+    fun addPublicWsCustomFactory(exchangeVendor: ExchangeVendor, factory: PublicFactoryFunction<ExchangePublicWebsocketClient>) {
+        customPublicWsFactory[exchangeVendor] = factory
     }
 
-    fun addHttpCustomFactory(exchangeVendor: ExchangeVendor, factory: FactoryFunction<ExchangeHttpClient>) {
+    fun addPrivateWsCustomFactory(exchangeVendor: ExchangeVendor, factory: PrivateFactoryFunction<ExchangePrivateWebsocketClient>) {
+        customPrivateWsFactory[exchangeVendor] = factory
+    }
+
+    fun addHttpCustomFactory(exchangeVendor: ExchangeVendor, factory: PublicFactoryFunction<ExchangeHttpClient>) {
         customHttpFactory[exchangeVendor] = factory
     }
 
-    fun getCustomHttpFactory(exchangeVendor: ExchangeVendor): FactoryFunction<ExchangeHttpClient>? {
+    fun getCustomHttpFactory(exchangeVendor: ExchangeVendor): PublicFactoryFunction<ExchangeHttpClient>? {
         return this.customHttpFactory[exchangeVendor]
     }
 
-    fun getCustomWsFactory(exchangeVendor: ExchangeVendor): FactoryFunction<ExchangeWebsocketClient>? {
-        return this.customWsFactory[exchangeVendor]
+    fun getCustomPublicWsFactory(exchangeVendor: ExchangeVendor): PublicFactoryFunction<ExchangePublicWebsocketClient>? {
+        return this.customPublicWsFactory[exchangeVendor]
+    }
+
+    fun getCustomPrivateWsFactory(exchangeVendor: ExchangeVendor): PrivateFactoryFunction<ExchangePrivateWebsocketClient>? {
+        return this.customPrivateWsFactory[exchangeVendor]
     }
 }
 
-typealias FactoryFunction<T> = (ExchangeVendor) -> T
+typealias PublicFactoryFunction<T> = () -> T
+typealias PrivateFactoryFunction<T> = (accessKey: String, secretKey: String) -> T

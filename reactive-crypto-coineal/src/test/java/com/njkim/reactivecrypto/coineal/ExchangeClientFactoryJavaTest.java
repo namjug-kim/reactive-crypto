@@ -18,7 +18,7 @@ package com.njkim.reactivecrypto.coineal;
 
 import com.njkim.reactivecrypto.core.ExchangeClientFactory;
 import com.njkim.reactivecrypto.core.common.model.ExchangeVendor;
-import com.njkim.reactivecrypto.core.websocket.ExchangeWebsocketClient;
+import com.njkim.reactivecrypto.core.websocket.ExchangePublicWebsocketClient;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -26,10 +26,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ExchangeClientFactoryJavaTest {
     @Test
     public void bitmax() {
-        ExchangeWebsocketClient exchangeWebsocketClient = ExchangeClientFactory.websocket(ExchangeVendor.COINEAL);
+        ExchangePublicWebsocketClient exchangeWebsocketClient = ExchangeClientFactory.publicWebsocket(ExchangeVendor.COINEAL);
 
         assertThat(exchangeWebsocketClient).isNotNull();
-        assertThat(exchangeWebsocketClient).isInstanceOf(ExchangeWebsocketClient.class);
+        assertThat(exchangeWebsocketClient).isInstanceOf(ExchangePublicWebsocketClient.class);
         assertThat(exchangeWebsocketClient).isExactlyInstanceOf(CoinealWebsocketClient.class);
     }
 }

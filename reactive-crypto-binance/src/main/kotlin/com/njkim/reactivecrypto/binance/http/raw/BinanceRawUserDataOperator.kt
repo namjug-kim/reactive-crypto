@@ -19,6 +19,7 @@ package com.njkim.reactivecrypto.binance.http.raw
 import com.fasterxml.jackson.module.kotlin.convertValue
 import com.njkim.reactivecrypto.binance.BinanceJsonObjectMapper
 import com.njkim.reactivecrypto.binance.model.BinanceAccountResponse
+import com.njkim.reactivecrypto.binance.model.BinanceListenKeyResponse
 import com.njkim.reactivecrypto.binance.model.BinanceOrderInfoResponse
 import com.njkim.reactivecrypto.binance.model.BinanceTradeInfoResponse
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
@@ -70,12 +71,12 @@ class BinanceRawUserDataOperator internal constructor(private val webClient: Web
         limit: Int = 500,
         recvWindow: Long = 5000
     ): Flux<BinanceOrderInfoResponse> {
-        val request = mapOf(
+        val request = mutableMapOf(
             "symbol" to symbol,
             "limit" to limit,
             "recvWindow" to recvWindow,
             "timestamp" to Instant.now().toEpochMilli()
-        ).toMutableMap()
+        )
         orderId?.let { request["orderId"] = orderId }
         startTime?.let { request["startTime"] = startTime }
         endTime?.let { request["endTime"] = endTime }
@@ -104,10 +105,10 @@ class BinanceRawUserDataOperator internal constructor(private val webClient: Web
         symbol: CurrencyPair? = null,
         recvWindow: Long = 5000
     ): Flux<BinanceOrderInfoResponse> {
-        val request = mapOf<String, Any>(
+        val request = mutableMapOf<String, Any>(
             "recvWindow" to recvWindow,
             "timestamp" to Instant.now().toEpochMilli()
-        ).toMutableMap()
+        )
         symbol?.let { request["symbol"] = symbol }
 
         val convertedRequest = BinanceJsonObjectMapper.instance.convertValue<Map<String, Any>>(request)
@@ -137,11 +138,11 @@ class BinanceRawUserDataOperator internal constructor(private val webClient: Web
         origClientOrderId: String? = null,
         recvWindow: Long = 5000
     ): Mono<BinanceOrderInfoResponse> {
-        val request = mapOf(
+        val request = mutableMapOf(
             "symbol" to symbol,
             "recvWindow" to recvWindow,
             "timestamp" to Instant.now().toEpochMilli()
-        ).toMutableMap()
+        )
         orderId?.let { request["orderId"] = orderId }
         origClientOrderId?.let { request["origClientOrderId"] = origClientOrderId }
 
@@ -175,12 +176,12 @@ class BinanceRawUserDataOperator internal constructor(private val webClient: Web
         limit: Int = 500,
         recvWindow: Long = 5000
     ): Flux<BinanceTradeInfoResponse> {
-        val request = mapOf<String, Any>(
+        val request = mutableMapOf(
             "symbol" to symbol,
             "recvWindow" to recvWindow,
             "timestamp" to Instant.now().toEpochMilli(),
             "limit" to limit
-        ).toMutableMap()
+        )
         startTime?.let { request["startTime"] = startTime }
         endTime?.let { request["endTime"] = endTime }
         fromId?.let { request["fromId"] = fromId }
@@ -196,5 +197,43 @@ class BinanceRawUserDataOperator internal constructor(private val webClient: Web
             }
             .retrieve()
             .bodyToFlux()
+    }
+
+    /**
+     * Start a new user data stream. The stream will close after 60 minutes unless a keepalive is sent.
+     * If the account has an active listenKey, that listenKey will be returned and its validity will be extended for 60 minutes.
+     *
+     * Weight: 1
+     */
+    fun createListenKey(): Mono<BinanceListenKeyResponse> {
+        return webClient.post()
+            .uri {
+                it.path("/api/v3/userDataStream")
+                    .build()
+            }
+            .retrieve()
+            .bodyToMono()
+    }
+
+    /**
+     * Keepalive a user data stream to prevent a time out.
+     * User data streams will close after 60 minutes.
+     * It's recommended to send a ping about every 30 minutes.
+     *
+     * Weight: 1
+     */
+    fun keepAliveListenKey(listenKey: String): Mono<BinanceListenKeyResponse> {
+        val request = mapOf(
+            "listenKey" to listenKey
+        )
+
+        return webClient.put()
+            .uri {
+                it.path("/api/v3/userDataStream")
+                    .queryParams(request.toMultiValueMap())
+                    .build()
+            }
+            .retrieve()
+            .bodyToMono()
     }
 }

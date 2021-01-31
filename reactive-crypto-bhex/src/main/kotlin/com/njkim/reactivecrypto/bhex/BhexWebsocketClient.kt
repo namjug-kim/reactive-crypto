@@ -7,10 +7,10 @@ import com.njkim.reactivecrypto.core.common.model.order.OrderBookUnit
 import com.njkim.reactivecrypto.core.common.model.order.TickData
 import com.njkim.reactivecrypto.core.common.model.order.TradeSideType
 import com.njkim.reactivecrypto.core.common.util.toEpochMilli
-import com.njkim.reactivecrypto.core.websocket.ExchangeWebsocketClient
+import com.njkim.reactivecrypto.core.websocket.ExchangePublicWebsocketClient
 import reactor.core.publisher.Flux
 
-class BhexWebsocketClient(host: String = "ws.bhex.com") : ExchangeWebsocketClient {
+class BhexWebsocketClient(host: String = "ws.bhex.com") : ExchangePublicWebsocketClient {
     private val bhexRawWebsocketClient = BhexRawWebsocketClient(host)
 
     override fun createDepthSnapshot(subscribeTargets: List<CurrencyPair>): Flux<OrderBook> {

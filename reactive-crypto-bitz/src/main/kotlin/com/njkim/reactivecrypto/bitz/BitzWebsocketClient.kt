@@ -7,7 +7,7 @@ import com.njkim.reactivecrypto.core.common.model.order.OrderBookUnit
 import com.njkim.reactivecrypto.core.common.model.order.TickData
 import com.njkim.reactivecrypto.core.common.model.order.TradeSideType
 import com.njkim.reactivecrypto.core.common.util.toEpochMilli
-import com.njkim.reactivecrypto.core.websocket.ExchangeWebsocketClient
+import com.njkim.reactivecrypto.core.websocket.ExchangePublicWebsocketClient
 import reactor.core.publisher.Flux
 import java.math.BigDecimal
 import java.util.concurrent.ConcurrentHashMap
@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentHashMap
 class BitzWebsocketClient(
     host: String = "ws.ahighapi.com",
     cdid: String = "100002"
-) : ExchangeWebsocketClient {
+) : ExchangePublicWebsocketClient {
     private val bitzRawWebsocketClient = BitzRawWebsocketClient(host, cdid)
 
     override fun createTradeWebsocket(subscribeTargets: List<CurrencyPair>): Flux<TickData> {

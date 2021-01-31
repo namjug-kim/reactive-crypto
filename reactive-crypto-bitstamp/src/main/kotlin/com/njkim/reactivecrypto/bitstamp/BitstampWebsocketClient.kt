@@ -23,14 +23,14 @@ import com.njkim.reactivecrypto.core.common.model.order.OrderBookUnit
 import com.njkim.reactivecrypto.core.common.model.order.TickData
 import com.njkim.reactivecrypto.core.common.model.order.TradeSideType
 import com.njkim.reactivecrypto.core.common.util.toEpochMilli
-import com.njkim.reactivecrypto.core.websocket.ExchangeWebsocketClient
+import com.njkim.reactivecrypto.core.websocket.ExchangePublicWebsocketClient
 import reactor.core.publisher.Flux
 
 /**
  * Bitstamp Websocket API v2
  * document : https://www.bitstamp.net/websocket/v2/
  */
-class BitstampWebsocketClient : ExchangeWebsocketClient {
+class BitstampWebsocketClient : ExchangePublicWebsocketClient {
     private val bitstampRawWebsocketClient: BitstampRawWebsocketClient = BitstampRawWebsocketClient()
 
     override fun createTradeWebsocket(subscribeTargets: List<CurrencyPair>): Flux<TickData> {

@@ -23,7 +23,7 @@ import com.njkim.reactivecrypto.core.common.model.order.OrderBookUnit
 import com.njkim.reactivecrypto.core.common.model.order.TickData
 import com.njkim.reactivecrypto.core.common.model.order.TradeSideType
 import com.njkim.reactivecrypto.core.common.util.toEpochMilli
-import com.njkim.reactivecrypto.core.websocket.ExchangeWebsocketClient
+import com.njkim.reactivecrypto.core.websocket.ExchangePublicWebsocketClient
 import com.njkim.reactivecrypto.poloniex.model.PoloniexEventType
 import com.njkim.reactivecrypto.poloniex.model.PoloniexOrderBookSnapshotEvent
 import com.njkim.reactivecrypto.poloniex.model.PoloniexOrderBookUpdateEvent
@@ -37,7 +37,7 @@ import java.util.concurrent.ConcurrentHashMap
  * poloniex websocket version 2
  * document : https://docs.poloniex.com/#websocket-api
  */
-class PoloniexWebsocketClient : ExchangeWebsocketClient {
+class PoloniexWebsocketClient : ExchangePublicWebsocketClient {
     private val poloniexRawWebsocketClient: PoloniexRawWebsocketClient = PoloniexRawWebsocketClient()
 
     override fun createTradeWebsocket(subscribeTargets: List<CurrencyPair>): Flux<TickData> {

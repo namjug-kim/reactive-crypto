@@ -18,17 +18,17 @@ package com.njkim.reactivecrypto.coinall
 
 import com.njkim.reactivecrypto.core.ExchangeClientFactory
 import com.njkim.reactivecrypto.core.common.model.ExchangeVendor
-import com.njkim.reactivecrypto.core.websocket.ExchangeWebsocketClient
+import com.njkim.reactivecrypto.core.websocket.ExchangePublicWebsocketClient
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
 class ExchangeClientFactoryTest {
     @Test
     fun `create websocket client`() {
-        val exchangeWebsocketClient = ExchangeClientFactory.websocket(ExchangeVendor.COINALL)
+        val exchangeWebsocketClient = ExchangeClientFactory.publicWebsocket(ExchangeVendor.COINALL)
 
         assertThat(exchangeWebsocketClient).isNotNull
-        assertThat(exchangeWebsocketClient).isInstanceOf(ExchangeWebsocketClient::class.java)
+        assertThat(exchangeWebsocketClient).isInstanceOf(ExchangePublicWebsocketClient::class.java)
         assertThat(exchangeWebsocketClient).isExactlyInstanceOf(CoinallWebsocketClient::class.java)
     }
 }

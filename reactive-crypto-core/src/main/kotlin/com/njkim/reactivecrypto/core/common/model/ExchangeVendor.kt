@@ -80,13 +80,25 @@ data class ExchangeVendor(val name: String) {
     /**
      * format : com.njkim.reactivecrypto.$packageName.${carmelCaseName}WebsocketClient
      */
-    val websocketClientName: String
+    val publicWebsocketClientName: String
         get() {
             val packageName = this.name.toLowerCase().replace("_", "")
             val className = this.name.toCarmelCase()
                 .capitalize()
 
             return "com.njkim.reactivecrypto.$packageName.${className}WebsocketClient"
+        }
+
+    /**
+     * format : com.njkim.reactivecrypto.$packageName.${carmelCaseName}PrivateWebsocketClient
+     */
+    val privateWebsocketClientName: String
+        get() {
+            val packageName = this.name.toLowerCase().replace("_", "")
+            val className = this.name.toCarmelCase()
+                .capitalize()
+
+            return "com.njkim.reactivecrypto.$packageName.${className}PrivateWebsocketClient"
         }
 
     /**
