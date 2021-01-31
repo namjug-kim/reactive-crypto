@@ -27,9 +27,9 @@ data class OrderEvent(
     val side: TradeSideType,
     val currencyPair: CurrencyPair,
     val orderPrice: BigDecimal?,
-    val tradePrice: BigDecimal?,
+    val tradePrice: BigDecimal,
     val averageTradePrice: BigDecimal?,
-    val orderVolume: BigDecimal?,
+    val orderVolume: BigDecimal,
     val tradeVolume: BigDecimal,
     val filledVolume: BigDecimal,
 

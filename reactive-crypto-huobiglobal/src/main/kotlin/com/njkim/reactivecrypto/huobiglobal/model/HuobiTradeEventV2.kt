@@ -12,7 +12,7 @@ data class HuobiTradeEventV2(
     val tradeTime: ZonedDateTime,
     val aggressor: Boolean,
     val remainAmt: BigDecimal,
-    val execAmr: BigDecimal,
+    val execAmt: BigDecimal,
     val orderId: String,
     val type: TradeSideType,
     val clientOrderId: String,
