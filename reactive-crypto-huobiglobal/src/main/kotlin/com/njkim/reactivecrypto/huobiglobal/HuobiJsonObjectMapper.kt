@@ -67,7 +67,7 @@ class HuobiJsonObjectMapper : ExchangeJsonObjectMapper {
     override fun bigDecimalDeserializer(): JsonDeserializer<BigDecimal>? {
         return object : JsonDeserializer<BigDecimal>() {
             override fun deserialize(p: JsonParser, ctxt: DeserializationContext): BigDecimal {
-                return BigDecimal.valueOf(p.doubleValue)
+                return BigDecimal(p.valueAsString)
             }
         }
     }
