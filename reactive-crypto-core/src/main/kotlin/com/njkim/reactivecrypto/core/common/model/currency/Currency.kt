@@ -1064,6 +1064,12 @@ data class Currency(val symbol: String) {
         val CVP = getInstance("CVP")
         @JvmField
         val PSG = getInstance("PSG")
+        @JvmField
+        val AKRO = getInstance("AKRO")
+        @JvmField
+        val IRIS = getInstance("IRIS")
+        @JvmField
+        val DAI = getInstance("DAI")
 
         @JvmField
         val M19 = getInstance("M19")
@@ -1089,6 +1095,8 @@ data class Currency(val symbol: String) {
         val USDS = getInstance("USDS")
         @JvmField
         val BUSD = getInstance("BUSD")
+        @JvmField
+        val HUSD = getInstance("HUSD")
 
         val FIAT_CURRENCIES: List<Currency> = listOf(
             KRW,
