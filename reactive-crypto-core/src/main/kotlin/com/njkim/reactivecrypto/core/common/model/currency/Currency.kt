@@ -1070,6 +1070,8 @@ data class Currency(val symbol: String) {
         val IRIS = getInstance("IRIS")
         @JvmField
         val DAI = getInstance("DAI")
+        @JvmField
+        val NEST = getInstance("NEST")
 
         @JvmField
         val M19 = getInstance("M19")
@@ -1106,6 +1108,7 @@ data class Currency(val symbol: String) {
             USDSB,
             TUSD,
             BUSD,
+            HUSD,
             PAX,
             BTC,
             ETH,
