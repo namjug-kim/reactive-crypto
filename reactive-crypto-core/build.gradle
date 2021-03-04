@@ -14,7 +14,7 @@ dependencies {
 
     // jackson
     compile 'com.fasterxml.jackson.module:jackson-module-kotlin:2.10.0'
-    compile 'com.fasterxml.jackson.core:jackson-databind:2.10.0'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.12.2'
 }
 
 compileKotlin {
