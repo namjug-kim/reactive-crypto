@@ -3,7 +3,6 @@ package com.njkim.reactivecrypto.bitstamp
 import com.njkim.reactivecrypto.core.common.model.currency.Currency
 import com.njkim.reactivecrypto.core.common.model.currency.CurrencyPair
 import org.assertj.core.api.Assertions
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import reactor.test.StepVerifier
 import java.math.BigDecimal
@@ -18,13 +17,13 @@ class BitstampRawWebsocketClientTest {
         StepVerifier.create(liveTickerFlux.limitRequest(3))
             .expectNextCount(2)
             .assertNext { messageFrame ->
-                assertThat(messageFrame.currencyPair)
+                Assertions.assertThat(messageFrame.currencyPair)
                     .isEqualTo(targetCurrencyPair)
 
-                assertThat(messageFrame.data.amount)
+                Assertions.assertThat(messageFrame.data.amount)
                     .isNotNull()
 
-                assertThat(messageFrame.data.price)
+                Assertions.assertThat(messageFrame.data.price)
                     .isNotNull()
             }
             .verifyComplete()
