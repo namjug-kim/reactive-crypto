@@ -69,7 +69,7 @@ subprojects {
     dependencies {
         ktlint "com.pinterest:ktlint:0.33.0"
         // common
-        implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.9'
+        implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
 
         // reactor
         implementation group: 'io.projectreactor', name: 'reactor-core', version: "${reactorVersion}"
