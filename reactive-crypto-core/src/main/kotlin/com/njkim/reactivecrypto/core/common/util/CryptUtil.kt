@@ -16,11 +16,11 @@
 
 package com.njkim.reactivecrypto.core.common.util
 
+import org.apache.commons.codec.binary.Hex
 import java.security.MessageDigest
 import java.util.*
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
-import javax.xml.bind.DatatypeConverter
 
 class CryptUtil {
     companion object {
@@ -43,6 +43,6 @@ class CryptUtil {
 
 fun ByteArray.toBase64String(): String = Base64.getEncoder().encodeToString(this)
 
-fun String.hexToByteArray(): ByteArray = DatatypeConverter.parseHexBinary(this)
+fun String.hexToByteArray(): ByteArray = Hex.decodeHex(this)
 
-fun ByteArray.byteArrayToHex(): String = DatatypeConverter.printHexBinary(this)
+fun ByteArray.byteArrayToHex(): String = Hex.encodeHexString(this)

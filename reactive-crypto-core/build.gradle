@@ -4,7 +4,8 @@ apply plugin: 'org.jetbrains.kotlin.jvm'
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     // netty
-    compile group: 'io.projectreactor.netty', name: 'reactor-netty', version: '1.0.3'
+    compile group: 'io.projectreactor.netty', name: 'reactor-netty', version: '1.0.6'
+    compile 'commons-codec:commons-codec:1.15'
 
     // spring5 WebClient
     compile 'org.springframework:spring-webflux:5.3.3'
