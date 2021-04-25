@@ -1082,6 +1082,24 @@ data class Currency(val symbol: String) {
         val SUN = getInstance("SUN")
         @JvmField
         val DHT = getInstance("DHT")
+        @JvmField
+        val ZKS = getInstance("ZKS")
+        @JvmField
+        val CAN = getInstance("CAN")
+        @JvmField
+        val FORTH = getInstance("FORTH")
+        @JvmField
+        val APN = getInstance("APN")
+        @JvmField
+        val STAKE = getInstance("STAKE")
+        @JvmField
+        val MIR = getInstance("MIR")
+        @JvmField
+        val INSUR = getInstance("INSUR")
+        @JvmField
+        val STN = getInstance("STN")
+        @JvmField
+        val RNDR = getInstance("RNDR")
 
         @JvmField
         val M19 = getInstance("M19")
