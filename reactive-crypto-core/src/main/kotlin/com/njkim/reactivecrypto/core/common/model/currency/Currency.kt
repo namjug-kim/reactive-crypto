@@ -1104,6 +1104,16 @@ data class Currency(val symbol: String) {
         val DKA = getInstance("DKA")
         @JvmField
         val NU = getInstance("NU")
+        @JvmField
+        val CRE = getInstance("CRE")
+        @JvmField
+        val TKO = getInstance("TKO")
+        @JvmField
+        val BAR = getInstance("BAR")
+        @JvmField
+        val SUPER = getInstance("SUPER")
+        @JvmField
+        val LINA = getInstance("LINA")
 
         @JvmField
         val M19 = getInstance("M19")
