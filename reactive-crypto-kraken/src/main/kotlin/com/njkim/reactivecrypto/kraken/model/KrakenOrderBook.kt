@@ -31,7 +31,7 @@ data class KrakenOrderBook(
     val channelID: Int,
     val asks: List<KrakenOrderBookUnit>,
     val bids: List<KrakenOrderBookUnit>,
-    val updateOnly: Boolean
+    val isSnapshot: Boolean
 )
 
 /**

@@ -60,6 +60,20 @@ class KrakenWebsocketClient : AbstractExchangeWebsocketClient() {
         val currentOrderBookMap: MutableMap<CurrencyPair, OrderBook> = ConcurrentHashMap()
         val channelCurrencyPairMap: MutableMap<Int, CurrencyPair> = ConcurrentHashMap()
 
+        fun updateMapEntry(
+            oldValue: OrderBookUnit?,
+            updatedValue: OrderBookUnit
+        ): OrderBookUnit? {
+            return when {
+                updatedValue.quantity <= BigDecimal.ZERO -> null
+                oldValue == null -> updatedValue
+                else -> oldValue.copy(
+                    quantity = updatedValue.quantity,
+                    orderNumbers = updatedValue.orderNumbers
+                )
+            }
+        }
+
         val subscribeSymbols = subscribeTargets
             .map { "${it.baseCurrency.symbol}/${it.quoteCurrency.symbol}".toUpperCase() }
             .map { "\"$it\"" }
@@ -89,6 +103,9 @@ class KrakenWebsocketClient : AbstractExchangeWebsocketClient() {
             .filter { !it.contains("\"event\":\"") }
             .map { objectMapper.readValue<KrakenOrderBook>(it) }
             .map { krakenOrderBook ->
+                if(krakenOrderBook.isSnapshot) {
+                    currentOrderBookMap.remove(channelCurrencyPairMap[krakenOrderBook.channelID]!!)
+                }
                 val now = ZonedDateTime.now()
                 OrderBook(
                     "$now",
@@ -100,12 +117,7 @@ class KrakenWebsocketClient : AbstractExchangeWebsocketClient() {
                 )
             }
             .map { orderBook ->
-                if (!currentOrderBookMap.containsKey(orderBook.currencyPair)) {
-                    currentOrderBookMap[orderBook.currencyPair] = orderBook
-                    return@map orderBook
-                }
-
-                val prevOrderBook = currentOrderBookMap[orderBook.currencyPair]!!
+                val prevOrderBook = currentOrderBookMap.getOrPut(orderBook.currencyPair) { orderBook }
 
                 val askMap: MutableMap<BigDecimal, OrderBookUnit> = prevOrderBook.asks
                     .map { Pair(it.price.stripTrailingZeros(), it) }
@@ -114,14 +126,7 @@ class KrakenWebsocketClient : AbstractExchangeWebsocketClient() {
 
                 orderBook.asks.forEach { updatedAsk ->
                     askMap.compute(updatedAsk.price.stripTrailingZeros()) { _, oldValue ->
-                        when {
-                            updatedAsk.quantity <= BigDecimal.ZERO -> null
-                            oldValue == null -> updatedAsk
-                            else -> oldValue.copy(
-                                quantity = updatedAsk.quantity,
-                                orderNumbers = updatedAsk.orderNumbers
-                            )
-                        }
+                        updateMapEntry(oldValue, updatedAsk)
                     }
                 }
 
@@ -132,22 +137,16 @@ class KrakenWebsocketClient : AbstractExchangeWebsocketClient() {
 
                 orderBook.bids.forEach { updatedBid ->
                     bidMap.compute(updatedBid.price.stripTrailingZeros()) { _, oldValue ->
-                        when {
-                            updatedBid.quantity <= BigDecimal.ZERO -> null
-                            oldValue == null -> updatedBid
-                            else -> oldValue.copy(
-                                quantity = updatedBid.quantity,
-                                orderNumbers = updatedBid.orderNumbers
-                            )
-                        }
+                        updateMapEntry(oldValue, updatedBid)
                     }
                 }
 
                 val currentOrderBook = prevOrderBook.copy(
                     eventTime = orderBook.eventTime,
-                    asks = askMap.values.sortedBy { orderBookUnit -> orderBookUnit.price },
-                    bids = bidMap.values.sortedByDescending { orderBookUnit -> orderBookUnit.price }
+                    asks = askMap.values.sortedBy { orderBookUnit -> orderBookUnit.price }.take(10),
+                    bids = bidMap.values.sortedByDescending { orderBookUnit -> orderBookUnit.price }.take(10)
                 )
+
                 currentOrderBookMap[currentOrderBook.currencyPair] = currentOrderBook
                 currentOrderBook
             }

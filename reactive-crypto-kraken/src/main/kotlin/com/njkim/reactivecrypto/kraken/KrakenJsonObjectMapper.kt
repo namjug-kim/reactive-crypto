@@ -113,16 +113,13 @@ class KrakenJsonObjectMapper : ExchangeJsonObjectMapper {
                 val jsonNode: JsonNode = p.codec.readTree(p)
 
                 val channelId: Int = jsonNode.get(0).asInt()
-                val updateOnly = jsonNode.has("as") && jsonNode.has("bs")
+                val orders = jsonNode.get(1)
 
-                val asks = extractOrderBookUnit(jsonNode.get(1), "as", "a").toMutableList()
-                val bids = extractOrderBookUnit(jsonNode.get(1), "bs", "b").toMutableList()
-                if (updateOnly && jsonNode.get(2).isObject) {
-                    asks += extractOrderBookUnit(jsonNode.get(2), "as", "a")
-                    bids += extractOrderBookUnit(jsonNode.get(2), "bs", "b")
-                }
+                val isSnapshot = orders.has("as") && orders.has("bs")
+                val asks = extractOrderBookUnit(orders, "as", "a")
+                val bids = extractOrderBookUnit(orders, "bs", "b")
 
-                return KrakenOrderBook(channelId, asks, bids, updateOnly)
+                return KrakenOrderBook(channelId, asks, bids, isSnapshot)
             }
 
             private fun extractOrderBookUnit(
