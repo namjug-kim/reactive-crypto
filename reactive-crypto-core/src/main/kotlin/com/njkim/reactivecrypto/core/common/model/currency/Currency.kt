@@ -1120,6 +1120,10 @@ data class Currency(val symbol: String) {
         val OXT = getInstance("OXT")
         @JvmField
         val OGN = getInstance("OGN")
+        @JvmField
+        val API3 = getInstance("API3")
+        @JvmField
+        val SHIB = getInstance("SHIB")
 
         @JvmField
         val M19 = getInstance("M19")
