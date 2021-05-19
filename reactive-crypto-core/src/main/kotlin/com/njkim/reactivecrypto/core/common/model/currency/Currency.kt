@@ -1124,6 +1124,14 @@ data class Currency(val symbol: String) {
         val API3 = getInstance("API3")
         @JvmField
         val SHIB = getInstance("SHIB")
+        @JvmField
+        val MDX = getInstance("MDX")
+        @JvmField
+        val POLS = getInstance("POLS")
+        @JvmField
+        val AR = getInstance("AR")
+        @JvmField
+        val TT = getInstance("TT")
 
         @JvmField
         val M19 = getInstance("M19")
